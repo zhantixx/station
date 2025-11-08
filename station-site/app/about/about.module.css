@@ -1,0 +1,199 @@
+/* Общие стили */
+.page {
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  background: #f9f9f9;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  background: #3a3a3a;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.logoImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.nav a:hover {
+  background: #555;
+}
+
+.active {
+  background: white;
+  color: #3a3a3a;
+  font-weight: bold;
+}
+
+/* Header right */
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+}
+
+.loginBtn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #f05a28;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.loginBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Sections */
+.section {
+  padding: 80px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mission {
+  background: linear-gradient(135deg, #f9f9f9, #e0e0e0);
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: auto;
+  gap: 40px;
+  align-items: center;
+}
+
+.text {
+  flex: 1;
+  min-width: 300px;
+}
+
+.text h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.text p {
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.image {
+  flex: 1;
+  min-width: 300px;
+}
+
+.image img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+/* Cards */
+.cardsSection {
+  background: #f0f0f0;
+  padding: 60px 0;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.cardIcon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 15px;
+}
+
+/* Footer */
+.footer {
+  background: #3a3a3a;
+  color: white;
+  padding: 50px 60px;
+}
+
+.footerLeft {
+  margin-bottom: 20px;
+}
+
+.footerLogo {
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.footerLinks {
+  display: flex;
+  gap: 50px;
+}
+
+.footerLinks h4 {
+  margin-bottom: 10px;
+}
+
+.footerLinks a {
+  display: block;
+  margin-bottom: 6px;
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footerLinks a:hover {
+  color: #f05a28;
+}

@@ -7,7 +7,7 @@ export default function NewsPage() {
     <>
       <Head>
         <title>Главная — Новости</title>
-        <link rel="stylesheet" href="/css/news.css" />
+        <link rel="stylesheet" href="./news.module.css" />
       </Head>
 
       <header>
