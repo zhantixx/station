@@ -1,7 +1,9 @@
 import styles from './sports.module.css';
+import Header from "../../components/Header.jsx";
+import Footer from "../../components/Footer.jsx";
+import ArticleItem from "@/components/ArticleItem.jsx"; // импортируем компонент
 
 export default function SportsPage() {
-  const logo = "/image/logo.JPG";
   const newsItems = [
     {
       img: "/image/championsleague.jpg",
@@ -17,59 +19,23 @@ export default function SportsPage() {
 
   return (
     <>
-      <header className={styles.header}>
-        <div className={styles.logoBlock}>
-          <img src={logo} alt="Лого" className={styles.logoImg} />
-          <div className={styles.logoText}>Station</div>
-        </div>
-        <nav className={styles.nav}>
-          <a href="/news">Главная</a>
-          <a href="/statya">Статьи</a>
-          <a href="/sports" className={styles.active}>Спорт</a>
-          <a href="/about">О нас</a>
-        </nav>
-      </header>
+      <Header activePage="sports" />
 
       <main className={styles.main}>
         <h2 className={styles.sectionTitle}>Новости спорта</h2>
         <div className={styles.cards}>
           {newsItems.map((item, index) => (
-            <article key={index} className={styles.card}>
-              <img src={item.img} alt={item.title} className={styles.image} />
-              <div className={styles.text}>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </div>
-            </article>
+            <ArticleItem
+              key={index}
+              img={item.img}
+              title={item.title}
+              text={item.text}
+            />
           ))}
         </div>
       </main>
 
-      <footer className={styles.footer}>
-        <div className={styles.footerContainer}>
-          <div className={styles.footerLeft}>
-            <div className={styles.footerLogo}>
-              <img src={logo} alt="Лого Station" />
-              <div className={styles.logoText}>Station</div>
-            </div>
-            <p>© 2025 Station — все права защищены.</p>
-          </div>
-          <div className={styles.footerLinks}>
-            <div>
-              <h4>Компания</h4>
-              <a href="/about">О нас</a>
-              <a href="#">Политика конфиденциальности</a>
-              <a href="#">Контакты</a>
-            </div>
-            <div>
-              <h4>Социальные сети</h4>
-              <a href="#">Facebook</a>
-              <a href="#">Instagram</a>
-              <a href="#">YouTube</a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }
