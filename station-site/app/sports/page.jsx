@@ -1,7 +1,7 @@
 import styles from './sports.module.css';
 import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.jsx";
-import ArticleItem from "@/components/ArticleItem.jsx"; // импортируем компонент
+import ArticleItem from "@/components/ArticleItem.jsx"; 
 
 export default function SportsPage() {
   const newsItems = [

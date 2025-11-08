@@ -17,7 +17,6 @@
   color: var(--text-color);
 }
 
-/* Header */
 .header {
   display: flex;
   justify-content: space-between;
@@ -152,7 +151,6 @@
   color: #fff;
 }
 
-/* Sidebar */
 .sidebar {
   flex: 1;
 }

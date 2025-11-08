@@ -123,7 +123,7 @@
   text-align: center;
   box-shadow: 0 8px 25px var(--card-shadow);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
-  display: flex; /* карточка flex для одинаковой высоты */
+  display: flex; 
   flex-direction: column;
   justify-content: flex-start;
 }
