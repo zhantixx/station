@@ -1,74 +1,82 @@
 "use client";
 import React from "react";
-import Head from "next/head";
+import styles from "./news.module.css";
 
 export default function NewsPage() {
   return (
-    <>
-      <Head>
-        <title>Главная — Новости</title>
-        <link rel="stylesheet" href="./news.module.css" />
-      </Head>
+    <div className={styles["page-wrapper"]}>
 
-      <header>
-        <img src="/image/logo.JPG" alt="Логотип" className="logo" />
-        <nav>
-          <a href="/" className="active">Главная</a>
-          <a href="/statya">Статьи</a>
-          <a href="/sports">Спорт</a>
-          <a href="/about">О нас</a>
-        </nav>
-        <input type="text" placeholder="Поиск..." />
-        <button>Войти</button>
+      <header className={styles.header}>
+        <div className={styles["header-left"]}>
+          <div className={styles["logo-img"]}>
+            <img src="/image/logo.JPG" alt="Лого" />
+          </div>
+          <div className={styles.logo}>Station</div>
+          <nav className={styles.nav}>
+            <a href="/news" className={styles.active}>Главное</a>
+            <a href="/statya">Статьи</a>
+            <a href="/sports">Спорт</a>
+            <a href="/about">О нас</a>
+          </nav>
+        </div>
+        <div className={styles["header-right"]}>
+          <input type="text" className={styles.search} placeholder="Поиск..." />
+          <button className={styles["login-btn"]}>Войти</button>
+        </div>
       </header>
 
-      <main>
-        <section className="hero">
-          <h1>Новости технологий и науки</h1>
-          <p>Читайте самые свежие события в мире науки, техники и инноваций.</p>
-        </section>
-
-        <section className="latest-posts">
-          <h2>Последние публикации</h2>
-          <div className="posts-grid">
-            <article className="post-card">
-              <div className="image-placeholder"></div>
-              <h3>Новые технологии для зарядки устройств</h3>
-              <span className="author">Флойд Майлс</span> • <span className="date">3 дня назад</span>
-            </article>
-            <article className="post-card">
-              <div className="image-placeholder"></div>
-              <h3>Исследование Луны: шаг к Марсу</h3>
-              <span className="author">Джейкоб Джонс</span> • <span className="date">3 дня назад</span>
-            </article>
-            <article className="post-card">
-              <div className="image-placeholder"></div>
-              <h3>Искусственный интеллект в медицине</h3>
-              <span className="author">Анна Иванова</span> • <span className="date">3 дня назад</span>
-            </article>
-          </div>
-        </section>
-
-        <section className="videos">
-          <h2>Видео</h2>
-          <div className="video-grid">
-            <div className="video-card">
-              <iframe width="300" height="200" src="https://www.youtube.com/embed/il_MNVEwQNI" title="Обзор матча" frameBorder="0" allowFullScreen></iframe>
-              <h3>Обзор матча Лиги чемпионов</h3>
-              <span className="author">Алексей Сидоров</span> • <span className="date">15 сентября 2025</span>
-            </div>
-            <div className="video-card">
-              <iframe width="300" height="200" src="https://www.youtube.com/embed/2aAOkvd0xPE" title="ФК Кайрат" frameBorder="0" allowFullScreen></iframe>
-              <h3>ФК «Кайрат» — путь к финалу Кубка</h3>
-              <span className="author">Марина Жумабаева</span> • <span className="date">16 сентября 2025</span>
+      <main className={styles["main-content"]}>
+        <section className={styles["hero-section"]}>
+          <div className={styles["hero-container"]}>
+            <span className={styles["hero-category"]}>Innovation</span>
+            <span className={styles["hero-category"]}>2 Hours ago</span>
+            <h1 className={styles["hero-title"]}>
+              Charge Two Devices at the Same Time With This Magnetic Wireless Charging Dock
+            </h1>
+            <div className={styles["hero-sub-items"]}>
+              <div className={styles["hero-sub-item"]}>
+                <div className={styles["hero-sub-item-image"]}></div>
+                <p className={styles["hero-sub-item-text"]}>
+                  Charge Two Devices at the Same Time With This Magnetic Wireless Charging Dock
+                </p>
+              </div>
+              <div className={styles["hero-sub-item"]}>
+                <div className={styles["hero-sub-item-image"]}></div>
+                <p className={styles["hero-sub-item-text"]}>
+                  Tiny moon rover could be a stepping stone to Mars
+                </p>
+              </div>
             </div>
           </div>
         </section>
       </main>
 
-      <footer>
-        <p>© 2025 CodePlay. Все права защищены.</p>
+      <footer className={styles.footer}>
+        <div className={styles["footer-container"]}>
+          <div className={styles["footer-left"]}>
+            <div className={styles["footer-logo"]}>
+              <img src="/image/logo.JPG" alt="Лого Station" />
+              <div className={styles.logo}>Station</div>
+            </div>
+            <p>Station — актуальные новости и аналитика. Мы помогаем быть в курсе главных событий.</p>
+          </div>
+          <div className={styles["footer-links"]}>
+            <div>
+              <h4>Компания</h4>
+              <a href="/about">О нас</a>
+              <a href="#">Политика конфиденциальности</a>
+              <a href="#">Контакты</a>
+            </div>
+            <div>
+              <h4>Социальные сети</h4>
+              <a href="#">Facebook</a>
+              <a href="#">Instagram</a>
+              <a href="#">YouTube</a>
+            </div>
+          </div>
+        </div>
       </footer>
-    </>
+
+    </div>
   );
 }
