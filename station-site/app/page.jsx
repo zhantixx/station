@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./news.module.css";
 import Header from "@/components/Header";
-import Footer from "../../components/Footer";
+import Footer from "@/components/Footer";
 import HeroItem from "@/components/HeroItem";
 
 export default function NewsPage() {

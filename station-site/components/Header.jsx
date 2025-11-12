@@ -12,7 +12,7 @@ export default function Header() {
         </div>
         <div className={styles.logo}>Station</div>
         <nav className={styles.nav}>
-          <a href="/news" className={styles.active}>Главное</a>
+          <a href="/" className={styles.active}>Главное</a>
           <a href="/statya">Статьи</a>
           <a href="/sports">Спорт</a>
           <a href="/about">О нас</a>
