@@ -1,0 +1,87 @@
+/* --- ФУТЕР --- */
+.mainFooter {
+  background-color: white;
+  padding-top: 50px;
+  padding-bottom: 20px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.footerContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.footerColumn {
+  padding-bottom: 30px;
+}
+
+.footerBrand {
+  flex: 2;
+  max-width: 300px;
+}
+
+.footerLogo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #1e88e5;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.footerLogo .logoImage {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.brandDescription {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #757575;
+}
+
+.footerColumn:not(.footerBrand) {
+  flex: 1;
+}
+
+.columnTitle {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.footerLinks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footerLinks li {
+  margin-bottom: 10px;
+}
+
+.footerLinks a {
+  text-decoration: none;
+  color: #757575;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.footerLinks a:hover {
+  color: #333;
+}
+
+.footerDivider {
+  height: 1px;
+  background-color: #e0e0e0;
+  max-width: 1200px;
+  margin: 0 auto;
+}

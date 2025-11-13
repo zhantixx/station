@@ -1,0 +1,11 @@
+.videosContainer { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+.videosHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.sectionTitle { font-size: 1.5rem; color: #003d82; }
+.viewAllButton { background: #0056b3; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+.videosLayout { display: flex; gap: 20px; flex-wrap: wrap; }
+.mainVideoCard { flex: 2; text-decoration: none; color: #222; }
+.sidebarVideos { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+.videoPlaceholder { background: #000; height: 180px; border-radius: 8px; position: relative; }
+.playIcon { width: 40px; height: 40px; background: rgba(255,255,255,0.7); border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.sidebarVideoItem { display: flex; gap: 10px; text-decoration: none; color: #222; }
+.videoDetails { flex: 1; }

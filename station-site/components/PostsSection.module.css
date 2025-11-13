@@ -1,0 +1,10 @@
+.postsContainer { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+.postsHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.sectionTitle { font-size: 1.5rem; color: #003d82; }
+.viewAllButton { background: #0056b3; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+.postsGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.postCard { background: #fff; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); padding: 12px; text-decoration: none; color: #222; transition: transform 0.2s; }
+.postCard:hover { transform: translateY(-5px); }
+.postImage { width: 100%; border-radius: 8px; margin-bottom: 10px; object-fit: cover; }
+.postTitle { font-size: 1.1rem; margin-bottom: 4px; }
+.postMeta { font-size: 0.9rem; color: #555; }
