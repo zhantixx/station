@@ -1,46 +1,59 @@
-import React from "react";
-import styles from "./news.module.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import HeroItem from "@/components/HeroItem";
+"use client";
 
-export default function NewsPage() {
-  const heroItems = [
-    {
-      category: "Innovation",
-      time: "2 Hours ago",
-      title: "Charge Two Devices at the Same Time With This Magnetic Wireless Charging Dock",
-      imageText: "Charge Two Devices at the Same Time With This Magnetic Wireless Charging Dock"
-    },
-    {
-      category: "Science",
-      time: "1 Day ago",
-      title: "Tiny moon rover could be a stepping stone to Mars",
-      imageText: "Tiny moon rover could be a stepping stone to Mars"
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../lib/AuthContext";
+import styles from "./auth.module.css";
+
+export default function LoginPage() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { login } = useAuth();
+  const router = useRouter();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (login(username, password)) {
+      router.push("/profile");
+    } else {
+      setError("Неверное имя пользователя или пароль.");
     }
-  ];
+  };
 
   return (
-    <div className={styles["page-wrapper"]}>
-      <Header />
-
-      <main className={styles["main-content"]}>
-        <section className={styles["hero-section"]}>
-          <div className={styles["hero-container"]}>
-            {heroItems.map((item, i) => (
-              <HeroItem
-                key={i}
-                category={item.category}
-                time={item.time}
-                title={item.title}
-                imageText={item.imageText}
-              />
-            ))}
-          </div>
-        </section>
-      </main>
-
-      <Footer />
+    <div className={styles.authContainer}>
+      <div className={styles.authCard}>
+        <h2>Вход в Station</h2>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          {error && <p className={styles.errorText}>{error}</p>}
+          
+          <input
+            type="text"
+            placeholder="Имя пользователя"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            className={styles.inputField}
+          />
+          <input
+            type="password"
+            placeholder="Пароль"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className={styles.inputField}
+          />
+          <button type="submit" className={styles.submitBtn}>
+            Войти
+          </button>
+        </form>
+        <p className={styles.switchText}>
+          Нет аккаунта? <a href="/register" className={styles.switchLink}>Зарегистрироваться</a>
+        </p>
+      </div>
     </div>
   );
 }

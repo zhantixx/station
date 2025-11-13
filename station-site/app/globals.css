@@ -1,4 +1,3 @@
-
 *,
 *::before,
 *::after {
@@ -7,7 +6,7 @@
 
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Times New Roman', Times, serif; /* <-- изменено на Times New Roman */
   color: #333;
   background: #f9f9f9;
   line-height: 1.6;
@@ -32,7 +31,7 @@ img {
 
 button {
   cursor: pointer;
-  font-family: inherit;
+  font-family: inherit; /* наследует Times New Roman */
   transition: all 0.3s ease;
 }
 
