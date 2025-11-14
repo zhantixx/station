@@ -111,9 +111,11 @@
 
 .cardsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 40px;
-  align-items: stretch; /* ключевое исправление */
+  align-items: stretch;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .card {
@@ -123,9 +125,10 @@
   text-align: center;
   box-shadow: 0 8px 25px var(--card-shadow);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
-  display: flex; 
+  display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  height: 100%; /* ← ВАЖНО: равная высота */
 }
 
 .card:hover {
@@ -154,4 +157,46 @@
   font-size: 16px;
   color: #555;
   line-height: 1.6;
+}
+
+/* АДАПТИВ */
+@media (max-width: 768px) {
+  .section {
+    padding: 60px 16px;
+    gap: 32px;
+  }
+
+  .container {
+    gap: 24px;
+  }
+
+  .text h2 {
+    font-size: 28px;
+  }
+
+  .text p {
+    font-size: 16px;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+.cardsGrid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .cardsSection {
+    padding: 60px 16px;
+  }
+
+  .card {
+    padding: 24px 16px;
+  }
+
+  .cardIcon {
+    width: 70px;
+    height: 70px;
+  }
 }
