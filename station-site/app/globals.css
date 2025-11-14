@@ -3,16 +3,20 @@
 *::after {
   box-sizing: border-box;
 }
-
-body {
-  margin: 0;
-  font-family: 'Times New Roman', Times, serif; /* <-- изменено на Times New Roman */
+body, html {
+  margin: 0 !important; 
+  padding: 0 !important;
+  width: 100%;
+  font-family: 'Times New Roman', Times, serif; 
   color: #333;
   background: #f9f9f9;
   line-height: 1.6;
 }
+h1, h2, h3, h4, h5, h6, p, ul, ol {
+  margin-top: 0;
+  margin-bottom: 0;
+}
 
-/* Ссылки */
 a {
   text-decoration: none;
   transition: color 0.3s ease, background 0.3s ease;
@@ -31,7 +35,7 @@ img {
 
 button {
   cursor: pointer;
-  font-family: inherit; /* наследует Times New Roman */
+  font-family: inherit;
   transition: all 0.3s ease;
 }
 
@@ -49,7 +53,7 @@ button:hover {
   --primary-color: #109BE9;
   --secondary-color: #F36326;
   --background-color: #f9f9f9;
-  --text-title-color: #11142D;
+  --text-title-color: #515151;
   --text-body-color: #515151;
   --text-subdued-color: #9A9AB0;
   --link-hover-color: #f05a28;

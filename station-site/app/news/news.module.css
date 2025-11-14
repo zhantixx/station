@@ -73,7 +73,7 @@
 /* ===== Сетка карточек ===== */
 .cardsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, 1fr); /* 4 карточки в ряд */
   gap: 30px;
 }
 
@@ -97,6 +97,55 @@
   object-fit: cover;
   border-radius: 8px;
   margin-bottom: 12px;
+}
+
+/* ===== Newsletter ===== */
+.newsletter-section {
+  max-width: 1100px;
+  margin: 60px auto;
+  background: #005bbb;
+  color: white;
+  padding: 40px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.newsletter-left {
+  flex: 1;
+}
+
+.newsletter-title {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+.subscribe-button {
+  padding: 12px 24px;
+  border: none;
+  background: #ffa500;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s ease;
+}
+
+.subscribe-button:hover {
+  background: #ff8c00;
+}
+
+.newsletter-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.newsletter-text {
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 /* ===== FOOTER ===== */
@@ -127,7 +176,12 @@
     font-size: 1.6rem;
   }
 
-  .section {
-    padding: 0 10px;
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .newsletter-section {
+    flex-direction: column;
+    text-align: center;
   }
 }

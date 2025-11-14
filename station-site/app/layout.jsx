@@ -1,4 +1,6 @@
 import { AuthProvider } from '../lib/AuthContext'; 
+import './globals.css';
+
 export const metadata = {
   title: "My Next App",
   description: "Simple website built with Next.js",

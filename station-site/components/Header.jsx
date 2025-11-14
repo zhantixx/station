@@ -7,14 +7,10 @@ import { useAuth } from "../lib/AuthContext";
 
 export default function Header() {
   const router = useRouter();
-  const { currentUser, isAuthenticated, logout } = useAuth();
+  const { currentUser, isAuthenticated } = useAuth();
 
   const handleAuthClick = () => {
-    if (isAuthenticated) {
-      router.push("/profile");
-    } else {
-      router.push("/login");
-    }
+    router.push(isAuthenticated ? "/profile" : "/login");
   };
 
   return (
@@ -41,16 +37,14 @@ export default function Header() {
         <div className={styles.divider}></div>
 
         <div className={styles.searchSection}>
-          <form className={styles.searchForm} onSubmit={(e) => e.preventDefault()}>
+          <div className={styles.searchWrapper}>
+            <img src="/image/search.png" className={styles.searchIcon} alt="search" />
             <input
               type="text"
               placeholder="Поиск по теме что вы хотите найти"
               className={styles.searchInput}
             />
-            <button type="submit" className={styles.searchButton}>
-              <i className="fas fa-search"></i>
-            </button>
-          </form>
+          </div>
         </div>
       </div>
     </header>
