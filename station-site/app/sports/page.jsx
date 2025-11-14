@@ -1,19 +1,50 @@
 import styles from './sports.module.css';
 import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.jsx";
-import ArticleItem from "@/components/ArticleCard.jsx"; 
+import SportPosts from "@/components/SportPosts.jsx";
 
 export default function SportsPage() {
-  const newsItems = [
+  // === БЛОК "СПОРТ" — только 3 новости ===
+  const sportArticles = [
     {
-      img: "/image/championsleague.jpg",
-      title: "«Манчестер Сити» уверенно стартовал в Лиге чемпионов",
-      text: "Английский клуб разгромил соперника со счётом 4:0. Хет-трик оформил Эрлинг Холанд.",
+      title: "«Кайрат» вышел в финал Кубка Казахстана после победы над «Астаной»",
+      author: "Айгерим Садыкова",
+      date: "2 дня назад",
+      text: "Алматинский «Кайрат» обыграл «Астану» в полуфинале Кубка Казахстана и вышел в финал. В первом матче команды сыграли вничью 1:1, а во втором «Кайрат» победил со счётом 2:0 благодаря голам Жоао Пауло и Гулжигита Алыкулова. Финал состоится 23 ноября в Астане.",
     },
     {
-      img: "/image/kairat.jpg",
-      title: "ФК «Кайрат» вышел в финал Кубка Казахстана",
-      text: "Алматинская команда победила «Астану» по сумме двух матчей и теперь сразится за главный трофей страны.",
+      title: "Елена Рыбакина вышла в четвертьфинал турнира в Дубае",
+      author: "Марат Ибраев",
+      date: "1 день назад",
+      text: "Первая ракетка Казахстана Елена Рыбакина уверенно обыграла представительницу Польши Магду Линетт в третьем круге турнира WTA-1000 в Дубае. Следующей соперницей Рыбакиной станет победительница пары между Онс Жабер и Вероникой Кудерметовой.",
+    },
+    {
+      title: "Сборная Казахстана по футболу начала подготовку к матчам с Арменией и Люксембургом",
+      author: "Данияр Каримов",
+      date: "3 дня назад",
+      text: "Национальная сборная Казахстана по футболу собралась в Алматы для подготовки к отборочным матчам Евро-2026. 22 марта команда сыграет с Арменией, а 26 марта — с Люксембургом. Главный тренер Магомед Адиев включил в состав 26 игроков.",
+    },
+  ];
+
+  // === БЛОК "ТРАНСЛЯЦИИ" — только 3 трансляции ===
+  const streams = [
+    {
+      title: "Прямая трансляция: «Кайрат» — «Тобол» | Финал Кубка Казахстана",
+      author: "QazSport TV",
+      date: "Сегодня, 19:00",
+      text: "Смотрите прямую трансляцию главного футбольного события года — финала Кубка Казахстана между «Кайратом» и «Тоболом». Матч пройдёт на Центральном стадионе Астаны. Комментируют: Бауыржан Карипов и Ерлан Ибрагимов.",
+    },
+    {
+      title: "LIVE: Елена Рыбакина — Онс Жабер | WTA Дубай, 1/4 финала",
+      author: "Tennis Channel KZ",
+      date: "Сегодня, 17:30",
+      text: "Елена Рыбакина сражается за выход в полуфинал престижного турнира в Дубае. Прямая трансляция с корта №1. Не пропустите ключевой матч казахстанской теннисистки против экс-первой ракетки мира.",
+    },
+    {
+      title: "Хоккей: «Барыс» — «Салават Юлаев» | КХЛ, регулярный чемпионат",
+      author: "Hockey KZ",
+      date: "Вчера, 19:30",
+      text: "Запись матча КХЛ между «Барысом» и «Салаватом Юлаевым». Казахстанская команда уступила со счётом 2:4, но показала яркую игру в третьем периоде. Лучшим игроком матча признан Роман Старченко.",
     },
   ];
 
@@ -22,16 +53,50 @@ export default function SportsPage() {
       <Header activePage="sports" />
 
       <main className={styles.main}>
-        <h2 className={styles.sectionTitle}>Новости спорта</h2>
-        <div className={styles.cards}>
-          {newsItems.map((item, index) => (
-            <ArticleItem
-              key={index}
-              img={item.img}
-              title={item.title}
-              text={item.text}
-            />
-          ))}
+        <div className={styles.container}>
+          {/* === СПОРТ — 3 поста === */}
+          <h1 className={styles.pageTitle}>Спорт</h1>
+          <SportPosts posts={sportArticles} isStream={false} />
+
+          <div className={styles.pagination}>
+            <button className={styles.pageBtn} aria-label="Previous">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            {[1, 2, 3, 4, 5].map(n => (
+              <button key={n} className={`${styles.pageBtn} ${n === 1 ? styles.active : ''}`}>
+                {n}
+              </button>
+            ))}
+            <button className={styles.pageBtn} aria-label="Next">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          </div>
+
+          {/* === ТРАНСЛЯЦИИ — 3 поста === */}
+          <h2 className={styles.streamsTitle}>Трансляции</h2>
+          <SportPosts posts={streams} isStream={true} />
+
+          <div className={styles.pagination}>
+            <button className={styles.pageBtn} aria-label="Previous">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            {[1, 2, 3, 4, 5].map(n => (
+              <button key={n} className={`${styles.pageBtn} ${n === 1 ? styles.active : ''}`}>
+                {n}
+              </button>
+            ))}
+            <button className={styles.pageBtn} aria-label="Next">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          </div>
         </div>
       </main>
 
