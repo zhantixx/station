@@ -4,22 +4,23 @@ import Footer from "../../components/Footer";
 import ArticleCard from "../../components/ArticleCard";
 import SmallArticleCard from "../../components/SmallArticleCard";
 import styles from "./statya.module.css";
+import Pagination from "../../components/Pagination";
 
 export default function StatyaPage() {
   const articles = [
-    { img: "https://via.placeholder.com/600x300/a9a9a9/ffffff?text=Main+Article+Image+1", title: "Астана глазами туриста...", excerpt: "Современные районы...", author: "Айжан Кали", date: "2 часа назад" },
-    { img: "https://via.placeholder.com/600x300/a9a9a9/ffffff?text=Main+Article+Image+2", title: "Сборная Казахстана...", excerpt: "Национальная команда...", author: "Нуржан Искаков", date: "5 часов назад" },
-    { img: "https://via.placeholder.com/600x300/a9a9a9/ffffff?text=Main+Article+Image+3", title: "Как развивается IT-индустрия...", excerpt: "Казахстан становится новым центром...", author: "Алина Турсын", date: "1 день назад" },
+    { img: "/image/stat1.JPG", title: "Астана глазами туриста: как столица Казахстана меняется к зиме", excerpt: "Современные районы, украшенные огнями, катки и рождественские ярмарки делают Астану одним из самых атмосферных городов зимой. Гид по новым локациям и впечатлениям.", author: "Айжан Кали", date: "2 часа назад" },
+    { img: "/image/stat2.JPG", title: "Сборная Казахстана одержала победу над Сербией в товарищеском матче", excerpt: "Национальная команда продемонстрировала уверенную игру и одержала победу со счетом 2:1. Тренер отметил прогресс молодых игроков и настрой на будущие квалификации.", author: "Нуржан Искаков", date: "5 часов назад" },
+    { img: "/image/stat3.JPG", title: "Как развивается IT-индустрия Казахстана: стартапы, инвестиции и таланты", excerpt: "Казахстан становится новым центром IT-разработки в Центральной Азии. Инвестиции в технологические парки и обучение специалистов приносят первые результаты.", author: "Алина Турсын", date: "1 день назад" },
   ];
 
   const popularWeek = [
-    { img: "https://via.placeholder.com/60x60/a9a9a9/ffffff?text=1", category: "Спорт", time: "3 часа назад", title: "Геннадий Головкин объявил о возвращении в профессиональный бокс" },
-    { img: "https://via.placeholder.com/60x60/a9a9a9/ffffff?text=2", category: "Общество", time: "5 часов назад", title: "В Алматы запустили пилотный проект «Умный район»" },
+    { img: "/image/stat4.JPG", category: "Спорт", time: "3 часа назад", title: "Геннадий Головкин объявил о возвращении в профессиональный бокс" },
+    { img: "/image/stat5.JPG", category: "Общество", time: "5 часов назад", title: "В Алматы запустили пилотный проект «Умный район»" },
   ];
 
   const popularMonth = [
-    { img: "https://via.placeholder.com/60x60/a9a9a9/ffffff?text=6", category: "Экономика", time: "1 неделя назад", title: "Нацбанк сообщил о росте курса тенге" },
-    { img: "https://via.placeholder.com/60x60/a9a9a9/ffffff?text=7", category: "Технологии", time: "2 недели назад", title: "Запущен первый спутник связи Казахстана" },
+    { img: "/image/stat6.JPG", category: "Экономика", time: "1 неделя назад", title: "Нацбанк сообщил о росте курса тенге" },
+    { img: "/image/stat7.JPG", category: "Технологии", time: "2 недели назад", title: "Запущен первый спутник связи Казахстана" },
   ];
 
   return (
@@ -72,6 +73,8 @@ export default function StatyaPage() {
           </div>
         </aside>
       </div>
+
+      <Pagination />
       <Footer />
     </>
   );
