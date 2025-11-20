@@ -1,22 +1,19 @@
-import React from "react";
+import Link from "next/link";
 import styles from "./PostsSection.module.css";
 
 export default function PostsSection({ title, posts }) {
   return (
     <div className={styles.postsContainer}>
-      <div className={styles.postsHeader}>
-        <h2 className={styles.sectionTitle}>{title}</h2>
-        <button className={styles.viewAllButton}>Смотреть все</button>
-      </div>
+      <h2>{title}</h2>
       <div className={styles.postsGrid}>
-        {posts.map((post, i) => (
-          <a key={i} href="#" className={styles.postCard}>
+        {posts.map(post => (
+          <Link key={post.id} href={`/news/${post.id}`} className={styles.postCard}>
             <div className={styles.postImagePlaceholder}>
-<img src={`/image/${post.img}`} alt="пост" className={styles.postImage} />
+            <img src={`/image/${post.img}`} alt={post.title} />
             </div>
-            <h3 className={styles.postTitle}>{post.title}</h3>
-            <p className={styles.postMeta}>{post.meta}</p>
-          </a>
+            <h3>{post.title}</h3>
+            <p>{post.meta}</p>
+            </Link>
         ))}
       </div>
     </div>

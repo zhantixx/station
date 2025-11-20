@@ -4,55 +4,53 @@ import React, { useState } from "react";
 import styles from "./Pagination.module.css";
 
 export default function Pagination() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 5;
+  const [current, setCurrent] = useState(1);
+  const pages = [1, 2, 3, 4, 5];
 
-  const goToPage = (page) => {
-    if (page < 1 || page > totalPages) return;
-    setCurrentPage(page);
+  const goPrev = () => {
+    if (current > 1) setCurrent(current - 1);
+  };
+
+  const goNext = () => {
+    if (current < pages.length) setCurrent(current + 1);
   };
 
   return (
-    <div className={styles.paginationContainer}>
-      <div className={styles.pagination}>
-        {/* Prev */}
-        <button
-          className={`${styles.pageLink} ${styles.prevNext} ${
-            currentPage === 1 ? styles.disabled : ""
-          }`}
-          onClick={() => goToPage(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          &#x2039;
-        </button>
+    <div className={styles.pagination}>
+      {/* Prev button */}
+      <button
+        className={styles.pageBtn}
+        aria-label="Previous"
+        onClick={goPrev}
+        disabled={current === 1}
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </button>
 
-        {/* Page numbers */}
-        {[...Array(totalPages)].map((_, i) => {
-          const page = i + 1;
-          return (
-            <button
-              key={page}
-              className={`${styles.pageLink} ${
-                currentPage === page ? styles.active : ""
-              }`}
-              onClick={() => goToPage(page)}
-            >
-              {page}
-            </button>
-          );
-        })}
-
-        {/* Next */}
+      {/* Page numbers */}
+      {pages.map((n) => (
         <button
-          className={`${styles.pageLink} ${styles.prevNext} ${
-            currentPage === totalPages ? styles.disabled : ""
-          }`}
-          onClick={() => goToPage(currentPage + 1)}
-          disabled={currentPage === totalPages}
+          key={n}
+          className={`${styles.pageBtn} ${current === n ? styles.active : ""}`}
+          onClick={() => setCurrent(n)}
         >
-          &#x203A;
+          {n}
         </button>
-      </div>
+      ))}
+
+      {/* Next button */}
+      <button
+        className={styles.pageBtn}
+        aria-label="Next"
+        onClick={goNext}
+        disabled={current === pages.length}
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M9 18l6-6-6-6" />
+        </svg>
+      </button>
     </div>
   );
 }

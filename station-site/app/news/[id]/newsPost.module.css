@@ -1,0 +1,270 @@
+.contentWrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+/* Hero Section */
+.articleHero {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    overflow: hidden;
+    margin-bottom: 50px;
+    border-radius: 5px;
+}
+
+.heroBgImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.backLinkHero {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    text-decoration: none;
+}
+
+.backIconImg {
+    width: 20px;
+    height: 20px;
+    display: block;
+    filter: invert(100%);
+}
+
+.heroOverlayContent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 50px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: white;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.6) 100%);
+}
+
+.metadata {
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-weight: 500;
+    display: flex;
+    gap: 15px;
+}
+
+.articleTitle {
+    font-size: 3.5em;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 30px;
+    max-width: 800px;
+}
+
+.articleInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 14px;
+}
+
+.author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.authorAvatar {
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.authorName {
+    font-weight: bold;
+}
+
+.stats {
+    display: flex;
+    gap: 30px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.clickableIconLink {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.clickableIconLink:hover {
+    opacity: 0.8;
+}
+
+.statIcon {
+    width: 18px;
+    height: 18px;
+    filter: invert(100%);
+}
+
+.heartIcon { width: 20px; height: 20px; }
+.commentIcon { width: 16px; height: 16px; }
+.shareIcon { width: 20px; height: 20px; }
+
+/* Article Body */
+.articleBody,
+.articleBodyContinuation {
+    max-width: 1500px;
+    padding-left: 80px;
+    padding-right: 80px;
+}
+
+.articleBody p,
+.articleBodyContinuation p {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #555;
+}
+
+/* Inline Image */
+.inlineImageContainer {
+    width: 100%;
+    margin: 30px 0;
+}
+
+.inlineArticleImage {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 5px;
+}
+
+/* Comments Section */
+.commentsSection {
+    padding-top: 20px;
+    max-width: 1000px;
+    padding-left: 80px;
+    padding-right: 20px;
+    margin-left: 110px;
+}
+
+.commentInputArea {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.commentUserAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #ccc;
+    flex-shrink: 0;
+}
+
+.inputFormContainer {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.commentTextarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    margin-bottom: 10px;
+    outline: none;
+}
+
+.commentTextarea::placeholder {
+    color: #999;
+}
+
+.postCommentButton {
+    align-self: flex-start;
+    background-color: #ff7043;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.postCommentButton:hover {
+    background-color: #ff5722;
+}
+
+/* Comments List */
+.commentsList {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.commentItem {
+    display: flex;
+    gap: 15px;
+}
+
+.commentAuthorAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    background-color: #999;
+}
+
+.commentContent {
+    flex-grow: 1;
+}
+
+.commentAuthorName {
+    font-weight: bold;
+    color: #333;
+    margin-right: 10px;
+}
+
+.commentDate {
+    font-size: 12px;
+    color: #777;
+}
+
+.commentContent p {
+    font-size: 14px;
+    color: #555;
+    margin-top: 5px;
+    margin-bottom: 0;
+    line-height: 1.5;
+}

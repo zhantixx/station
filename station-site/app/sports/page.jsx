@@ -2,6 +2,7 @@ import styles from './sports.module.css';
 import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.jsx";
 import SportPosts from "@/components/SportPosts.jsx";
+import Pagination from "../../components/Pagination";
 
 export default function SportsPage() {
   // === БЛОК "СПОРТ" — только 3 новости ===
@@ -58,46 +59,16 @@ export default function SportsPage() {
           <h1 className={styles.pageTitle}>Спорт</h1>
           <SportPosts posts={sportArticles} isStream={false} />
 
-          <div className={styles.pagination}>
-            <button className={styles.pageBtn} aria-label="Previous">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M15 18l-6-6 6-6" />
-              </svg>
-            </button>
-            {[1, 2, 3, 4, 5].map(n => (
-              <button key={n} className={`${styles.pageBtn} ${n === 1 ? styles.active : ''}`}>
-                {n}
-              </button>
-            ))}
-            <button className={styles.pageBtn} aria-label="Next">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 18l6-6-6-6" />
-              </svg>
-            </button>
-          </div>
+          
+            <Pagination />
+   
 
           {/* === ТРАНСЛЯЦИИ — 3 поста === */}
           <h2 className={styles.streamsTitle}>Трансляции</h2>
           <SportPosts posts={streams} isStream={true} />
 
-          <div className={styles.pagination}>
-            <button className={styles.pageBtn} aria-label="Previous">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M15 18l-6-6 6-6" />
-              </svg>
-            </button>
-            {[1, 2, 3, 4, 5].map(n => (
-              <button key={n} className={`${styles.pageBtn} ${n === 1 ? styles.active : ''}`}>
-                {n}
-              </button>
-            ))}
-            <button className={styles.pageBtn} aria-label="Next">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 18l6-6-6-6" />
-              </svg>
-            </button>
-          </div>
-        </div>
+          <Pagination />
+            </div>
       </main>
 
       <Footer />
