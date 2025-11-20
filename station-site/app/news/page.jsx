@@ -42,6 +42,8 @@ export default function NewsPage() {
           { id: 8, img: "пост8.JPG", title: "Казахстан и ЕС подтвердили совместные усилия по стабилизации Афганистана", meta: "Astana Times - 4 часа назад" },
           { id: 9, img: "post9.JPG", title: "Рост туризма в Казахстане: новые направления и увеличение посещаемости", meta: "Kazinform - 3 часа назад" },
         ]}
+
+        
       />
 
       <VideosSection
