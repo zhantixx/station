@@ -47,25 +47,25 @@ export default function NewsPage() {
       />
 
       <VideosSection
-        mainVideo={{
-          title: "Илья Ильин вернулся в большой спорт — интервью чемпиона",
-          meta: "Qazaq TV - 1 день назад",
-        }}
-        sidebarVideos={[
-          {
-            title: "Казахстан представил павильон на Expo 2025 в Осаке",
-            meta: "Kazinform - 2 дня назад",
-          },
-          {
-            title: "Почему Алматы станет центром падела в Центральной Азии к 2027 году",
-            meta: "Sports.kz - 2 дня назад",
-          },
-          {
-            title: "Как Huawei и Kcell протестировали первую 5G-сеть в Казахстане",
-            meta: "Kazinform - 3 дня назад",
-          },
-        ]}
-      />
+  mainVideo={{
+    title: "Илья Ильин вернулся в большой спорт — интервью чемпиона",
+    meta: "Qazaq TV - 1 день назад",
+    url: "https://www.youtube.com/watch?v=JqYZn_UQUsc" 
+  }}
+  sidebarVideos={[
+    {
+      title: "Казахстан представил павильон на Expo 2025 в Осаке",
+      meta: "Kazinform - 2 дня назад",
+      url: "https://www.youtube.com/watch?v=Q21aky7hFi0"
+    },
+    {
+      title: "Почему Алматы станет центром падела в Центральной Азии к 2027 году",
+      meta: "Sports.kz - 2 дня назад",
+      url: "https://www.youtube.com/watch?v=gTd9OXQoiuw"
+    },
+    
+  ]}
+/>
 
       <div className={styles["newsletter-section"]}>
         <div className={styles["newsletter-container"]}>

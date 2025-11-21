@@ -1,33 +1,34 @@
-import styles from './SportPosts.module.css';
+"use client";
 
-export default function SportPosts({ posts, isStream = false }) {
+import Link from "next/link";
+import styles from "./SportPosts.module.css";
+
+export default function SportPosts({ posts, isStream }) {
   return (
-    <div className={styles.list}>
-      {posts.map((post, index) => (
-        <div key={index} className={styles.card}>
-          {/* Превью */}
-          <div className={styles.preview}>
-            <div className={styles.image}>
-              {isStream && (
-                <div className={styles.playButton}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-                    <path d="M8 5v14l11-7L8 5z" />
-                  </svg>
-                </div>
-              )}
+    <div className={isStream ? styles.streamsList : styles.sportList}>
+      {posts.map((post) => (
+        <Link 
+          key={post.id} 
+          href={`/sports/${post.id}`} 
+          className={isStream ? styles.streamItem : styles.sportItem}
+        >
+          <div className={isStream ? styles.streamPreview : styles.sportPreview}>
+            <div className={isStream ? styles.streamImage : styles.sportImage}>
+              {isStream && <div className={styles.playButton}>▶</div>}
+              {!isStream && post.img && <img src={post.img} alt={post.title} />}
             </div>
           </div>
-
-          {/* Текст */}
-          <div className={styles.text}>
-            <h3 className={styles.title}>{post.title}</h3>
-            <div className={styles.meta}>
+          <div className={isStream ? styles.streamText : styles.sportText}>
+            <h3 className={isStream ? styles.streamArticleTitle : styles.sportArticleTitle}>
+              {post.title}
+            </h3>
+            <div className={isStream ? styles.streamMeta : styles.sportMeta}>
               <span>{post.author}</span>
               <span>{post.date}</span>
             </div>
-            <p className={styles.excerpt}>{post.text}</p>
+            <p className={isStream ? styles.streamExcerpt : styles.sportExcerpt}>{post.text}</p>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );

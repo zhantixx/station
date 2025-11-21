@@ -1,11 +1,118 @@
-.videosContainer { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
-.videosHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.sectionTitle { font-size: 1.5rem; color: #003d82; }
-.viewAllButton { background: #0056b3; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
-.videosLayout { display: flex; gap: 20px; flex-wrap: wrap; }
-.mainVideoCard { flex: 2; text-decoration: none; color: #222; }
-.sidebarVideos { flex: 1; display: flex; flex-direction: column; gap: 12px; }
-.videoPlaceholder { background: #000; height: 180px; border-radius: 8px; position: relative; }
-.playIcon { width: 40px; height: 40px; background: rgba(255,255,255,0.7); border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-.sidebarVideoItem { display: flex; gap: 10px; text-decoration: none; color: #222; }
-.videoDetails { flex: 1; }
+.videosSection {
+  display: flex;
+  gap: 30px;
+  margin: 40px auto;
+  flex-wrap: wrap;
+  padding: 0 20px; /* отступы слева и справа */
+  max-width: 1200px; /* ограничение ширины контейнера */
+  box-sizing: border-box;
+}
+
+/* ===== Главное видео ===== */
+.mainVideo {
+  flex: 3;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mainVideo iframe {
+  width: 100%;
+  height: 450px;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mainVideo iframe:hover {
+  transform: scale(1.02);
+  box-shadow: 0 18px 36px rgba(0,0,0,0.15);
+}
+
+.mainVideo h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 8px 0;
+  color: #111;
+}
+
+.mainVideo p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* ===== Боковые видео ===== */
+.sidebarVideos {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 250px;
+}
+
+.sidebarVideoCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sidebarVideoCard iframe {
+  width: 100%;
+  height: 160px;
+  border: none;
+  border-radius: 12px 12px 0 0;
+}
+
+.sidebarVideoCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.12);
+}
+
+.sidebarVideoCard h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 12px;
+  color: #111;
+}
+
+.sidebarVideoCard p {
+  font-size: 0.8rem;
+  color: #777;
+  margin: 0 12px 12px 12px;
+}
+
+/* ===== Адаптив ===== */
+@media (max-width: 1024px) {
+  .videosSection {
+    flex-direction: column;
+    padding: 0 15px; /* чуть меньше на планшете */
+  }
+
+  .mainVideo iframe {
+    height: 300px;
+  }
+
+  .sidebarVideoCard iframe {
+    height: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainVideo h3 {
+    font-size: 1.4rem;
+  }
+
+  .sidebarVideoCard h4 {
+    font-size: 0.95rem;
+  }
+
+  .sidebarVideoCard p {
+    font-size: 0.75rem;
+  }
+}

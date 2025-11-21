@@ -1,0 +1,44 @@
+.smallArticleCard {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease;
+}
+
+.smallArticleCard:hover {
+  transform: translateY(-2px);
+}
+
+.smallArticleImage {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+
+.smallArticleContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.category {
+  font-size: 12px;
+  font-weight: bold;
+  color: #0070f3;
+}
+
+.time {
+  font-size: 10px;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+.smallArticleTitle {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+}

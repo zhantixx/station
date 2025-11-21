@@ -1,16 +1,20 @@
+"use client";
+
 import React from "react";
-import styles from "@/app/statya/statya.module.css";
+import styles from "./ArticleCard.module.css";
 
 export default function ArticleCard({ img, title, excerpt, author, date }) {
   return (
-    <article className={styles.articleCard}>
+    <div className={styles.articleCard}>
       <img src={img} alt={title} className={styles.articleImage} />
-      <h2 className={styles.articleTitle}>{title}</h2>
-      <p className={styles.articleExcerpt}>{excerpt}</p>
-      <div className={styles.articleMeta}>
-        <span className={styles.articleMetaAuthor}>{author}</span>
-        <span className={styles.articleMetaDate}>{date}</span>
+      <div className={styles.articleContent}>
+        <h3 className={styles.articleTitle}>{title}</h3>
+        <p className={styles.articleExcerpt}>{excerpt}</p>
+        <div className={styles.articleMeta}>
+          <span>{author}</span>
+          <span>{date}</span>
+        </div>
       </div>
-    </article>
+    </div>
   );
 }

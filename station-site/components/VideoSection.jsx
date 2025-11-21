@@ -3,30 +3,39 @@ import styles from "./VideoSection.module.css";
 
 export default function VideosSection({ mainVideo, sidebarVideos }) {
   return (
-    <div className={styles.videosContainer}>
-      <div className={styles.videosHeader}>
-        <h2 className={styles.sectionTitle}>Видео</h2>
-        <button className={styles.viewAllButton}>Смотреть все</button>
+    <div className={styles.videosSection}>
+      {/* Главное видео */}
+      <div className={styles.mainVideo}>
+        <iframe
+          width="100%"
+          height="450"
+          src={mainVideo.url}
+          title={mainVideo.title}
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        ></iframe>
+        <h3>{mainVideo.title}</h3>
+        <p>{mainVideo.meta}</p>
       </div>
-      <div className={styles.videosLayout}>
-        <a href="#" className={styles.mainVideoCard}>
-          <div className={styles.videoPlaceholder}>
-            <div className={styles.playIcon}></div>
+
+      {/* Боковые видео */}
+      <div className={styles.sidebarVideos}>
+        {sidebarVideos.map((video, index) => (
+          <div key={index} className={styles.sidebarVideoCard}>
+            <iframe
+              width="100%"
+              height="180"
+              src={video.url}
+              title={video.title}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+            <h4>{video.title}</h4>
+            <p>{video.meta}</p>
           </div>
-          <h3 className={styles.videoTitle}>{mainVideo.title}</h3>
-          <p className={styles.videoMeta}>{mainVideo.meta}</p>
-        </a>
-        <div className={styles.sidebarVideos}>
-          {sidebarVideos.map((vid, i) => (
-            <a key={i} href="#" className={styles.sidebarVideoItem}>
-              <div className={styles.videoPlaceholder}></div>
-              <div className={styles.videoDetails}>
-                <h4 className={styles.videoTitle}>{vid.title}</h4>
-                <p className={styles.videoMeta}>{vid.meta}</p>
-              </div>
-            </a>
-          ))}
-        </div>
+        ))}
       </div>
     </div>
   );
