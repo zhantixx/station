@@ -1,17 +1,4 @@
-:root {
-  --primary-color: #109be9;
-  --secondary-color: #f05a28;
-  --background-color: #f9f9f9;
-  --text-color: #333;
-  --card-bg: #ffffff;
-  --card-shadow: rgba(0,0,0,0.08);
-}
 
-.page {
-  font-family: 'Inter', sans-serif;
-  background: var(--background-color);
-  color: var(--text-color);
-}
 
 /* Sections */
 .section {

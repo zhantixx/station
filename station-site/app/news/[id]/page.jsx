@@ -1,7 +1,12 @@
+"use client";
+
 import { posts } from "../../data/posts";
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 import styles from "./newsPost.module.css";
+import RecommendationsSection from "../../../components/RecommendSection";
+import Comments from "../../../components/Comments";
+
 
 export default async function ArticlePage({ params }) { 
     const resolved = await params; 
@@ -50,9 +55,19 @@ export default async function ArticlePage({ params }) {
                   <a className={styles.clickableIconLink}>
                     <img src="/image/love.png" alt="Лайк" className={styles.statIcon} /> 521K
                   </a>
-                  <a className={styles.clickableIconLink}>
-                    <img src="/image/comment.png" alt="Коммент" className={styles.statIcon} /> 213
-                  </a>
+                  <a
+  className={styles.clickableIconLink}
+  onClick={() => {
+    const comments = document.getElementById("comments-section");
+    if (comments) {
+      comments.scrollIntoView({ behavior: "smooth" });
+    }
+  }}
+>
+  <img src="/image/comment.png" alt="Коммент" className={styles.statIcon} /> 213
+</a>
+
+
                   <a className={styles.clickableIconLink}>
                     <img src="/image/share.png" alt="Поделится" className={styles.statIcon} /> 80
                   </a>
@@ -81,30 +96,19 @@ export default async function ArticlePage({ params }) {
           </section>
         </article>
 
-        {/* Comments */}
-        <section className={styles.commentsSection}>
-          <div className={styles.commentInputArea}>
-            <img src="/image/user_avatar.png" alt="Ава" className={styles.commentUserAvatar} />
-            <div className={styles.inputFormContainer}>
-              <textarea placeholder="Write your comment in here" className={styles.commentTextarea}></textarea>
-              <button className={styles.postCommentButton}>Post Comment</button>
-            </div>
-          </div>
+              <RecommendationsSection
+                recommendations={[
+                  { img: "рек1.JPG", title: "7 инициатив по защите экологии в Казахстане, стартовавших в 2025", meta: "EcoNews - 3 дня назад" },
+                  { img: "рек2.JPG", title: "Astana Marathon 2025 собрал рекордное количество участников", meta: "Sports.kz - 5 дней назад" },
+                  { img: "рек3.jpg", title: "Казахстанские ученые создали биоразлагаемый пластик", meta: "KazScience - 2 дня назад" },
+                   { img: "рек1.JPG", title: "7 инициатив по защите экологии в Казахстане, стартовавших в 2025", meta: "EcoNews - 3 дня назад" },
+                ]}
+              />
 
-          <div className={styles.commentsList}>
-            {post.comments.map((c) => (
-              <div key={c.id} className={styles.commentItem}>
-                <img src={c.avatar} className={styles.commentAuthorAvatar} />
-                <div className={styles.commentContent}>
-                  <span className={styles.commentAuthorName}>{c.name}</span>
-                  <span className={styles.commentDate}>{c.date}</span>
-                  <p>{c.text}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+        
       </div>
+      <Comments initialComments={post.comments} />
+
 
       <Footer />
     </>
