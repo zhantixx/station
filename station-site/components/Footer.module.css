@@ -1,8 +1,7 @@
-/* --- ФУТЕР --- */
 .mainFooter {
   background-color: white;
-  padding-top: 60px;       /* увеличено для воздушности */
-  padding-bottom: 30px;    /* увеличено для воздушности */
+  padding-top: 60px;      
+  padding-bottom: 30px;   
   border-top: 1px solid #f0f0f0;
 }
 
@@ -12,9 +11,9 @@
   padding: 0 20px;
   display: flex;
   justify-content: space-between;
-  gap: 50px;              /* чуть больше пространства между колонками */
+  gap: 50px;              
   align-items: flex-start;
-  flex-wrap: wrap;         /* адаптивность на маленьких экранах */
+  flex-wrap: wrap;         
 }
 
 .footerColumn {
@@ -37,16 +36,16 @@
 }
 
 .footerLogo .logoImage {
-  width: 24px;  /* немного больше для баланса */
+  width: 24px;  
   height: 24px;
   margin-right: 8px;
 }
 
 .brandDescription {
   font-size: 14px;
-  line-height: 1.8;       /* увеличен межстрочный интервал */
+  line-height: 1.8;       
   color: #757575;
-  margin-bottom: 20px;    /* отступ снизу для отделения от ссылок */
+  margin-bottom: 20px;   
 }
 
 .footerColumn:not(.footerBrand) {
@@ -67,7 +66,7 @@
 }
 
 .footerLinks li {
-  margin-bottom: 14px;    /* увеличен отступ между ссылками */
+  margin-bottom: 14px;  
 }
 
 .footerLinks a {
@@ -85,5 +84,5 @@
   height: 1px;
   background-color: #e0e0e0;
   max-width: 1200px;
-  margin: 30px auto 0 auto; /* отступ сверху для разделителя */
+  margin: 30px auto 0 auto; 
 }

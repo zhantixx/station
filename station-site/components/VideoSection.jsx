@@ -4,7 +4,6 @@ import styles from "./VideoSection.module.css";
 export default function VideosSection({ mainVideo, sidebarVideos }) {
   return (
     <div className={styles.videosSection}>
-      {/* Главное видео */}
       <div className={styles.mainVideo}>
         <iframe
           width="100%"
@@ -19,7 +18,7 @@ export default function VideosSection({ mainVideo, sidebarVideos }) {
         <p>{mainVideo.meta}</p>
       </div>
 
-      {/* Боковые видео */}
+
       <div className={styles.sidebarVideos}>
         {sidebarVideos.map((video, index) => (
           <div key={index} className={styles.sidebarVideoCard}>

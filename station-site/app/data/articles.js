@@ -1,6 +1,3 @@
-// app/data/articles.js
-
-// Основные статьи
 export const articles = [
   {
     id: 1,
@@ -52,7 +49,7 @@ export const articles = [
   }
 ];
 
-// Популярное за неделю
+
 export const popularWeek = [
   {
     id: 4,
@@ -91,7 +88,7 @@ export const popularWeek = [
   }
 ];
 
-// Популярное за месяц
+
 export const popularMonth = [
   {
     id: 9,

@@ -19,7 +19,6 @@ export default function StatyaPage() {
         <main className={styles.mainContent}>
           <h1 className={styles.pageTitle}>Статьи</h1>
 
-          {/* Список статей под собой */}
           <div className={styles.articlesList}>
             {articles.map((article) => (
               <Link
@@ -39,7 +38,6 @@ export default function StatyaPage() {
           </div>
         </main>
 
-        {/* Sidebar */}
         <aside className={styles.sidebar}>
           <div className={styles.popularSection}>
             <h3 className={styles.sectionTitle}>Популярные за неделю</h3>

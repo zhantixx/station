@@ -8,7 +8,6 @@ const About = () => {
     <div className={styles.page}>
       <Header />
 
-      {/* === МИССИЯ === */}
       <section className={`${styles.section} ${styles.mission}`}>
         <div className={styles.container}>
           <div className={styles.text}>
@@ -24,7 +23,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* === КОМАНДА === */}
       <section className={styles.section}>
         <div className={styles.container}>
           <div className={styles.image}>
@@ -39,7 +37,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* === ПРЕИМУЩЕСТВА === */}
       <section className={styles.cardsSection}>
         <div className={styles.container}>
           <div className={styles.cardsGrid}>
@@ -55,7 +52,6 @@ const About = () => {
               <p>Мы не гонимся за сенсациями, а даём читателю честную картину происходящего.</p>
             </div>
 
-            {/* НОВАЯ КАРТОЧКА — УДОБСТВО */}
             <div className={styles.card}>
               <img src="/image/udob.png" alt="Удобство" className={styles.cardIcon} />
               <h3>Удобство</h3>

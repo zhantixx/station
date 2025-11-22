@@ -6,7 +6,6 @@
     padding: 20px;
 }
 
-/* Hero Section */
 .articleHero {
     position: relative;
     width: 100%;
@@ -133,7 +132,7 @@
 .commentIcon { width: 16px; height: 16px; }
 .shareIcon { width: 20px; height: 20px; }
 
-/* Article Body */
+
 .articleBody,
 .articleBodyContinuation {
     max-width: 1500px;
@@ -148,7 +147,7 @@
     color: #555;
 }
 
-/* Inline Image */
+
 .inlineImageContainer {
     width: 100%;
     margin: 30px 0;
@@ -161,7 +160,7 @@
     border-radius: 5px;
 }
 
-/* Comments Section */
+
 .commentsSection {
     padding-top: 20px;
     max-width: 1000px;
@@ -225,7 +224,7 @@
     background-color: #ff5722;
 }
 
-/* Comments List */
+
 .commentsList {
     display: flex;
     flex-direction: column;

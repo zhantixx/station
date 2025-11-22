@@ -7,7 +7,7 @@ export default function Comments({ initialComments }) {
   const [comments, setComments] = useState(
     initialComments.map((c, index) => ({
       ...c,
-      id: index + 1 // если нет id — создаём временный
+      id: index + 1 
     }))
   );
 
@@ -17,10 +17,10 @@ export default function Comments({ initialComments }) {
     if (!text.trim()) return;
 
     const newComment = {
-      id: Date.now(),            // генерируем уникальный id
-      name: "User",
-      date: "Just now",
-      avatar: "/image/user_avatar.png",
+      id: Date.now(),            
+      name: "Вы",
+      date: "Только что",
+      avatar: "/image/profile.png",
       text,
     };
 
@@ -30,25 +30,23 @@ export default function Comments({ initialComments }) {
 
   return (
     <section id="comments-section" className={styles.commentsSection}>
-      {/* Input Area */}
       <div className={styles.commentInputArea}>
-        <img src="/image/user_avatar.png" className={styles.commentUserAvatar} />
+        <img src="/image/profile.png" className={styles.commentUserAvatar} />
 
         <div className={styles.inputFormContainer}>
           <textarea
             className={styles.commentTextarea}
-            placeholder="Write your comment..."
+            placeholder="Написать комментарий..."
             value={text}
             onChange={(e) => setText(e.target.value)}
           ></textarea>
 
           <button className={styles.postCommentButton} onClick={addComment}>
-            Post Comment
+            Отправить
           </button>
         </div>
       </div>
 
-      {/* Comments List */}
       <div className={styles.commentsList}>
         {comments.map((c) => (
           <div key={c.id} className={styles.commentItem}>

@@ -1,20 +1,20 @@
-/* Карточка статьи */
+
 .articleCard {
   display: flex;
   flex-direction: column;
   background-color: #fff;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* лёгкая тень */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
   transition: transform 0.4s ease, box-shadow 0.4s ease;
-  margin: 20px auto; /* отступы между постами и центр */
+  margin: 20px auto; 
   width: 100%;
-  max-width: 750px; /* ограничение ширины для аккуратного вида */
+  max-width: 750px; 
 }
 
 .articleCard:hover {
   transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15); /* более заметная тень на hover */
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15); 
 }
 
 .articleImage {
@@ -59,7 +59,6 @@
   color: #888;
 }
 
-/* Адаптив для мобильных */
 @media (max-width: 768px) {
   .articleImage {
     height: 220px;

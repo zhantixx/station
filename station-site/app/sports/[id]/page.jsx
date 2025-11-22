@@ -36,7 +36,6 @@ export default function SportPostPage() {
       <Header />
       <div className={styles.contentWrapper}>
 
-        {/* Hero Section */}
         <section className={styles.articleHero}>
           {post.img && <img src={post.img} alt={post.title} className={styles.heroBgImage} />}
           <a href="/sports" className={styles.backLinkHero}>
@@ -51,14 +50,14 @@ export default function SportPostPage() {
           </div>
         </section>
 
-        {/* Body Section */}
+      
         <section className={styles.articleBody}>
           {post.text.split("\n").map((p, i) => (
             <p key={i}>{p}</p>
           ))}
         </section>
 
-        {/* Recommendations */}
+      
         <RecommendationsSection
           recommendations={[
             { img: "рек1.JPG", title: "7 инициатив по защите экологии в Казахстане", meta: "EcoNews - 3 дня назад" },
@@ -66,7 +65,7 @@ export default function SportPostPage() {
           ]}
         />
 
-        {/* Comments */}
+      
         <Comments initialComments={post.comments || []} />
       </div>
       <Footer />

@@ -1,4 +1,3 @@
-/* ===== Общий контейнер ===== */
 .contentWrapper {
   max-width: 1000px;
   margin: 0 auto;
@@ -8,7 +7,7 @@
   background-color: #f9f9f9;
 }
 
-/* ===== Hero Section ===== */
+
 .articleHero {
   position: relative;
   width: 100%;
@@ -37,22 +36,17 @@
   display: flex;
   align-items: center;
   text-decoration: none;
-  background: rgba(0,0,0,0.5);
   padding: 6px 10px;
   border-radius: 8px;
   transition: background 0.3s;
 }
 
-.backLinkHero:hover {
-  background: rgba(0,0,0,0.7);
-}
 
 .backIconImg {
   width: 30px;
   height: 30px;
 }
 
-/* Overlay content */
 .heroOverlayContent {
   position: absolute;
   bottom: 25px;
@@ -102,16 +96,16 @@
 }
 
 .stats {
-  display: flex;
-  align-items: center;
-  gap: 20px;
+    display: flex;
+    gap: 30px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .statItem, .clickableIconLink {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(0,0,0,0.4);
   border: none;
   color: #fff;
   font-weight: 600;
@@ -121,16 +115,13 @@
   transition: background 0.3s;
 }
 
-.statItem:hover, .clickableIconLink:hover {
-  background: rgba(0,0,0,0.6);
-}
 
 .statIcon {
   width: 20px;
   height: 20px;
 }
 
-/* ===== Article Body ===== */
+
 .articleBody {
   margin-bottom: 50px;
   line-height: 1.75;
@@ -150,7 +141,7 @@
   color: #222;
 }
 
-/* ===== Not Found ===== */
+
 .notFound {
   display: flex;
   justify-content: center;
@@ -161,12 +152,12 @@
   text-align: center;
 }
 
-/* ===== Comments Section ===== */
+
 #comments-section {
   margin-top: 50px;
 }
 
-/* ===== Адаптив ===== */
+
 @media (max-width: 768px) {
   .articleHero {
     height: 300px;

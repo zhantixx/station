@@ -17,7 +17,6 @@ export default function Pagination() {
 
   return (
     <div className={styles.pagination}>
-      {/* Prev button */}
       <button
         className={styles.pageBtn}
         aria-label="Previous"
@@ -29,7 +28,6 @@ export default function Pagination() {
         </svg>
       </button>
 
-      {/* Page numbers */}
       {pages.map((n) => (
         <button
           key={n}
@@ -40,7 +38,6 @@ export default function Pagination() {
         </button>
       ))}
 
-      {/* Next button */}
       <button
         className={styles.pageBtn}
         aria-label="Next"

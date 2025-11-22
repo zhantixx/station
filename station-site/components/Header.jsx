@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./Header.module.css";
 import { useAuth } from "../lib/AuthContext";
@@ -10,13 +10,18 @@ export default function Header() {
   const { isAuthenticated } = useAuth();
 
   const [searchValue, setSearchValue] = useState("");
-  const [showCategories, setShowCategories] = useState(false);
+  const [showCategories, setShowCategories] = useState(false); 
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleAuthClick = () => {
     router.push(isAuthenticated ? "/profile" : "/login");
   };
 
-  // Категории — обычный список
+
   const categories = [
     "Политика",
     "Спорт",
@@ -32,7 +37,7 @@ export default function Header() {
     "Образование",
   ];
 
-  // Маршруты категорий
+ 
   const categoryRoutes = {
     "Политика": "/politics",
     "Спорт": "/sports",
@@ -48,14 +53,14 @@ export default function Header() {
     "Образование": "/education",
   };
 
-  // Переход по поиску
+ 
   const handleSearch = (e) => {
     if (e.key === "Enter" && searchValue.trim() !== "") {
       router.push(`/search?query=${searchValue}`);
     }
   };
 
-  // Переход при клике на категорию
+  
   const handleCategoryClick = (category) => {
     const route = categoryRoutes[category];
     if (route) router.push(route);
@@ -75,7 +80,7 @@ export default function Header() {
             <li><a href="/news" className={styles.active}>Главная</a></li>
             <li><a href="/statya">Статьи</a></li>
 
-            {/* КАТЕГОРИИ ПО КЛИКУ */}
+        
             <li className={styles.categoriesWrapper}>
               <span
                 className={styles.categoriesButton}
