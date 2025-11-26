@@ -1,23 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import styles from "./Comments.module.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Comments({ initialComments }) {
   const [comments, setComments] = useState(
-    initialComments.map((c, index) => ({
-      ...c,
-      id: index + 1 
-    }))
+    initialComments.map((c, index) => ({ ...c, id: index + 1 }))
   );
-
   const [text, setText] = useState("");
 
   const addComment = () => {
     if (!text.trim()) return;
 
     const newComment = {
-      id: Date.now(),            
+      id: Date.now(),
       name: "Вы",
       date: "Только что",
       avatar: "/image/profile.png",
@@ -29,32 +25,33 @@ export default function Comments({ initialComments }) {
   };
 
   return (
-    <section id="comments-section" className={styles.commentsSection}>
-      <div className={styles.commentInputArea}>
-        <img src="/image/profile.png" className={styles.commentUserAvatar} />
-
-        <div className={styles.inputFormContainer}>
+    <section className="container my-4">
+      <div className="d-flex mb-4 gap-3">
+        <img src="/image/profile.png" className="rounded-circle" width={50} height={50} alt="avatar" />
+        <div className="flex-grow-1 d-flex flex-column">
           <textarea
-            className={styles.commentTextarea}
+            className="form-control mb-2"
             placeholder="Написать комментарий..."
+            rows={3}
             value={text}
             onChange={(e) => setText(e.target.value)}
           ></textarea>
-
-          <button className={styles.postCommentButton} onClick={addComment}>
+          <button className="btn btn-primary align-self-start" onClick={addComment}>
             Отправить
           </button>
         </div>
       </div>
 
-      <div className={styles.commentsList}>
+      <div className="d-flex flex-column gap-3">
         {comments.map((c) => (
-          <div key={c.id} className={styles.commentItem}>
-            <img src={c.avatar} className={styles.commentAuthorAvatar} />
-            <div className={styles.commentContent}>
-              <span className={styles.commentAuthorName}>{c.name}</span>
-              <span className={styles.commentDate}>{c.date}</span>
-              <p>{c.text}</p>
+          <div key={c.id} className="d-flex gap-3">
+            <img src={c.avatar} className="rounded-circle" width={50} height={50} alt={c.name} />
+            <div className="flex-grow-1">
+              <div className="d-flex align-items-center gap-2 mb-1">
+                <strong>{c.name}</strong>
+                <small className="text-muted">{c.date}</small>
+              </div>
+              <p className="mb-0">{c.text}</p>
             </div>
           </div>
         ))}

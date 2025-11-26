@@ -1,7 +1,0 @@
-.recommendedContainer { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
-.sectionTitle { font-size: 1.5rem; color: #003d82; margin-bottom: 20px; }
-.recommendationsScrollWrapper { display: flex; gap: 20px; overflow-x: auto; }
-.recommendedCard { min-width: 280px; text-decoration: none; color: #222; }
-.cardPlaceholder img { width: 100%; border-radius: 8px; }
-.cardTitle { margin-top: 8px; font-size: 1rem; }
-.cardMeta { font-size: 0.85rem; color: #555; }
