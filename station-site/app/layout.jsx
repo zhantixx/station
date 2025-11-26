@@ -1,5 +1,7 @@
 import { AuthProvider } from '../lib/AuthContext'; 
 import './globals.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 export const metadata = {
   title: "My Next App",
