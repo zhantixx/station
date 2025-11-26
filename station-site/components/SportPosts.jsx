@@ -2,46 +2,60 @@
 
 import Link from "next/link";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Card, Row, Col, Badge } from "react-bootstrap";
 
 export default function SportPosts({ posts, isStream }) {
   return (
-    <div className="container my-4">
-      <div className="row g-4">
-        {posts.map((post) => (
-          <div key={post.id} className={isStream ? "col-12" : "col-md-6 col-lg-4"}>
-            <Link href={`/sports/${post.id}`} className="text-decoration-none text-dark">
-              <div className="card h-100 shadow-sm">
-                <div className="position-relative">
-                  {isStream ? (
-                    <div className="bg-secondary d-flex justify-content-center align-items-center" style={{height: '200px'}}>
-                      <span className="text-white fs-2">▶</span>
-                    </div>
-                  ) : (
-                    post.img && (
-                      <img
-                        src={post.img}
-                        className="card-img-top"
-                        alt={post.title}
-                        style={{objectFit: 'cover', height: '200px'}}
-                      />
-                    )
-                  )}
+    <Row className="g-4 mb-4">
+      {posts.map((post) => (
+        <Col key={post.id} xs={12} sm={6} md={4} lg={3}>
+          <Link
+            href={isStream ? `/sports/streams/${post.id}` : `/sports/${post.id}`}
+            className="text-decoration-none text-dark"
+          >
+            <Card className="h-100 shadow-sm border-0 overflow-hidden">
+              {/* Картинка или плей-иконка */}
+              {isStream ? (
+                <div
+                  className="bg-secondary d-flex justify-content-center align-items-center"
+                  style={{ height: '180px' }}
+                >
+                  <span className="text-white fs-2">▶</span>
                 </div>
-                <div className="card-body d-flex flex-column">
-                  <h5 className="card-title">{post.title}</h5>
-                  <div className="text-muted small mb-2 d-flex gap-2">
-                    <span>{post.author}</span>
-                    <span>{post.date}</span>
-                  </div>
-                  <p className="card-text text-truncate" style={{WebkitLineClamp: 3, display: '-webkit-box', WebkitBoxOrient: 'vertical', overflow: 'hidden'}}>
-                    {post.text}
-                  </p>
+              ) : (
+                post.img && (
+                  <Card.Img
+                    src={post.img}
+                    alt={post.title}
+                    style={{ height: '180px', objectFit: 'cover' }}
+                  />
+                )
+              )}
+
+              {/* Контент */}
+              <Card.Body className="d-flex flex-column">
+                <Card.Title className="h6">{post.title}</Card.Title>
+                <div className="mb-2 text-muted small d-flex gap-2 flex-wrap">
+                  {post.category && <Badge bg="info">{post.category}</Badge>}
+                  {post.author && <span>{post.author}</span>}
+                  {post.date && <span>{post.date}</span>}
                 </div>
-              </div>
-            </Link>
-          </div>
-        ))}
-      </div>
-    </div>
+                <Card.Text
+                  className="text-truncate"
+                  style={{
+                    display: '-webkit-box',
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {post.text}
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Link>
+        </Col>
+      ))}
+    </Row>
   );
 }

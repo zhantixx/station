@@ -7,7 +7,7 @@ import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 import RecommendationsSection from "../../../components/RecommendSection";
 import Comments from "../../../components/Comments";
-import styles from "./articlePost.module.css";
+import { Container, Row, Col, Card, Button, Image, Badge } from "react-bootstrap";
 
 export default function ArticlePage() {
   const params = useParams(); 
@@ -23,9 +23,9 @@ export default function ArticlePage() {
     return (
       <>
         <Header />
-        <main className={styles.notFound}>
-          <h1>Пост не найден</h1>
-        </main>
+        <Container className="d-flex justify-content-center align-items-center" style={{ height: "300px" }}>
+          <h1 className="text-muted">Пост не найден</h1>
+        </Container>
         <Footer />
       </>
     );
@@ -34,62 +34,64 @@ export default function ArticlePage() {
   return (
     <>
       <Header />
-      <div className={styles.contentWrapper}>
-        <section className={styles.articleHero}>
-          <img src={post.heroImage} alt={post.title} className={styles.heroBgImage} />
-          <a href="/statya" className={styles.backLinkHero}>
-            <img src="/image/back.png" alt="Назад" className={styles.backIconImg} />
-          </a>
-          <div className={styles.heroOverlayContent}>
-            <div className={styles.metadata}>
-              <span className={styles.category}>{post.category}</span>
-              <span className={styles.time}>{post.time}</span>
-            </div>
-            <h1 className={styles.articleTitle}>{post.title}</h1>
-            <div className={styles.articleInfo}>
-              <div className={styles.author}>
-                <img src={post.author.avatar} alt={post.author.name} className={styles.authorAvatar} />
-                <span className={styles.authorName}>{post.author.name}</span>
-              </div>
+      <Container className="my-5">
+        {/* Hero Section */}
+        <Card className="mb-4 border-0 overflow-hidden text-white" style={{ borderRadius: '16px' }}>
+  <Card.Img src={post.heroImage} alt={post.title} style={{ height: '450px', objectFit: 'cover' }} />
+  <Card.ImgOverlay className="d-flex flex-column justify-content-end p-4">
+    <div className="mb-2">
+      <Badge bg="info" className="me-2">{post.category}</Badge>
+      <small>{post.time}</small>
+    </div>
+    <Card.Title className="display-6 fw-bold">{post.title}</Card.Title>
+    <Row className="align-items-center mt-3">
+      <Col xs="auto" className="d-flex align-items-center">
+        <Image src={post.author.avatar} roundedCircle width={45} height={45} className="me-2 border border-white" />
+        <span>{post.author.name}</span>
+      </Col>
+      <Col className="d-flex gap-3 justify-content-start mt-2 mt-md-0">
+        <Button variant="outline-light" size="sm">
+          <img src="/image/love.png" alt="Лайк" width={20} className="me-1" />521K
+        </Button>
+        <Button variant="outline-light" size="sm" onClick={() => {
+          const comments = document.getElementById("comments-section");
+          if (comments) comments.scrollIntoView({ behavior: "smooth" });
+        }}>
+          <img src="/image/comment.png" alt="Коммент" width={20} className="me-1" />213
+        </Button>
+        <Button variant="outline-light" size="sm">
+          <img src="/image/share.png" alt="Поделиться" width={20} className="me-1" />80
+        </Button>
+      </Col>
+    </Row>
+    <Button href="/statya" variant="light" className="position-absolute top-0 start-0 m-3">
+      <img src="/image/back.png" alt="Назад" width={25} />
+    </Button>
+  </Card.ImgOverlay>
+</Card>
 
-              <div className={styles.stats}>
-                <a className={styles.clickableIconLink}>
-                  <img src="/image/love.png" alt="Лайк" className={styles.statIcon} /> 521K
-                  </a>
-                  <a
-                  className={styles.clickableIconLink}
-                  onClick={() => {
-                    const comments = document.getElementById("comments-section");
-                    if (comments) comments.scrollIntoView({ behavior: "smooth" });
-                  }}>
-                    <img src="/image/comment.png" alt="Коммент" className={styles.statIcon} /> 213
-                    </a>
-                    <a className={styles.clickableIconLink}>
-                      <img src="/image/share.png" alt="Поделиться" className={styles.statIcon} /> 80
-                      </a>
-                      </div>
-            </div>
-          </div>
-        </section>
-
-        <section className={styles.articleBody}>
+        {/* Article Body */}
+        <div className="mb-5">
           {post.content.map((p, i) => (
-            <p key={i}>{p}</p>
+            <p key={i} className="mb-3">{p}</p>
           ))}
-        </section>
+        </div>
 
-      
+        {/* Recommendations */}
         <RecommendationsSection
-                  recommendations={[
-                    { img: "рек1.JPG", title: "7 инициатив по защите экологии в Казахстане, стартовавших в 2025", meta: "EcoNews - 3 дня назад" },
-                    { img: "рек2.JPG", title: "Astana Marathon 2025 собрал рекордное количество участников", meta: "Sports.kz - 5 дней назад" },
-                    { img: "рек3.jpg", title: "Казахстанские ученые создали биоразлагаемый пластик", meta: "KazScience - 2 дня назад" },
-                    { img: "rec4.JPG", title: "Культурный фестиваль «Мәңгілік Ел» привлек тысячи гостей", meta: "Culture.kz - 6 дней назад" },
-                  ]}
-                />
+          recommendations={[
+            { img: "рек1.JPG", title: "7 инициатив по защите экологии в Казахстане, стартовавших в 2025", meta: "EcoNews - 3 дня назад" },
+            { img: "рек2.JPG", title: "Astana Marathon 2025 собрал рекордное количество участников", meta: "Sports.kz - 5 дней назад" },
+            { img: "рек3.jpg", title: "Казахстанские ученые создали биоразлагаемый пластик", meta: "KazScience - 2 дня назад" },
+            { img: "rec4.JPG", title: "Культурный фестиваль «Мәңгілік Ел» привлек тысячи гостей", meta: "Culture.kz - 6 дней назад" },
+          ]}
+        />
 
-        <Comments initialComments={post.comments || []} />
-      </div>
+        {/* Comments */}
+        <div id="comments-section" className="mt-5">
+          <Comments initialComments={post.comments || []} />
+        </div>
+      </Container>
       <Footer />
     </>
   );

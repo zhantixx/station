@@ -7,14 +7,14 @@ import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 import Comments from "../../../components/Comments";
 import RecommendationsSection from "../../../components/RecommendSection";
-import styles from "./newsPost.module.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function ArticlePage() {
-  const params = useParams(); 
+  const params = useParams();
   const [post, setPost] = useState(null);
 
   useEffect(() => {
-    if (!params?.id) return; 
+    if (!params?.id) return;
 
     const postId = Number(params.id);
     const found = posts.find((p) => p.id === postId);
@@ -23,7 +23,7 @@ export default function ArticlePage() {
 
   if (!post) {
     return (
-      <main style={{ textAlign: "center", padding: "50px" }}>
+      <main className="text-center py-5">
         <h1>Пост не найден</h1>
       </main>
     );
@@ -33,70 +33,94 @@ export default function ArticlePage() {
     <>
       <Header />
 
-      <div className={styles.contentWrapper}>
-        <article className={styles.articleMain}>
-          <section className={styles.articleHero}>
-            <img src={post.heroImage} alt={post.title} className={styles.heroBgImage} />
-            <a href="/news" className={styles.backLinkHero}>
-              <img src="/image/back.png" alt="Назад" className={styles.backIconImg} />
-            </a>
-
-            <div className={styles.heroOverlayContent}>
-              <div className={styles.metadata}>
-                <span className={styles.category}>{post.category}</span>
-                <span className={styles.time}>{post.time}</span>
+      <div className="container my-5">
+        {/* Hero Section */}
+        <div className="position-relative mb-5 rounded overflow-hidden">
+          <img
+            src={post.heroImage}
+            alt={post.title}
+            className="img-fluid w-100"
+            style={{ maxHeight: "600px", objectFit: "cover" }}
+          />
+          <button
+            className="btn btn-light position-absolute top-0 start-0 m-3 rounded-circle"
+            onClick={() => history.back()}
+          >
+            <img src="/image/back.png" alt="Назад" width={20} height={20} />
+          </button>
+          <div
+            className="position-absolute bottom-0 start-0 w-100 p-4 text-white"
+            style={{
+              background: "linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0))",
+            }}
+          >
+            <div className="mb-2 text-uppercase small">
+              <span className="me-3">{post.category}</span>
+              <span>{post.time}</span>
+            </div>
+            <h1 className="fw-bold display-5">{post.title}</h1>
+            <div className="d-flex align-items-center justify-content-between mt-3 flex-wrap">
+              <div className="d-flex align-items-center">
+                {post.author.avatar && (
+                  <img
+                    src={post.author.avatar}
+                    alt={post.author.name}
+                    className="rounded-circle me-2"
+                    width={35}
+                    height={35}
+                  />
+                )}
+                <span className="fw-bold">{post.author.name}</span>
               </div>
-
-              <h1 className={styles.articleTitle}>{post.title}</h1>
-
-              <div className={styles.articleInfo}>
-                <div className={styles.author}>
-                  {post.author.avatar && (
-                    <img src={post.author.avatar} alt={post.author.name} className={styles.authorAvatar} />
-                  )}
-                  <span className={styles.authorName}>{post.author.name}</span>
-                </div>
-
-                <div className={styles.stats}>
-                  <a className={styles.clickableIconLink}>
-                    <img src="/image/love.png" alt="Лайк" className={styles.statIcon} /> 521K
-                  </a>
-                  <a
-                    className={styles.clickableIconLink}
-                    onClick={() => {
-                      const comments = document.getElementById("comments-section");
-                      if (comments) comments.scrollIntoView({ behavior: "smooth" });
-                    }}
-                  >
-                    <img src="/image/comment.png" alt="Коммент" className={styles.statIcon} /> 213
-                  </a>
-                  <a className={styles.clickableIconLink}>
-                    <img src="/image/share.png" alt="Поделиться" className={styles.statIcon} /> 80
-                  </a>
-                </div>
+              <div className="d-flex gap-3 mt-2 mt-md-0">
+                <span className="d-flex align-items-center gap-1">
+                  <img src="/image/love.png" alt="Лайк" width={18} height={18} /> 521K
+                </span>
+                <span
+                  className="d-flex align-items-center gap-1"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    const comments = document.getElementById("comments-section");
+                    if (comments) comments.scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
+                  <img src="/image/comment.png" alt="Коммент" width={18} height={18} /> 213
+                </span>
+                <span className="d-flex align-items-center gap-1">
+                  <img src="/image/share.png" alt="Поделиться" width={18} height={18} /> 80
+                </span>
               </div>
             </div>
-          </section>
+          </div>
+        </div>
 
-       
-          <section className={styles.articleBody}>
+        {/* Article Content */}
+        <div className="row mb-5">
+          <div className="col-12">
             {post.content.map((p, i) => (
-              <p key={i}>{p}</p>
+              <p key={i} className="fs-5 text-secondary mb-3">
+                {p}
+              </p>
             ))}
-          </section>
+          </div>
+        </div>
 
-          
-          <section className={styles.articleBodyContinuation}>
-            <div className={styles.inlineImageContainer}>
-              <img src={post.inlineImage} alt="Inline" className={styles.inlineArticleImage} />
-            </div>
-            <p className={styles.bodyTextBelowImage}>{post.inlineText}</p>
-            <p className={styles.bodyTextBelowImage}>{post.inlineText2}</p>
-            <p className={styles.bodyTextBelowImage}>{post.inlineText3}</p>
-            <p className={styles.bodyTextBelowImage}>{post.inlineText4}</p>
-          </section>
-        </article>
+        {/* Inline Image Section */}
+        <div className="row mb-5">
+          <div className="col-12">
+            <img
+              src={post.inlineImage}
+              alt="Inline"
+              className="img-fluid rounded mb-3"
+            />
+            {post.inlineText && <p className="fs-5 text-secondary">{post.inlineText}</p>}
+            {post.inlineText2 && <p className="fs-5 text-secondary">{post.inlineText2}</p>}
+            {post.inlineText3 && <p className="fs-5 text-secondary">{post.inlineText3}</p>}
+            {post.inlineText4 && <p className="fs-5 text-secondary">{post.inlineText4}</p>}
+          </div>
+        </div>
 
+        {/* Recommendations Section */}
         <RecommendationsSection
           recommendations={[
             { img: "рек1.JPG", title: "7 инициатив по защите экологии в Казахстане, стартовавших в 2025", meta: "EcoNews - 3 дня назад" },
@@ -107,7 +131,9 @@ export default function ArticlePage() {
         />
       </div>
 
+      {/* Comments */}
       <Comments initialComments={post.comments} />
+
       <Footer />
     </>
   );

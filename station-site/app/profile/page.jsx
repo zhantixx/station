@@ -5,13 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "../../lib/AuthContext";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import styles from "./profile.module.css";
-
-const UserIcon = '👤';
-const FavoritesIcon = '⭐';
-const SettingsIcon = '⚙️';
-const LogoutIcon = '🚪';
-const DeleteIcon = '❌';
+import { Container, Row, Col, Nav, Card, Button, ListGroup, Alert } from "react-bootstrap";
 
 export default function ProfilePage() {
   const { currentUser, isAuthenticated, logout, removeFavorite } = useAuth();
@@ -19,79 +13,57 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState('info');
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/");
-    }
+    if (!isAuthenticated) router.push("/");
   }, [isAuthenticated, router]);
 
-  if (!isAuthenticated) {
-    return null; 
-  }
+  if (!isAuthenticated) return null;
 
   const renderContent = () => {
     switch (activeTab) {
       case 'info':
         return (
-          <>
-            <h3 className={styles.sectionTitle}>Основные данные</h3>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Имя пользователя:</span>
-              <span className={styles.dataValue}>{currentUser.username}</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Email:</span>
-              <span className={styles.dataValue}>{currentUser.email}</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Дата регистрации:</span>
-              <span className={styles.dataValue}>01.01.2024 (Имитация)</span>
-            </div>
-            <div className={styles.dataRow}>
-              <span className={styles.dataLabel}>Статус:</span>
-              <span className={styles.dataValue}>Активный пользователь</span>
-            </div>
-          </>
+          <Card className="p-4 shadow-sm mb-4">
+            <Card.Title>Основные данные</Card.Title>
+            <ListGroup variant="flush">
+              <ListGroup.Item><strong>Имя пользователя:</strong> {currentUser.username}</ListGroup.Item>
+              <ListGroup.Item><strong>Email:</strong> {currentUser.email}</ListGroup.Item>
+              <ListGroup.Item><strong>Дата регистрации:</strong> 01.01.2024 (Имитация)</ListGroup.Item>
+              <ListGroup.Item><strong>Статус:</strong> Активный пользователь</ListGroup.Item>
+            </ListGroup>
+            <Button variant="dark" className="mt-3" onClick={logout}>Выйти из аккаунта</Button>
+          </Card>
         );
       case 'favorites':
         const favorites = currentUser.favorites || [];
         return (
-          <>
-            <h3 className={styles.sectionTitle}>Избранные новости ({favorites.length})</h3>
+          <Card className="p-4 shadow-sm mb-4">
+            <Card.Title>Избранные новости ({favorites.length})</Card.Title>
             {favorites.length === 0 ? (
-              <p style={{ color: '#888', fontStyle: 'italic' }}>У вас пока нет избранных новостей. Добавьте что-нибудь интересное!</p>
+              <Alert variant="secondary">У вас пока нет избранных новостей.</Alert>
             ) : (
-              <div className={styles.favoritesList}>
-                {favorites.map((news) => (
-                  <div key={news.id} className={styles.favoriteItem}>
+              <ListGroup variant="flush">
+                {favorites.map(news => (
+                  <ListGroup.Item key={news.id} className="d-flex justify-content-between align-items-center">
                     <div>
-                      <a href={`/statya/${news.id}`} className={styles.newsTitle}>{news.title}</a>
-                      <p className={styles.newsMeta}>Категория: {news.category} | Дата: {news.date}</p>
+                      <a href={`/statya/${news.id}`} className="fw-bold text-decoration-none">{news.title}</a>
+                      <div className="text-muted" style={{ fontSize: '0.85rem' }}>
+                        Категория: {news.category} | Дата: {news.date}
+                      </div>
                     </div>
-                    <button 
-                      className={styles.removeBtn} 
-                      onClick={() => removeFavorite(news.id)}
-                      title="Удалить из избранного"
-                    >
-                      {DeleteIcon}
-                    </button>
-                  </div>
+                    <Button variant="outline-danger" size="sm" onClick={() => removeFavorite(news.id)}>❌</Button>
+                  </ListGroup.Item>
                 ))}
-              </div>
+              </ListGroup>
             )}
-          </>
+          </Card>
         );
       case 'settings':
         return (
-          <>
-            <h3 className={styles.sectionTitle}>Настройки аккаунта</h3>
-            <p style={{ color: '#888' }}>
-              Здесь можно было бы реализовать смену пароля, обновление email или настройку уведомлений.
-              (Имитация)
-            </p>
-            <button className={styles.logoutBtn} style={{ background: '#109be9', marginTop: '20px' }}>
-              Изменить пароль
-            </button>
-          </>
+          <Card className="p-4 shadow-sm mb-4">
+            <Card.Title>Настройки аккаунта</Card.Title>
+            <p className="text-muted">Здесь можно реализовать смену пароля, обновление email или настройку уведомлений (имитация).</p>
+            <Button variant="primary">Изменить пароль</Button>
+          </Card>
         );
       default:
         return null;
@@ -101,49 +73,46 @@ export default function ProfilePage() {
   return (
     <>
       <Header />
-      <div className={styles.profilePage}>
-        <div className={styles.welcomeHeader}>
-          <h2>Личный кабинет</h2>
-          <p>Добро пожаловать, {currentUser.username}! Управляйте вашим профилем и избранным контентом.</p>
-        </div>
+      <Container className="py-5">
+        <Row className="mb-4">
+          <Col>
+            <h2>Личный кабинет</h2>
+            <p>Добро пожаловать, <strong>{currentUser.username}</strong>! Управляйте вашим профилем и избранным контентом.</p>
+          </Col>
+        </Row>
+        <Row>
+          {/* Sidebar */}
+          <Col xs={12} md={3} className="mb-4">
+            <Nav variant="pills" className="flex-column gap-2">
+              <Nav.Item>
+                <Nav.Link active={activeTab === 'info'} onClick={() => setActiveTab('info')}>
+                  👤 Информация о профиле
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link active={activeTab === 'favorites'} onClick={() => setActiveTab('favorites')}>
+                  ⭐ Избранные новости
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link active={activeTab === 'settings'} onClick={() => setActiveTab('settings')}>
+                  ⚙️ Настройки
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link onClick={logout} className="text-danger">
+                  🚪 Выйти
+                </Nav.Link>
+              </Nav.Item>
+            </Nav>
+          </Col>
 
-        <div className={styles.profileLayout}>
-          <aside className={styles.sidebar}>
-            <a
-              className={`${styles.navLink} ${activeTab === 'info' ? styles.active : ''}`}
-              onClick={() => setActiveTab('info')}
-            >
-              <span className={styles.icon}>{UserIcon}</span> Информация о профиле
-            </a>
-            <a
-              className={`${styles.navLink} ${activeTab === 'favorites' ? styles.active : ''}`}
-              onClick={() => setActiveTab('favorites')}
-            >
-              <span className={styles.icon}>{FavoritesIcon}</span> Избранные новости
-            </a>
-            <a
-              className={`${styles.navLink} ${activeTab === 'settings' ? styles.active : ''}`}
-              onClick={() => setActiveTab('settings')}
-            >
-              <span className={styles.icon}>{SettingsIcon}</span> Настройки
-            </a>
-            
-            <a className={styles.navLink} onClick={logout}>
-              <span className={styles.icon}>{LogoutIcon}</span> Выйти
-            </a>
-          </aside>
-
-          <main className={styles.content}>
+          {/* Main Content */}
+          <Col xs={12} md={9}>
             {renderContent()}
-            
-            {activeTab === 'info' && (
-              <button onClick={logout} className={styles.logoutBtn}>
-                Выйти из аккаунта
-              </button>
-            )}
-          </main>
-        </div>
-      </div>
+          </Col>
+        </Row>
+      </Container>
       <Footer />
     </>
   );

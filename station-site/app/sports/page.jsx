@@ -1,29 +1,28 @@
 "use client";
 
-import styles from './sports.module.css';
 import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.jsx";
 import SportPosts from "@/components/SportPosts.jsx";
-import Pagination from "../../components/Pagination";
 import { sportArticles, sportStreams } from "../data/sports";
+import { Container } from "react-bootstrap";
 
 export default function SportsPage() {
   return (
     <>
       <Header activePage="sports" />
 
-      <main className={styles.main}>
-        <div className={styles.container}>
-          <h1 className={styles.pageTitle}>Спорт</h1>
+      <main className="bg-light min-vh-100 py-5">
+        <Container>
+          {/* Основной заголовок */}
+          <h1 className="display-5 fw-bold mb-5">Спорт</h1>
+
+          {/* Статьи */}
           <SportPosts posts={sportArticles} isStream={false} />
 
-          <Pagination />
-
-          <h2 className={styles.streamsTitle}>Трансляции</h2>
+          {/* Трансляции */}
+          <h2 className="h3 fw-bold mt-5 mb-4">Трансляции</h2>
           <SportPosts posts={sportStreams} isStream={true} />
-
-          <Pagination />
-        </div>
+        </Container>
       </main>
 
       <Footer />
