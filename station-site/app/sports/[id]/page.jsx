@@ -14,6 +14,7 @@ export default function SportPostPage() {
   const params = useParams();
   const [post, setPost] = useState(null);
   const { currentUser, mounted, addFavorite, removeFavorite } = useAuth();
+  
 
   useEffect(() => {
     const id = Number(params.id);
