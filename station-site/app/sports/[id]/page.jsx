@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container, Card, Button, Row, Col, Image, Badge } from "react-bootstrap";
 import Header from "../../../components/Header.jsx";
 import Footer from "../../../components/Footer.jsx";
 import RecommendationsSection from "../../../components/RecommendSection.jsx";
@@ -19,67 +19,125 @@ export default function SportPostPage() {
     setPost(found || null);
   }, [params.id]);
 
-  if (!post) {
-    return (
-      <>
-        <Header />
-        <Container className="d-flex justify-content-center align-items-center" style={{height: '300px'}}>
-          <h1 className="text-muted">Пост не найден</h1>
-        </Container>
-        <Footer />
-      </>
-    );
-  }
+  if (!post) return (
+    <>
+      <Header />
+      <Container className="d-flex justify-content-center align-items-center" style={{ height: '300px' }}>
+        <h1 className="text-muted">Пост не найден</h1>
+      </Container>
+      <Footer />
+    </>
+  );
 
   return (
     <>
       <Header />
-      <Container className="py-5">
-        {/* Хиро-блок */}
-       {/* Хиро-блок */}
-<Card className="bg-dark text-white mb-5 shadow-sm border-0 position-relative">
-  {post.img && (
-    <Card.Img
-      src={post.img}
-      alt={post.title}
-      style={{ objectFit: 'cover', height: '400px' }}
-    />
-  )}
+      <Container className="my-5">
 
-  <Card.ImgOverlay className="d-flex flex-column justify-content-end p-4" style={{ background: 'rgba(0,0,0,0.3)' }}>
-    {/* Кнопка "Назад" */}
-    <div className="position-absolute top-0 start-0 m-3">
-      <Button href="/sports" variant="light" className="position-absolute top-0 start-0 m-3">
-      <img src="/image/back.png" alt="Назад" width={25} />
-    </Button>
-    </div>
+        {/* HERO */}
+        <div className="position-relative mb-5 rounded-4 overflow-hidden shadow-sm">
+          {post.img && <Card.Img src={post.img} alt={post.title} style={{ height: '400px', objectFit: 'cover', filter: 'brightness(65%)' }} />}
+          
+          {/* BACK BUTTON */}
+          <Button
+            href="/sports"
+            variant="light"
+            className="position-absolute top-0 start-0 m-3 rounded-circle shadow-lg d-flex justify-content-center align-items-center"
+            style={{ width: 50, height: 50, padding: 0, zIndex: 20 }}
+          >
+            <img src="/image/back.png" alt="Назад" width={25} />
+          </Button>
 
-    {/* Заголовок и информация */}
-    <Card.Title className="display-6 fw-bold">{post.title}</Card.Title>
-    <div className="d-flex gap-3 mt-2">
-      <span className="fw-bold">{post.author}</span>
-      <span className="text-light">{post.date}</span>
-    </div>
-  </Card.ImgOverlay>
-</Card>
+          {/* HERO OVERLAY */}
+          <Card.ImgOverlay className="d-flex flex-column justify-content-end p-4 text-white">
+            
+            {/* CATEGORY & TIME */}
+            <div className="mb-2">
+              {post.category && <Badge bg="primary" className="me-2 px-3 py-2">{post.category}</Badge>}
+              <small className="opacity-75">{post.date}</small>
+            </div>
 
-        {/* Тело поста */}
+            {/* TITLE */}
+            <h1 className="fw-bold display-5">{post.title}</h1>
+
+            {/* AUTHOR & STATS */}
+            <Row className="align-items-center mt-3 g-2">
+              <Col xs="auto" className="d-flex align-items-center">
+                {post.authorAvatar && <Image src={post.authorAvatar} roundedCircle width={40} height={40} className="me-2 border border-light" />}
+                <span className="fw-semibold">{post.author}</span>
+              </Col>
+              <Col className="d-flex gap-2 mt-2 mt-md-0">
+
+                {/* LIKE */}
+                <Button variant="outline-light" size="sm" className="d-flex align-items-center gap-1 px-3 shadow-sm">
+                  <img src="/image/love.png" width={18} alt="Лайк" /> {post.likes || "0"}
+                </Button>
+
+                {/* COMMENTS */}
+                <Button
+                  variant="outline-light"
+                  size="sm"
+                  className="d-flex align-items-center gap-1 px-3 shadow-sm"
+                  onClick={() => document.getElementById("comments-section")?.scrollIntoView({ behavior: "smooth" })}
+                >
+                  <img src="/image/comment.png" width={18} alt="Коммент" /> {post.comments?.length || "0"}
+                </Button>
+
+                {/* SHARE */}
+                <Button
+                  variant="outline-light"
+                  size="sm"
+                  className="d-flex align-items-center gap-1 px-3 shadow-sm"
+                  onClick={async () => {
+                    const shareData = {
+                      title: post.title,
+                      text: 'Смотрите интересную статью!',
+                      url: window.location.href,
+                    };
+
+                    if (navigator.share) {
+                      try {
+                        await navigator.share(shareData);
+                      } catch (err) {
+                        console.error('Ошибка при шаринге:', err);
+                      }
+                    } else {
+                      try {
+                        await navigator.clipboard.writeText(window.location.href);
+                        alert('Ссылка скопирована в буфер!');
+                      } catch (err) {
+                        console.error('Не удалось скопировать ссылку:', err);
+                      }
+                    }
+                  }}
+                >
+                  <img src="/image/share.png" width={18} alt="Поделиться" /> Поделиться
+                </Button>
+
+              </Col>
+            </Row>
+          </Card.ImgOverlay>
+        </div>
+
+        {/* POST CONTENT */}
         <section className="mb-5">
           {post.text.split("\n").map((p, i) => (
-            <p key={i} className="fs-5" style={{lineHeight: 1.75}}>{p}</p>
+            <p key={i} className="fs-5 text-secondary lh-base mb-3">{p}</p>
           ))}
         </section>
 
-        {/* Рекомендации */}
-        <RecommendationsSection
-          recommendations={[
-            { img: "рек1.JPG", title: "7 инициатив по защите экологии в Казахстане", meta: "EcoNews - 3 дня назад" },
-            { img: "рек2.JPG", title: "Astana Marathon 2025 собрал рекордное количество участников", meta: "Sports.kz - 5 дней назад" },
-          ]}
-        />
+        {/* RECOMMENDATIONS */}
+        <RecommendationsSection recommendations={[
+          { img: "рек1.JPG", title: "7 инициатив по защите экологии в Казахстане", meta: "EcoNews - 3 дня назад" },
+          { img: "рек2.JPG", title: "Astana Marathon 2025 собрал рекордное количество участников", meta: "Sports.kz - 5 дней назад" },
+        ]} />
 
-        {/* Комментарии */}
-        <Comments initialComments={post.comments || []} />
+        {/* COMMENTS */}
+        <hr className="my-5" />
+        <div id="comments-section">
+          <Comments initialComments={post.comments || []} />
+        </div>
+
       </Container>
       <Footer />
     </>

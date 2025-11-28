@@ -15,7 +15,7 @@ export default function PostsSection({ title, posts }) {
       <Row className="g-4">
         {posts.map((post) => (
           <Col key={post.id} xs={12} sm={6} md={4}>
-            <Link href={`/news/${post.id}`} className="text-decoration-none">
+            <Link href={`/${post.id}`} className="text-decoration-none">
               <Card
                 className="h-100 shadow-sm border-0"
                 style={{

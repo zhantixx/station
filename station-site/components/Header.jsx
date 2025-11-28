@@ -37,7 +37,7 @@ export default function Header() {
   };
 
   const handleAuthClick = () => {
-    router.push(isAuthenticated ? "/profile" : "/login");
+    router.push(isAuthenticated ? "/profile" : "/auth");
   };
 
   return (
@@ -45,13 +45,13 @@ export default function Header() {
       <Container style={{ maxWidth: "1200px", padding: "0 20px" }}>
         {/* Навигация верхняя */}
         <div className="d-flex align-items-center justify-content-between py-2">
-          <a href="/news" className="d-flex align-items-center text-white text-decoration-none" style={{ fontSize: "18px", fontWeight: "bold" }}>
+          <a href="/" className="d-flex align-items-center text-white text-decoration-none" style={{ fontSize: "18px", fontWeight: "bold" }}>
             <img src="/image/logo header.png" alt="Лого" style={{ width: "20px", height: "20px", marginRight: "5px" }} />
             Station
           </a>
 
           <nav className="d-flex align-items-center gap-3">
-            <a href="/news" className="text-white" style={{ fontSize: "18px" }}>Главная</a>
+            <a href="/" className="text-white" style={{ fontSize: "18px" }}>Главная</a>
             <a href="/statya" className="text-white" style={{ fontSize: "18px" }}>Статьи</a>
 
             {/* Категории кастом */}

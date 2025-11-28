@@ -2,11 +2,11 @@
 
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import { posts } from "../../data/posts";
-import Header from "../../../components/Header";
-import Footer from "../../../components/Footer";
-import Comments from "../../../components/Comments";
-import RecommendationsSection from "../../../components/RecommendSection";
+import { posts } from "../data/posts";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import Comments from "../../components/Comments";
+import RecommendationsSection from "../../components/RecommendSection";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function ArticlePage() {

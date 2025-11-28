@@ -1,69 +1,110 @@
 "use client";
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "../lib/AuthContext";
-import { Container, Row, Col, Form, Button, Card, Alert } from "react-bootstrap";
+import React from "react";
+import Header from "../components/Header";
+import HeroSection from "../components/HeroSection";
+import PostsSection from "../components/PostsSection";
+import VideosSection from "../components/VideoSection";
+import RecommendationsSection from "../components/RecommendSection";
+import Footer from "../components/Footer";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-export default function LoginPage() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const { login } = useAuth();
-  const router = useRouter();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setError("");
-
-    if (login(username, password)) {
-      router.push("/profile");
-    } else {
-      setError("Неверное имя пользователя или пароль.");
-    }
-  };
-
+export default function NewsPage() {
   return (
-    <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light py-5">
-      <Container>
-        <Row className="justify-content-center">
-          <Col xs={12} md={6} lg={5}>
-            <Card className="shadow p-4">
-              <Card.Body className="text-center">
-                <Card.Title className="mb-4 text-secondary" style={{ fontSize: '2rem' }}>
-                  Вход в Station
-                </Card.Title>
+    <div>
+      <Header />
 
-                {error && <Alert variant="danger">{error}</Alert>}
+      {/* Hero Section */}
+      <div className="container my-5">
+        <div className="row justify-content-center">
+          <div className="container-fluid p-0">
+            <HeroSection
+              metaInfo="Обновлено • 2 часа назад"
+              mainTitle="Снег и морозы до –15°C ожидаются"
+              backgroundImage="/image/фото1.jpg"
+              thumbnails={[
+                {
+                  img: "https://exclusive.kz/wp-content/uploads/2025/08/img_6879.webp",
+                  title: "В Казахстане ожидается резкое похолодание",
+                  main: true,
+                },
+                {
+                  img: "https://adm-english-prime-site.seok.com.ua/uploads/image/1-5-pogoda-na-anglijskom-1.jpg",
+                  title: "Гололед и туман — предупреждение Казгидромета",
+                },
+              ]}
+            />
+          </div>
+        </div>
+      </div>
 
-                <Form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
-                  <Form.Control
-                    type="text"
-                    placeholder="Имя пользователя"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                  />
-                  <Form.Control
-                    type="password"
-                    placeholder="Пароль"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                  <Button type="submit" variant="secondary" className="mt-2 fw-bold">
-                    Войти
-                  </Button>
-                </Form>
+      {/* Posts Section */}
+      <div className="container my-5">
+        <h2 className="mb-4">Наши последние посты</h2>
+        <div className="row g-4">
+          <PostsSection
+            posts={[
+              { id: 1, img: "пост1.JPG", title: "Курс тенге стабилизировался после снижения цен на нефть", meta: "Zakon.kz - 1 день назад" },
+              { id: 2, img: "пост2.jpg", title: "Astana Hub объявил о запуске новой программы для IT-стартапов", meta: "Forbes Kazakhstan - 3 часа назад" },
+              { id: 3, img: "пост3.jpg", title: "ООН оценила вклад Казахстана в поддержку устойчивого развития", meta: "Informburo.kz - 5 часов назад" },
+              { id: 4, img: "пост4.JPG", title: "Футбольный клуб «Астана» вышел в финал Кубка Казахстана", meta: "Vesti.kz - 6 часов назад" },
+              { id: 5, img: "пост5.JPG", title: "В Алматы открыли международный фестиваль современного искусства", meta: "Tengrinews - 1 день назад" },
+              { id: 6, img: "пост6.JPG", title: "Kcell и Huawei протестировали первую 5G-сеть в Казахстане", meta: "Kazinform - 2 дня назад" },
+              { id: 7, img: "пост7.JPG", title: "Как AI меняет Казахстан: стартапы, образование и госуслуги", meta: "Digital Nation - 4 дня назад" },
+              { id: 8, img: "пост8.JPG", title: "Казахстан и ЕС подтвердили совместные усилия по стабилизации Афганистана", meta: "Astana Times - 4 часа назад" },
+              { id: 9, img: "post9.JPG", title: "Рост туризма в Казахстане: новые направления и увеличение посещаемости", meta: "Kazinform - 3 часа назад" },
+            ]}
+          />
+        </div>
+      </div>
 
-                <p className="mt-3 text-muted">
-                  Нет аккаунта? <a href="/register" className="text-secondary fw-bold">Зарегистрироваться</a>
-                </p>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+      {/* Videos Section */}
+      <div className="container my-5">
+        <VideosSection
+          mainVideo={{
+            title: "Илья Ильин вернулся в большой спорт — интервью чемпиона",
+            meta: "Qazaq TV - 1 день назад",
+            url: "https://www.youtube.com/watch?v=JqYZn_UQUsc",
+          }}
+          sidebarVideos={[
+            {
+              title: "Казахстан представил павильон на Expo 2025 в Осаке",
+              meta: "Kazinform - 2 дня назад",
+              url: "https://www.youtube.com/watch?v=Q21aky7hFi0",
+            },
+            {
+              title: "Почему Алматы станет центром падела в Центральной Азии к 2027 году",
+              meta: "Sports.kz - 2 дня назад",
+              url: "https://www.youtube.com/watch?v=gTd9OXQoiuw",
+            },
+          ]}
+        />
+      </div>
+
+      {/* Newsletter Section */}
+      <div className="container my-5 p-4 rounded bg-primary text-white d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div className="flex-grow-1">
+          <h2>Будьте в курсе последних событий</h2>
+          <button className="btn btn-warning mt-2">Подписаться</button>
+        </div>
+        <div className="flex-grow-1">
+          <p>Получайте главные новости Казахстана каждый день. Никакого спама — только самое важное.</p>
+        </div>
+      </div>
+
+      {/* Recommendations Section */}
+      <div className="container my-5">
+        <RecommendationsSection
+          recommendations={[
+            { img: "рек1.JPG", title: "7 инициатив по защите экологии в Казахстане, стартовавших в 2025", meta: "EcoNews - 3 дня назад" },
+            { img: "рек2.JPG", title: "Astana Marathon 2025 собрал рекордное количество участников", meta: "Sports.kz - 5 дней назад" },
+            { img: "рек3.jpg", title: "Казахстанские ученые создали биоразлагаемый пластик", meta: "KazScience - 2 дня назад" },
+            { img: "rec4.JPG", title: "Культурный фестиваль «Мәңгілік Ел» привлек тысячи гостей", meta: "Culture.kz - 6 дней назад" },
+          ]}
+        />
+      </div>
+
+      <Footer />
     </div>
   );
 }

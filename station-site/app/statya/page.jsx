@@ -16,10 +16,17 @@ export default function StatyaPage() {
       <Header />
 
       <Container className="my-5">
-        <Row>
+        <Row className="g-4">
+
           {/* Основной контент */}
-          <Col lg={8} className="mb-4">
-            <h1 className="mb-4">Статьи</h1>
+          <Col lg={8}>
+            <div className="mb-4 pb-2 border-bottom">
+              <h1 className="fw-bold">Статьи</h1>
+              <p className="text-muted mt-1" style={{ fontSize: "0.95rem" }}>
+                Лучшие аналитические материалы, интервью, исследования и авторские колонки.
+              </p>
+            </div>
+
             <Row className="g-4">
               {articles.map((article) => (
                 <Col key={article.id} xs={12}>
@@ -39,8 +46,13 @@ export default function StatyaPage() {
 
           {/* Сайдбар */}
           <Col lg={4}>
-            <div className="mb-4">
-              <h3 className="h5 mb-3">Популярные за неделю</h3>
+
+            {/* Популярное за неделю */}
+            <div className="mb-5">
+              <h3 className="fw-bold h5 mb-3 border-start border-3 border-primary ps-2">
+                Популярное за неделю
+              </h3>
+
               <div className="d-flex flex-column gap-3">
                 {popularWeek.map((item) => (
                   <SmallArticleCard
@@ -55,8 +67,12 @@ export default function StatyaPage() {
               </div>
             </div>
 
-            <div>
-              <h3 className="h5 mb-3">Популярное за месяц</h3>
+            {/* Популярное за месяц */}
+            <div className="mb-4">
+              <h3 className="fw-bold h5 mb-3 border-start border-3 border-warning ps-2">
+                Популярное за месяц
+              </h3>
+
               <div className="d-flex flex-column gap-3">
                 {popularMonth.map((item) => (
                   <SmallArticleCard
@@ -70,6 +86,7 @@ export default function StatyaPage() {
                 ))}
               </div>
             </div>
+
           </Col>
         </Row>
       </Container>
