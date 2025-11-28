@@ -8,10 +8,12 @@ import Footer from "../../../components/Footer.jsx";
 import RecommendationsSection from "../../../components/RecommendSection.jsx";
 import Comments from "../../../components/Comments.jsx";
 import { sportArticles, sportStreams } from "../../data/sports.js";
+import { useAuth } from "../../../lib/AuthContext";
 
 export default function SportPostPage() {
   const params = useParams();
   const [post, setPost] = useState(null);
+  const { currentUser, mounted, addFavorite, removeFavorite } = useAuth();
 
   useEffect(() => {
     const id = Number(params.id);
@@ -29,6 +31,20 @@ export default function SportPostPage() {
     </>
   );
 
+  if (!mounted) return null;
+
+  // Проверяем, добавлен ли пост в избранное
+  const isFavorite = currentUser?.favorites?.some(f => f.id === post.id);
+
+  const toggleFavorite = () => {
+    if (!currentUser) return;
+    if (isFavorite) {
+      removeFavorite(post.id);
+    } else {
+      addFavorite(post);
+    }
+  };
+
   return (
     <>
       <Header />
@@ -37,7 +53,7 @@ export default function SportPostPage() {
         {/* HERO */}
         <div className="position-relative mb-5 rounded-4 overflow-hidden shadow-sm">
           {post.img && <Card.Img src={post.img} alt={post.title} style={{ height: '400px', objectFit: 'cover', filter: 'brightness(65%)' }} />}
-          
+
           {/* BACK BUTTON */}
           <Button
             href="/sports"
@@ -50,29 +66,20 @@ export default function SportPostPage() {
 
           {/* HERO OVERLAY */}
           <Card.ImgOverlay className="d-flex flex-column justify-content-end p-4 text-white">
-            
-            {/* CATEGORY & TIME */}
             <div className="mb-2">
               {post.category && <Badge bg="primary" className="me-2 px-3 py-2">{post.category}</Badge>}
               <small className="opacity-75">{post.date}</small>
             </div>
 
-            {/* TITLE */}
             <h1 className="fw-bold display-5">{post.title}</h1>
 
-            {/* AUTHOR & STATS */}
             <Row className="align-items-center mt-3 g-2">
               <Col xs="auto" className="d-flex align-items-center">
                 {post.authorAvatar && <Image src={post.authorAvatar} roundedCircle width={40} height={40} className="me-2 border border-light" />}
                 <span className="fw-semibold">{post.author}</span>
               </Col>
+
               <Col className="d-flex gap-2 mt-2 mt-md-0">
-
-                {/* LIKE */}
-                <Button variant="outline-light" size="sm" className="d-flex align-items-center gap-1 px-3 shadow-sm">
-                  <img src="/image/love.png" width={18} alt="Лайк" /> {post.likes || "0"}
-                </Button>
-
                 {/* COMMENTS */}
                 <Button
                   variant="outline-light"
@@ -89,31 +96,28 @@ export default function SportPostPage() {
                   size="sm"
                   className="d-flex align-items-center gap-1 px-3 shadow-sm"
                   onClick={async () => {
-                    const shareData = {
-                      title: post.title,
-                      text: 'Смотрите интересную статью!',
-                      url: window.location.href,
-                    };
-
+                    const shareData = { title: post.title, text: 'Смотрите интересную статью!', url: window.location.href };
                     if (navigator.share) {
-                      try {
-                        await navigator.share(shareData);
-                      } catch (err) {
-                        console.error('Ошибка при шаринге:', err);
-                      }
+                      try { await navigator.share(shareData); } catch (err) { console.error(err); }
                     } else {
-                      try {
-                        await navigator.clipboard.writeText(window.location.href);
-                        alert('Ссылка скопирована в буфер!');
-                      } catch (err) {
-                        console.error('Не удалось скопировать ссылку:', err);
-                      }
+                      try { await navigator.clipboard.writeText(window.location.href); alert('Ссылка скопирована!'); }
+                      catch (err) { console.error(err); }
                     }
                   }}
                 >
                   <img src="/image/share.png" width={18} alt="Поделиться" /> Поделиться
                 </Button>
 
+                {/* FAVORITE */}
+                {currentUser && (
+               <Button
+  variant={isFavorite ? "warning" : "outline-warning"}
+  onClick={toggleFavorite}
+>
+  {isFavorite ? "В избранном" : "Добавить в избранное"}
+</Button>
+
+                )}
               </Col>
             </Row>
           </Card.ImgOverlay>

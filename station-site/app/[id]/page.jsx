@@ -8,14 +8,15 @@ import Footer from "../../components/Footer";
 import Comments from "../../components/Comments";
 import RecommendationsSection from "../../components/RecommendSection";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useAuth } from "../../lib/AuthContext";
 
 export default function ArticlePage() {
   const params = useParams();
   const [post, setPost] = useState(null);
+  const { currentUser, mounted, addFavorite, removeFavorite } = useAuth();
 
   useEffect(() => {
     if (!params?.id) return;
-
     const postId = Number(params.id);
     const found = posts.find((p) => p.id === postId);
     setPost(found || null);
@@ -28,6 +29,21 @@ export default function ArticlePage() {
       </main>
     );
   }
+
+  if (!mounted) return null; // Ждём гидратацию клиента, чтобы избежать SSR ошибок
+
+  // Проверяем, добавлена ли статья в избранное
+  const isFavorite = currentUser?.favorites?.some(f => f.id === post.id);
+
+  // Функция переключения избранного
+  const toggleFavorite = () => {
+    if (!currentUser) return;
+    if (isFavorite) {
+      removeFavorite(post.id);
+    } else {
+      addFavorite(post);
+    }
+  };
 
   return (
     <>
@@ -72,10 +88,8 @@ export default function ArticlePage() {
                 )}
                 <span className="fw-bold">{post.author.name}</span>
               </div>
-              <div className="d-flex gap-3 mt-2 mt-md-0">
-                <span className="d-flex align-items-center gap-1">
-                  <img src="/image/love.png" alt="Лайк" width={18} height={18} /> 521K
-                </span>
+              <div className="d-flex gap-2 mt-2 mt-md-0">
+                {/* COMMENTS */}
                 <span
                   className="d-flex align-items-center gap-1"
                   style={{ cursor: "pointer" }}
@@ -84,11 +98,39 @@ export default function ArticlePage() {
                     if (comments) comments.scrollIntoView({ behavior: "smooth" });
                   }}
                 >
-                  <img src="/image/comment.png" alt="Коммент" width={18} height={18} /> 213
+                  <img src="/image/comment.png" alt="Коммент" width={18} height={18} /> {post.comments?.length || "0"}
                 </span>
-                <span className="d-flex align-items-center gap-1">
-                  <img src="/image/share.png" alt="Поделиться" width={18} height={18} /> 80
-                </span>
+
+                {/* SHARE */}
+                <button
+                  className="btn btn-outline-light d-flex align-items-center gap-1"
+                  onClick={async () => {
+                    const shareData = {
+                      title: post.title,
+                      text: 'Читайте интересную статью!',
+                      url: window.location.href,
+                    };
+                    if (navigator.share) {
+                      try { await navigator.share(shareData); } catch (err) { console.error(err); }
+                    } else {
+                      try { await navigator.clipboard.writeText(window.location.href); alert('Ссылка скопирована!'); }
+                      catch (err) { console.error(err); }
+                    }
+                  }}
+                >
+                  <img src="/image/share.png" width={18} alt="Поделиться" /> Поделиться
+                </button>
+
+                {/* FAVORITE */}
+                {currentUser && (
+               <Button
+  variant={isFavorite ? "warning" : "outline-warning"}
+  onClick={toggleFavorite}
+>
+  {isFavorite ? "В избранном" : "Добавить в избранное"}
+</Button>
+
+                )}
               </div>
             </div>
           </div>
@@ -98,9 +140,7 @@ export default function ArticlePage() {
         <div className="row mb-5">
           <div className="col-12">
             {post.content.map((p, i) => (
-              <p key={i} className="fs-5 text-secondary mb-3">
-                {p}
-              </p>
+              <p key={i} className="fs-5 text-secondary mb-3">{p}</p>
             ))}
           </div>
         </div>
@@ -108,11 +148,9 @@ export default function ArticlePage() {
         {/* Inline Image Section */}
         <div className="row mb-5">
           <div className="col-12">
-            <img
-              src={post.inlineImage}
-              alt="Inline"
-              className="img-fluid rounded mb-3"
-            />
+            {post.inlineImage && (
+              <img src={post.inlineImage} alt="Inline" className="img-fluid rounded mb-3" />
+            )}
             {post.inlineText && <p className="fs-5 text-secondary">{post.inlineText}</p>}
             {post.inlineText2 && <p className="fs-5 text-secondary">{post.inlineText2}</p>}
             {post.inlineText3 && <p className="fs-5 text-secondary">{post.inlineText3}</p>}
@@ -120,10 +158,10 @@ export default function ArticlePage() {
           </div>
         </div>
 
-        {/* Recommendations Section */}
+        {/* Recommendations */}
         <RecommendationsSection
           recommendations={[
-            { img: "рек1.JPG", title: "7 инициатив по защите экологии в Казахстане, стартовавших в 2025", meta: "EcoNews - 3 дня назад" },
+            { img: "рек1.JPG", title: "7 инициатив по защите экологии в Казахстане", meta: "EcoNews - 3 дня назад" },
             { img: "рек2.JPG", title: "Astana Marathon 2025 собрал рекордное количество участников", meta: "Sports.kz - 5 дней назад" },
             { img: "рек3.jpg", title: "Казахстанские ученые создали биоразлагаемый пластик", meta: "KazScience - 2 дня назад" },
             { img: "rec4.JPG", title: "Культурный фестиваль «Мәңгілік Ел» привлек тысячи гостей", meta: "Culture.kz - 6 дней назад" },
@@ -132,7 +170,9 @@ export default function ArticlePage() {
       </div>
 
       {/* Comments */}
-      <Comments initialComments={post.comments} />
+      <div id="comments-section">
+        <Comments initialComments={post.comments} />
+      </div>
 
       <Footer />
     </>

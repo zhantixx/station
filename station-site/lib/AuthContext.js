@@ -2,71 +2,96 @@
 
 import React, { createContext, useState, useContext, useEffect } from "react";
 
+// Начальные пользователи (для примера)
 const initialUsers = [
-  { username: "test", email: "test@example.com", password: "test" },
+  { username: "test", email: "test@example.com", password: "test", favorites: [] },
 ];
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [users, setUsers] = useState(initialUsers);
-  
-  const [currentUser, setCurrentUser] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const storedUser = localStorage.getItem('stationUser');
-      return storedUser ? JSON.parse(storedUser) : null;
-    }
-    return null;
-  });
+  const [currentUser, setCurrentUser] = useState(null);
+  const [mounted, setMounted] = useState(false);
 
+  // Загружаем пользователя только на клиенте
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    setMounted(true);
+    const storedUser = localStorage.getItem("stationUser");
+    if (storedUser) setCurrentUser(JSON.parse(storedUser));
+  }, []);
+
+  // Сохраняем текущего пользователя в localStorage
+  useEffect(() => {
+    if (mounted) {
       if (currentUser) {
-        localStorage.setItem('stationUser', JSON.stringify(currentUser));
+        localStorage.setItem("stationUser", JSON.stringify(currentUser));
       } else {
-        localStorage.removeItem('stationUser');
+        localStorage.removeItem("stationUser");
       }
     }
-  }, [currentUser]);
+  }, [currentUser, mounted]);
 
+  // Вход
   const login = (username, password) => {
-    const user = users.find(
-      (u) => u.username === username && u.password === password
-    );
+    const user = users.find(u => u.username === username && u.password === password);
     if (user) {
-      const userData = { username: user.username, email: user.email };
-      setCurrentUser(userData); 
+      setCurrentUser({ ...user });
       return true;
     }
     return false;
   };
 
+  // Регистрация
   const register = (username, email, password) => {
-    if (users.some((u) => u.username === username || u.email === email)) {
-      return false; 
-    }
-    const newUser = { username, email, password };
+    if (users.some(u => u.username === username || u.email === email)) return false;
+    const newUser = { username, email, password, favorites: [] };
     setUsers([...users, newUser]);
-    const userData = { username: newUser.username, email: newUser.email };
-    setCurrentUser(userData);
+    setCurrentUser(newUser);
     return true;
   };
 
-  const logout = () => {
-    setCurrentUser(null);
+  // Выход
+  const logout = () => setCurrentUser(null);
+
+  // Добавление в избранное
+  const addFavorite = (article) => {
+    if (!currentUser) return;
+    const exists = currentUser.favorites?.some(f => f.id === article.id);
+    if (!exists) {
+      setCurrentUser({
+        ...currentUser,
+        favorites: [...(currentUser.favorites || []), article],
+      });
+    }
   };
 
-  const value = {
-    currentUser,
-    login,
-    register,
-    logout,
-    isAuthenticated: !!currentUser,
+  // Удаление из избранного
+  const removeFavorite = (articleId) => {
+    if (!currentUser) return;
+    setCurrentUser({
+      ...currentUser,
+      favorites: currentUser.favorites.filter(f => f.id !== articleId),
+    });
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider
+      value={{
+        currentUser,
+        mounted,
+        login,
+        register,
+        logout,
+        isAuthenticated: !!currentUser,
+        addFavorite,
+        removeFavorite,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+// Хук для использования контекста
+export const useAuth = () => useContext(AuthContext);
