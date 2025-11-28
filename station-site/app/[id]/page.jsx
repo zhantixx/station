@@ -59,7 +59,7 @@ export default function ArticlePage() {
             style={{ maxHeight: "600px", objectFit: "cover" }}
           />
           <button
-            className="btn btn-light position-absolute top-0 start-0 m-3 rounded-circle"
+            className="btn position-absolute top-0 start-0 m-3"
             onClick={() => history.back()}
           >
             <img src="/image/back.png" alt="Назад" width={20} height={20} />
