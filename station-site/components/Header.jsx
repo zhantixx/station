@@ -18,7 +18,7 @@ export default function Header() {
   ];
 
   const categoryRoutes = {
-    "Политика": "/politics","Спорт": "/sports","Технологии": "/tech",
+    "Политика": "/politics","Спорт": "/sports","Технологии": "/technologies",
     "Игры": "/games","Музыка": "/music","Финансы": "/finance",
     "Путешествия": "/travel","Культура": "/culture","Кино": "/movies",
     "Здоровье": "/health","Наука": "/science","Образование": "/education",
