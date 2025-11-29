@@ -76,7 +76,7 @@ export default function ArticlePage() {
               <span className="me-3">{post.category}</span>
               <span>{post.time}</span>
             </div>
-            <h1 className="fw-bold display-5">{post.title}</h1>
+            <h1 className="fw-bold display-5 text-white">{post.title}</h1>
             <div className="d-flex align-items-center justify-content-between mt-3 flex-wrap">
               <div className="d-flex align-items-center">
                 {post.author.avatar && (

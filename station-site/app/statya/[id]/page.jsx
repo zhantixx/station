@@ -58,14 +58,18 @@ export default function ArticlePage() {
             style={{ height: "480px", objectFit: "cover", filter: "brightness(70%)" }}
           />
 
-          <Button
-            href="/statya"
-            variant="light"
-            className="position-absolute top-0 start-0 shadow d-flex align-items-center justify-content-center"
-            style={{ width: 50, height: 50, borderRadius: "50%", margin: 16, zIndex: 20 }}
-          >
-            <span className="fw-bold" style={{ fontSize: "1.5rem" }}>←</span>
-          </Button>
+         <button
+  className="btn position-absolute top-0 start-0"
+  style={{ margin: 16, zIndex: 20, width: 50, height: 50, borderRadius: "50%", padding: 0, backgroundColor: "transparent", border: "none" }}
+  onClick={() => history.back()}
+>
+  <img
+    src="/image/back.png"
+    alt="Назад"
+    style={{ width: 20, height: 20, objectFit: "cover" }}
+  />
+</button>
+
 
           <Card.ImgOverlay className="d-flex flex-column justify-content-end p-4 text-white">
             <div className="mb-2">
@@ -73,17 +77,11 @@ export default function ArticlePage() {
               <small className="opacity-75">{post.time}</small>
             </div>
 
-            <h1 className="fw-bold display-5">{post.title}</h1>
+            <h1 className="fw-bold display-5 text-white">{post.title}</h1>
 
             <Row className="align-items-center mt-4 g-2">
               <Col xs="auto" className="d-flex align-items-center">
-                <Image
-                  src={post.author.avatar}
-                  roundedCircle
-                  width={48}
-                  height={48}
-                  className="me-2 border border-light"
-                />
+              
                 <span className="fw-semibold">{post.author.name}</span>
               </Col>
 

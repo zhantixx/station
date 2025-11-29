@@ -33,7 +33,7 @@ export const posts = [
     category: "Обновлено",
     time: "3 часа назад",
     author: {
-      name: "Astana Hub",
+      name: "Диас Каримов",
       avatar: "",
     },
     heroImage: "/image/пост2.JPG",
