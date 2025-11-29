@@ -2,7 +2,6 @@
 
 import React, { createContext, useState, useContext, useEffect } from "react";
 
-// Начальные пользователи (для примера)
 const initialUsers = [
   { username: "test", email: "test@example.com", password: "test", favorites: [] },
 ];
@@ -14,14 +13,12 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [mounted, setMounted] = useState(false);
 
-  // Загружаем пользователя только на клиенте
   useEffect(() => {
     setMounted(true);
     const storedUser = localStorage.getItem("stationUser");
     if (storedUser) setCurrentUser(JSON.parse(storedUser));
   }, []);
 
-  // Сохраняем текущего пользователя в localStorage
   useEffect(() => {
     if (mounted) {
       if (currentUser) {
@@ -32,7 +29,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, [currentUser, mounted]);
 
-  // Вход
+
   const login = (username, password) => {
     const user = users.find(u => u.username === username && u.password === password);
     if (user) {
@@ -42,7 +39,6 @@ export const AuthProvider = ({ children }) => {
     return false;
   };
 
-  // Регистрация
   const register = (username, email, password) => {
     if (users.some(u => u.username === username || u.email === email)) return false;
     const newUser = { username, email, password, favorites: [] };
@@ -51,10 +47,8 @@ export const AuthProvider = ({ children }) => {
     return true;
   };
 
-  // Выход
   const logout = () => setCurrentUser(null);
 
-  // Добавление в избранное
   const addFavorite = (article) => {
     if (!currentUser) return;
     const exists = currentUser.favorites?.some(f => f.id === article.id);
@@ -66,7 +60,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Удаление из избранного
   const removeFavorite = (articleId) => {
     if (!currentUser) return;
     setCurrentUser({
@@ -93,5 +86,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Хук для использования контекста
 export const useAuth = () => useContext(AuthContext);

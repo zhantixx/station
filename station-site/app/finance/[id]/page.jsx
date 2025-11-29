@@ -49,28 +49,28 @@ export default function FinancePostPage() {
       <Header />
       <Container className="my-5">
 
-        {/* HERO */}
         <div className="position-relative mb-5 rounded-4 overflow-hidden shadow-sm">
           {post.img && <Card.Img src={post.img} alt={post.title} style={{ height: '400px', objectFit: 'cover', filter: 'brightness(65%)' }} />}
 
-          {/* КНОПКА НАЗАД */}
-          <Button
-            href="/finance"
-            variant="light"
-            className="position-absolute top-0 start-0 m-3 rounded-circle shadow-lg d-flex justify-content-center align-items-center"
-            style={{ width: 50, height: 50, padding: 0, zIndex: 20 }}
-          >
-            <img src="/image/back.png" alt="Назад" width={25} />
-          </Button>
+          <button
+  className="btn position-absolute top-0 start-0"
+  style={{ margin: 16, zIndex: 20, width: 25, height: 25, borderRadius: "50%", padding: 0, border: "none" }}
+  onClick={() => history.back()}
+>
+  <img
+    src="/image/back.png"
+    alt="Назад"
+    style={{ width: 20, height: 20, objectFit: "cover" }}
+  />
+</button>
 
-          {/* HERO OVERLAY */}
           <Card.ImgOverlay className="d-flex flex-column justify-content-end p-4 text-white">
             <div className="mb-2">
               <Badge bg="success" className="me-2 px-3 py-2">Финансы</Badge>
               <small className="opacity-75">{post.date}</small>
             </div>
 
-            <h1 className="fw-bold display-5">{post.title}</h1>
+            <h1 className="fw-bold display-5 text-white">{post.title}</h1>
 
             <Row className="align-items-center mt-3 g-2">
               <Col xs="auto" className="d-flex align-items-center">
@@ -118,20 +118,17 @@ export default function FinancePostPage() {
           </Card.ImgOverlay>
         </div>
 
-        {/* ТЕКСТ СТАТЬИ */}
         <section className="mb-5">
           {post.text.split("\n").map((p, i) => (
             <p key={i} className="fs-5 text-secondary lh-base mb-3">{p}</p>
           ))}
         </section>
 
-        {/* РЕКОМЕНДАЦИИ */}
         <RecommendationsSection recommendations={[
           { img: "/image/finance/rec1.jpg", title: "Курс тенге укрепился до 485 за доллар", meta: "Финансы - 30 мин назад" },
           { img: "/image/finance/rec2.jpg", title: "Kaspi запустил вклад под 19%", meta: "Финансы - Вчера" },
         ]} />
 
-        {/* КОММЕНТАРИИ */}
         <hr className="my-5" />
         <div id="comments-section">
           <Comments initialComments={post.comments || []} />

@@ -1,4 +1,3 @@
-// app/data/finance.js
 export const financeArticles = [
   {
     id: 1,

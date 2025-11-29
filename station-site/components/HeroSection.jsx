@@ -16,7 +16,6 @@ export default function HeroSection({ metaInfo, mainTitle, thumbnails, backgroun
     overflow: "hidden",
   }}
 >
-  {/* Overlay */}
   <div
     style={{
       position: "absolute",
@@ -27,7 +26,6 @@ export default function HeroSection({ metaInfo, mainTitle, thumbnails, backgroun
     }}
   ></div>
 
-  {/* Контент */}
   <Container style={{ position: "relative", zIndex: 2 }}>
     <p style={{ fontSize: "1rem", color: "#f0f0f0", marginBottom: "8px" }}>
       {metaInfo}

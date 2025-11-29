@@ -34,7 +34,6 @@ export default function SportPostPage() {
 
   if (!mounted) return null;
 
-  // Проверяем, добавлен ли пост в избранное
   const isFavorite = currentUser?.favorites?.some(f => f.id === post.id);
 
   const toggleFavorite = () => {
@@ -51,28 +50,28 @@ export default function SportPostPage() {
       <Header />
       <Container className="my-5">
 
-        {/* HERO */}
         <div className="position-relative mb-5 rounded-4 overflow-hidden shadow-sm">
           {post.img && <Card.Img src={post.img} alt={post.title} style={{ height: '400px', objectFit: 'cover', filter: 'brightness(65%)' }} />}
 
-          {/* BACK BUTTON */}
-          <Button
-            href="/sports"
-            variant="light"
-            className="position-absolute top-0 start-0 m-3 rounded-circle shadow-lg d-flex justify-content-center align-items-center"
-            style={{ width: 50, height: 50, padding: 0, zIndex: 20 }}
-          >
-            <img src="/image/back.png" alt="Назад" width={25} />
-          </Button>
+          <button
+  className="btn position-absolute top-0 start-0"
+  style={{ margin: 16, zIndex: 20, width: 25, height: 25, borderRadius: "50%", padding: 0, backgroundColor: "white", border: "none" }}
+  onClick={() => history.back()}
+>
+  <img
+    src="/image/back.png"
+    alt="Назад"
+    style={{ width: 20, height: 20, objectFit: "cover" }}
+  />
+</button>
 
-          {/* HERO OVERLAY */}
           <Card.ImgOverlay className="d-flex flex-column justify-content-end p-4 text-white">
             <div className="mb-2">
               <Badge bg="danger" className="me-2 px-3 py-2">Спорт</Badge>
               <small className="opacity-75">{post.date}</small>
             </div>
 
-            <h1 className="fw-bold display-5">{post.title}</h1>
+            <h1 className="fw-bold display-5 text-white">{post.title}</h1>
 
             <Row className="align-items-center mt-3 g-2">
               <Col xs="auto" className="d-flex align-items-center">
@@ -81,7 +80,6 @@ export default function SportPostPage() {
               </Col>
 
               <Col className="d-flex gap-2 mt-2 mt-md-0">
-                {/* COMMENTS */}
                 <Button
                   variant="outline-light"
                   size="sm"
@@ -91,7 +89,6 @@ export default function SportPostPage() {
                   <img src="/image/comment.png" width={18} alt="Коммент" /> {post.comments?.length || "0"}
                 </Button>
 
-                {/* SHARE */}
                 <Button
                   variant="outline-light"
                   size="sm"
@@ -109,7 +106,6 @@ export default function SportPostPage() {
                   <img src="/image/share.png" width={18} alt="Поделиться" /> Поделиться
                 </Button>
 
-                {/* FAVORITE */}
                 {currentUser && (
                <Button
   variant={isFavorite ? "warning" : "outline-warning"}
@@ -124,20 +120,17 @@ export default function SportPostPage() {
           </Card.ImgOverlay>
         </div>
 
-        {/* POST CONTENT */}
         <section className="mb-5">
           {post.text.split("\n").map((p, i) => (
             <p key={i} className="fs-5 text-secondary lh-base mb-3">{p}</p>
           ))}
         </section>
 
-        {/* RECOMMENDATIONS */}
         <RecommendationsSection recommendations={[
           { img: "рек1.JPG", title: "7 инициатив по защите экологии в Казахстане", meta: "EcoNews - 3 дня назад" },
           { img: "рек2.JPG", title: "Astana Marathon 2025 собрал рекордное количество участников", meta: "Sports.kz - 5 дней назад" },
         ]} />
 
-        {/* COMMENTS */}
         <hr className="my-5" />
         <div id="comments-section">
           <Comments initialComments={post.comments || []} />

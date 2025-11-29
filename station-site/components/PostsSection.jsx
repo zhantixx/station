@@ -9,7 +9,6 @@ export default function PostsSection({ title, posts }) {
     <Container className="my-5">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2 className="text-primary">{title}</h2>
-        {/* <button className="btn btn-primary">View All</button> */}
       </div>
 
       <Row className="g-4">

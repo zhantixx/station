@@ -18,7 +18,6 @@ export default function StatyaPage() {
       <Container className="my-5">
         <Row className="g-4">
 
-          {/* Основной контент */}
           <Col lg={8}>
             <div className="mb-4 pb-2 border-bottom">
               <h1 className="fw-bold">Статьи</h1>
@@ -44,10 +43,8 @@ export default function StatyaPage() {
             </Row>
           </Col>
 
-          {/* Сайдбар */}
           <Col lg={4}>
 
-            {/* Популярное за неделю */}
             <div className="mb-5">
               <h3 className="fw-bold h5 mb-3 border-start border-3 border-primary ps-2">
                 Популярное за неделю
@@ -67,7 +64,6 @@ export default function StatyaPage() {
               </div>
             </div>
 
-            {/* Популярное за месяц */}
             <div className="mb-4">
               <h3 className="fw-bold h5 mb-3 border-start border-3 border-warning ps-2">
                 Популярное за месяц

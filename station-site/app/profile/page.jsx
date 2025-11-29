@@ -122,7 +122,6 @@ export default function ProfilePage() {
         </Row>
 
         <Row>
-          {/* Sidebar */}
           <Col xs={12} md={3} className="mb-4">
             <Card className="p-3 shadow-sm rounded-4 text-center mb-4 border-0">
               {currentUser.avatar ? (
@@ -170,7 +169,6 @@ export default function ProfilePage() {
             </Nav>
           </Col>
 
-          {/* Main Content */}
           <Col xs={12} md={9}>
             {renderContent()}
           </Col>

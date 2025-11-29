@@ -1,4 +1,3 @@
-// components/TechPosts.jsx
 "use client";
 
 import Link from "next/link";
@@ -26,7 +25,6 @@ export default function TechPosts({ posts, isStream = false }) {
                 e.currentTarget.style.boxShadow = "0 5px 15px rgba(0,0,0,0.1)";
               }}
             >
-              {/* Картинка */}
               <div style={{ position: "relative", height: "300px", overflow: "hidden" }}>
                 {post.img && (
                   <Card.Img
@@ -53,7 +51,6 @@ export default function TechPosts({ posts, isStream = false }) {
                 )}
               </div>
 
-              {/* Текст */}
               <Card.Body className="p-4">
                 <div className="d-flex align-items-center gap-2 mb-3">
                   <Badge bg="info" className="px-3 py-2">Технологии</Badge>

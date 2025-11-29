@@ -28,7 +28,6 @@ export default function SportPosts({ posts, isStream }) {
                 e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.15)";
               }}
             >
-              {/* Картинка */}
               <div style={{ position: 'relative', width: '100%', height: '300px', overflow: 'hidden' }}>
                 {post.img && (
                   <Card.Img
@@ -38,7 +37,6 @@ export default function SportPosts({ posts, isStream }) {
                   />
                 )}
 
-                {/* Overlay для стримов */}
                 {isStream && (
                   <div
                     style={{
@@ -55,7 +53,6 @@ export default function SportPosts({ posts, isStream }) {
                 )}
               </div>
 
-              {/* Текстовый блок */}
               <Card.Body className="p-3 d-flex flex-column justify-content-between">
                 <div className="d-flex flex-wrap gap-2 mb-2 align-items-center">
                   {post.category && <Badge bg="info">{post.category}</Badge>}

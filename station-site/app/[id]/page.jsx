@@ -32,12 +32,10 @@ export default function ArticlePage() {
     );
   }
 
-  if (!mounted) return null; // Ждём гидратацию клиента, чтобы избежать SSR ошибок
+  if (!mounted) return null; 
 
-  // Проверяем, добавлена ли статья в избранное
   const isFavorite = currentUser?.favorites?.some(f => f.id === post.id);
 
-  // Функция переключения избранного
   const toggleFavorite = () => {
     if (!currentUser) return;
     if (isFavorite) {
@@ -52,7 +50,6 @@ export default function ArticlePage() {
       <Header />
 
       <div className="container my-5">
-        {/* Hero Section */}
         <div className="position-relative mb-5 rounded overflow-hidden">
           <img
             src={post.heroImage}
@@ -91,7 +88,6 @@ export default function ArticlePage() {
                 <span className="fw-bold">{post.author.name}</span>
               </div>
               <div className="d-flex gap-2 mt-2 mt-md-0">
-                {/* COMMENTS */}
                 <span
                   className="d-flex align-items-center gap-1"
                   style={{ cursor: "pointer" }}
@@ -103,7 +99,6 @@ export default function ArticlePage() {
                   <img src="/image/comment.png" alt="Коммент" width={18} height={18} /> {post.comments?.length || "0"}
                 </span>
 
-                {/* SHARE */}
                 <button
                   className="btn btn-outline-light d-flex align-items-center gap-1"
                   onClick={async () => {
@@ -123,7 +118,6 @@ export default function ArticlePage() {
                   <img src="/image/share.png" width={18} alt="Поделиться" /> Поделиться
                 </button>
 
-                {/* FAVORITE */}
                 {currentUser && (
                <Button
   variant={isFavorite ? "warning" : "outline-warning"}
@@ -138,7 +132,6 @@ export default function ArticlePage() {
           </div>
         </div>
 
-        {/* Article Content */}
         <div className="row mb-5">
           <div className="col-12">
             {post.content.map((p, i) => (
@@ -147,7 +140,6 @@ export default function ArticlePage() {
           </div>
         </div>
 
-        {/* Inline Image Section */}
         <div className="row mb-5">
           <div className="col-12">
             {post.inlineImage && (
@@ -160,7 +152,6 @@ export default function ArticlePage() {
           </div>
         </div>
 
-        {/* Recommendations */}
         <RecommendationsSection
           recommendations={[
             { img: "рек1.JPG", title: "7 инициатив по защите экологии в Казахстане", meta: "EcoNews - 3 дня назад" },
@@ -171,7 +162,6 @@ export default function ArticlePage() {
         />
       </div>
 
-      {/* Comments */}
       <div id="comments-section">
         <Comments initialComments={post.comments} />
       </div>

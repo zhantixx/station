@@ -1,4 +1,3 @@
-// app/data/politics.js
 export const politicsArticles = [
   {
     id: 1,

@@ -17,7 +17,6 @@ export default function MusicPage() {
             Музыка
           </h1>
 
-          {/* Статьи */}
           <section className="mb-5">
             <h2 className="h4 fw-bold mb-4 text-secondary border-start border-4 border-pink ps-3">
               Статьи
@@ -25,7 +24,6 @@ export default function MusicPage() {
             <MusicPosts posts={musicArticles} isStream={false} hoverEffect />
           </section>
 
-          {/* Трансляции */}
           <section className="mb-5">
             <h2 className="h4 fw-bold mb-4 text-secondary border-start border-4 border-success ps-3">
               Трансляции

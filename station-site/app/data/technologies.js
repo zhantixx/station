@@ -1,4 +1,3 @@
-// app/data/technologies.js
 export const techArticles = [
   {
     id: 1,

@@ -24,7 +24,6 @@ export default function SmallArticleCard({ img, category, time, title, href }) {
           e.currentTarget.style.boxShadow = "0 0.25rem 0.8rem rgba(0,0,0,0.08)";
         }}
       >
-        {/* Image */}
         <div
           className="overflow-hidden rounded-3"
           style={{
@@ -47,9 +46,7 @@ export default function SmallArticleCard({ img, category, time, title, href }) {
           />
         </div>
 
-        {/* Content */}
         <div className="ms-3 flex-grow-1">
-          {/* Top row */}
           <div className="d-flex justify-content-between mb-1">
             <small className="text-uppercase text-primary fw-bold" style={{ fontSize: "0.7rem" }}>
               {category}
@@ -59,7 +56,6 @@ export default function SmallArticleCard({ img, category, time, title, href }) {
             </small>
           </div>
 
-          {/* Title */}
           <div
             className="text-dark"
             style={{

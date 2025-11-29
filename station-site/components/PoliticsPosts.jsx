@@ -1,4 +1,3 @@
-// components/PoliticsPosts.jsx
 "use client";
 
 import Link from "next/link";
@@ -10,7 +9,7 @@ export default function PoliticsPosts({ posts, isStream = false }) {
       {posts.map((post) => (
         <Col key={post.id} xs={12} md={6} lg={6}>
           <Link
-            href={`/politics/${post.id}`}   // ← только для политики!
+            href={`/politics/${post.id}`}   
             className="text-decoration-none text-dark"
           >
             <Card
@@ -28,7 +27,6 @@ export default function PoliticsPosts({ posts, isStream = false }) {
                 e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.15)";
               }}
             >
-              {/* Картинка */}
               <div style={{ position: 'relative', width: '100%', height: '300px', overflow: 'hidden' }}>
                 {post.img && (
                   <Card.Img
@@ -38,7 +36,6 @@ export default function PoliticsPosts({ posts, isStream = false }) {
                   />
                 )}
 
-                {/* Play overlay для стримов */}
                 {isStream && (
                   <div
                     style={{
@@ -57,7 +54,6 @@ export default function PoliticsPosts({ posts, isStream = false }) {
                 )}
               </div>
 
-              {/* Текст */}
               <Card.Body className="p-3 d-flex flex-column justify-content-between">
                 <div className="d-flex flex-wrap gap-2 mb-2 align-items-center">
                   <Badge bg="danger">Политика</Badge>

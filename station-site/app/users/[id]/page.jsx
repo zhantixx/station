@@ -7,9 +7,9 @@ import { useParams, useRouter } from "next/navigation";
 
 export default function UserPage() {
   const router = useRouter();
-  const params = useParams(); // ← используем правильно
+  const params = useParams(); 
 
-  const userId = Number(params.id); // params.id теперь работает
+  const userId = Number(params.id); 
   const user = users.find(u => u.id === userId);
 
   if (!user) {

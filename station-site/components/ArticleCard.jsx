@@ -17,7 +17,6 @@ export default function ArticleCard({ img, title, excerpt, author, date }) {
         e.currentTarget.style.boxShadow = "0 .5rem 1rem rgba(0,0,0,0.1)";
       }}
     >
-      {/* Image */}
       <div className="ratio ratio-16x9 overflow-hidden">
         <img
           src={img}
@@ -31,20 +30,16 @@ export default function ArticleCard({ img, title, excerpt, author, date }) {
 
       <Card.Body className="px-4 py-4">
 
-        {/* Title */}
         <Card.Title className="fw-bold fs-5 lh-sm">
           {title}
         </Card.Title>
 
-        {/* Divider line */}
         <div className="border-bottom mt-3 mb-3 opacity-25"></div>
 
-        {/* Excerpt */}
         <Card.Text className="text-secondary mb-3">
           {excerpt}
         </Card.Text>
 
-        {/* Footer Meta */}
         <div className="d-flex justify-content-between align-items-center pt-2">
           <small className="fw-semibold text-primary">{author}</small>
           <small className="text-muted">{date}</small>

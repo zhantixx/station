@@ -39,7 +39,7 @@ export default function RecommendationsSection({ recommendations }) {
                 style={{
                   position: "relative",
                   width: "100%",
-                  paddingTop: "56.25%", // 16:9 ratio
+                  paddingTop: "56.25%", 
                   overflow: "hidden",
                   borderRadius: "8px",
                 }}

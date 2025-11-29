@@ -1,4 +1,3 @@
-// app/data/music.js
 export const musicArticles = [
   {
     id: 1,

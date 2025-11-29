@@ -32,7 +32,6 @@ export default function NewsPage() {
 
 
 
-      {/* Posts Section */}
       <div className="container my-5">
         <h2 className="mb-4">Наши последние посты</h2>
         <div className="row g-4">
@@ -52,7 +51,6 @@ export default function NewsPage() {
         </div>
       </div>
 
-      {/* Videos Section */}
       <div className="container my-5">
         <VideosSection
           mainVideo={{
@@ -75,7 +73,6 @@ export default function NewsPage() {
         />
       </div>
 
-      {/* Newsletter Section */}
       <div className="container my-5 p-4 rounded bg-primary text-white d-flex flex-wrap justify-content-between align-items-center gap-3">
         <div className="flex-grow-1">
           <h2>Будьте в курсе последних событий</h2>
@@ -86,7 +83,6 @@ export default function NewsPage() {
         </div>
       </div>
 
-      {/* Recommendations Section */}
       <div className="container my-5">
         <RecommendationsSection
           recommendations={[

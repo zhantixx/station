@@ -15,7 +15,6 @@ export default function Footer() {
       <Container style={{ maxWidth: "1200px" }}>
         <Row className="gy-4">
 
-          {/* БРЕНД */}
           <Col xs={12} md={6} lg={4}>
             <a
               href="/"
@@ -51,7 +50,6 @@ export default function Footer() {
             </p>
           </Col>
 
-          {/* КОМПАНИЯ */}
           <Col xs={6} md={3} lg={2}>
             <h5
               className="mb-3"
@@ -104,7 +102,6 @@ export default function Footer() {
             </ul>
           </Col>
 
-          {/* СОЦСЕТИ */}
           <Col xs={6} md={3} lg={2}>
             <h5
               className="mb-3"
@@ -158,7 +155,6 @@ export default function Footer() {
           </Col>
         </Row>
 
-        {/* Нижняя линия */}
         <div
           style={{
             height: "1px",

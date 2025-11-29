@@ -1,4 +1,3 @@
-// app/data/games.js
 export const gameArticles = [
   {
     id: 1,

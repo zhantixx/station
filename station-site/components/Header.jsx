@@ -43,7 +43,6 @@ export default function Header() {
   return (
     <header style={{ backgroundColor: "#1e88e5", width: "100%" }}>
       <Container style={{ maxWidth: "1200px", padding: "0 20px" }}>
-        {/* Навигация верхняя */}
         <div className="d-flex align-items-center justify-content-between py-2">
           <a href="/" className="d-flex align-items-center text-white text-decoration-none" style={{ fontSize: "18px", fontWeight: "bold" }}>
             <img src="/image/logo header.png" alt="Лого" style={{ width: "20px", height: "20px", marginRight: "5px" }} />
@@ -54,7 +53,6 @@ export default function Header() {
             <a href="/" className="text-white" style={{ fontSize: "18px" }}>Главная</a>
             <a href="/statya" className="text-white" style={{ fontSize: "18px" }}>Статьи</a>
 
-            {/* Категории кастом */}
             <div className="position-relative">
               <span
                 className="text-white"
@@ -87,13 +85,11 @@ export default function Header() {
             <a href="/about" className="text-white" style={{ fontSize: "18px" }}>О нас</a>
           </nav>
 
-          {/* Кнопка входа */}
           <Button variant="warning" onClick={handleAuthClick} style={{ fontSize: "18px" }}>
             {isAuthenticated ? "Личный кабинет" : "Войти"}
           </Button>
         </div>
 
-        {/* Поиск */}
         <div className="d-flex justify-content-center pb-3">
           <div className="position-relative w-100" style={{ maxWidth: "900px" }}>
             <img src="/image/search.png" alt="search" style={{ position: "absolute", top: "50%", left: "14px", transform: "translateY(-50%)", width: "20px", height: "20px", opacity: 0.75, pointerEvents: "none" }} />

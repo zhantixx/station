@@ -35,7 +35,6 @@ export default function ArticlePage() {
 
   if (!mounted) return null;
 
-  // Проверяем, добавлен ли пост в избранное
   const isFavorite = currentUser?.favorites?.some(f => f.id === post.id);
 
   const toggleFavorite = () => {
@@ -86,7 +85,6 @@ export default function ArticlePage() {
               </Col>
 
               <Col className="d-flex gap-2 mt-2 mt-md-0">
-                {/* COMMENTS */}
                 <Button
                   variant="outline-light"
                   size="sm"
@@ -96,7 +94,6 @@ export default function ArticlePage() {
                   <img src="/image/comment.png" width={18} alt="Коммент" /> {post.comments?.length || "0"}
                 </Button>
 
-                {/* SHARE */}
                 <Button
                   variant="outline-light"
                   size="sm"
@@ -114,7 +111,6 @@ export default function ArticlePage() {
                   <img src="/image/share.png" width={18} alt="Поделиться" /> Поделиться
                 </Button>
 
-                {/* FAVORITE */}
                 {currentUser && (
                <Button
   variant={isFavorite ? "warning" : "outline-warning"}

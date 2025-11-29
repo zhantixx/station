@@ -29,7 +29,6 @@ export default function Comments({ initialComments }) {
 
   return (
     <section className="container my-4">
-      {/* Добавление нового комментария */}
       <div className="d-flex mb-4 gap-3">
         <img src="/image/profile.png" className="rounded-circle" width={50} height={50} alt="avatar" />
         <div className="flex-grow-1 d-flex flex-column">
@@ -46,7 +45,6 @@ export default function Comments({ initialComments }) {
         </div>
       </div>
 
-      {/* Список комментариев */}
       <div className="d-flex flex-column gap-3">
         {comments.map((c) => {
           const user = users.find(u => u.id === c.userId);
