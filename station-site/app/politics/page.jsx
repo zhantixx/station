@@ -3,7 +3,7 @@
 import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.jsx";
 import PoliticsPosts from "@/components/PoliticsPosts.jsx";
-import { politicsArticles, politicsStreams } from "../data/politics";
+import { articles } from "../data/articles.js";
 import { Container } from "react-bootstrap";
 
 export default function PoliticsPage() {

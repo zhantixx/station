@@ -2,10 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useAuth } from "../../lib/AuthContext";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { Container, Row, Col, Nav, Card, Button, ListGroup, Alert, Badge, Image, ProgressBar } from "react-bootstrap";
+
+import { articles } from "../data/articles";
 
 export default function ProfilePage() {
   const { currentUser, isAuthenticated, logout, removeFavorite } = useAuth();
@@ -17,6 +20,24 @@ export default function ProfilePage() {
   }, [isAuthenticated, router]);
 
   if (!isAuthenticated) return null;
+
+  const allPosts = [
+    ...articles,
+    ...popularWeek,
+    ...popularMonth,
+    ...financeArticles,
+    ...financeStreams,
+    ...gameArticles,
+    ...gameStreams,
+    ...musicArticles,
+    ...musicStreams,
+    ...politicsArticles,
+    ...politicsStreams,
+    ...sportArticles,
+    ...sportStreams,
+    ...techArticles,
+    ...techStreams,
+  ];
 
   const renderContent = () => {
     switch (activeTab) {
@@ -68,24 +89,30 @@ export default function ProfilePage() {
               <Alert variant="secondary">У вас пока нет избранных новостей.</Alert>
             ) : (
               <ListGroup variant="flush">
-                {favorites.map(news => (
-                  <ListGroup.Item key={news.id} className="d-flex justify-content-between align-items-center py-3">
-                    <div>
-                      <a href={`/statya/${news.id}`} className="fw-semibold text-decoration-none text-dark">{news.title}</a>
-                      <div className="text-muted" style={{ fontSize: '0.85rem' }}>
-                        {news.category} | {news.date}
+                {favorites.map(fav => {
+                  const news = allPosts.find(p => p.id === fav.id);
+                  if (!news) return null;
+                  return (
+                    <ListGroup.Item key={news.id} className="d-flex justify-content-between align-items-center py-3">
+                      <div className="flex-grow-1">
+                        <Link href={`/statya/${news.id}`} className="fw-semibold text-decoration-none text-dark">
+                          {news.title}
+                        </Link>
+                        <div className="text-muted" style={{ fontSize: '0.85rem' }}>
+                          {news.category} | {news.time || news.date}
+                        </div>
                       </div>
-                    </div>
-                    <Button
-                      variant="outline-danger"
-                      size="sm"
-                      onClick={() => removeFavorite(news.id)}
-                      className="d-flex align-items-center justify-content-center"
-                    >
-                      Удалить
-                    </Button>
-                  </ListGroup.Item>
-                ))}
+                      <Button
+                        variant="outline-danger"
+                        size="sm"
+                        onClick={() => removeFavorite(news.id)}
+                        className="d-flex align-items-center justify-content-center"
+                      >
+                        Удалить
+                      </Button>
+                    </ListGroup.Item>
+                  );
+                })}
               </ListGroup>
             )}
           </Card>

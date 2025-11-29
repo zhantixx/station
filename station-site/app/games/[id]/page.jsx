@@ -7,7 +7,7 @@ import Header from "../../../components/Header.jsx";
 import Footer from "../../../components/Footer.jsx";
 import RecommendationsSection from "../../../components/RecommendSection.jsx";
 import Comments from "../../../components/Comments.jsx";
-import { gameArticles, gameStreams } from "../../data/games.js";
+import { articles } from "../../data/articles.js";
 import { useAuth } from "../../../lib/AuthContext";
 
 export default function GamePostPage() {
@@ -17,7 +17,12 @@ export default function GamePostPage() {
 
   useEffect(() => {
     const id = Number(params.id);
-    const found = gameArticles.find(p => p.id === id) || gameStreams.find(p => p.id === id);
+
+    // 🔥 Ищем ТОЛЬКО в статьях с категорией "Игры"
+    const found = articles
+      .filter(a => a.category === "Игры")
+      .find(a => a.id === id);
+
     setPost(found || null);
   }, [params.id]);
 
@@ -37,11 +42,7 @@ export default function GamePostPage() {
 
   const toggleFavorite = () => {
     if (!currentUser) return;
-    if (isFavorite) {
-      removeFavorite(post.id);
-    } else {
-      addFavorite(post);
-    }
+    isFavorite ? removeFavorite(post.id) : addFavorite(post);
   };
 
   return (
@@ -51,20 +52,22 @@ export default function GamePostPage() {
 
         {/* HERO */}
         <div className="position-relative mb-5 rounded-4 overflow-hidden shadow-sm">
-          {post.img && <Card.Img src={post.img} alt={post.title} style={{ height: '400px', objectFit: 'cover', filter: 'brightness(65%)' }} />}
+          {post.img && (
+            <Card.Img
+              src={post.img}
+              alt={post.title}
+              style={{ height: '400px', objectFit: 'cover', filter: 'brightness(65%)' }}
+            />
+          )}
 
-          {/* КНОПКА НАЗАД */}
+          {/* Назад */}
           <button
-  className="btn position-absolute top-0 start-0"
-  style={{ margin: 16, zIndex: 20, width: 25, height: 25, borderRadius: "50%", padding: 0, border: "none" }}
-  onClick={() => history.back()}
->
-  <img
-    src="/image/back.png"
-    alt="Назад"
-    style={{ width: 20, height: 20, objectFit: "cover" }}
-  />
-</button>
+            className="btn position-absolute top-0 start-0"
+            style={{ margin: 16, zIndex: 20, width: 25, height: 25, borderRadius: "50%", padding: 0, border: "none" }}
+            onClick={() => history.back()}
+          >
+            <img src="/image/back.png" alt="Назад" style={{ width: 20, height: 20 }} />
+          </button>
 
           <Card.ImgOverlay className="d-flex flex-column justify-content-end p-4 text-white">
             <div className="mb-2">
@@ -72,64 +75,22 @@ export default function GamePostPage() {
               <small className="opacity-75">{post.date}</small>
             </div>
 
-            <h1 className="fw-bold display-5 text-white">{post.title}</h1>
-
-            <Row className="align-items-center mt-3 g-2">
-              <Col xs="auto" className="d-flex align-items-center">
-                {post.authorAvatar && <Image src={post.authorAvatar} roundedCircle width={40} height={40} className="me-2 border border-light" />}
-                <span className="fw-semibold">{post.author || "Редакция"}</span>
-              </Col>
-
-              <Col className="d-flex gap-2 mt-2 mt-md-0">
-                <Button
-                  variant="outline-light"
-                  size="sm"
-                  className="d-flex align-items-center gap-1 px-3 shadow-sm"
-                  onClick={() => document.getElementById("comments-section")?.scrollIntoView({ behavior: "smooth" })}
-                >
-                  <img src="/image/comment.png" width={18} alt="Коммент" /> {post.comments?.length || "0"}
-                </Button>
-
-                <Button
-                  variant="outline-light"
-                  size="sm"
-                  className="d-flex align-items-center gap-1 px-3 shadow-sm"
-                  onClick={async () => {
-                    const shareData = { title: post.title, text: 'Крутая новость из мира игр!', url: window.location.href };
-                    if (navigator.share) {
-                      try { await navigator.share(shareData); } catch (err) { console.error(err); }
-                    } else {
-                      try { await navigator.clipboard.writeText(window.location.href); alert('Ссылка скопирована!'); }
-                      catch (err) { console.error(err); }
-                    }
-                  }}
-                >
-                  <img src="/image/share.png" width={18} alt="Поделиться" /> Поделиться
-                </Button>
-
-                {currentUser && (
-                  <Button
-                    variant={isFavorite ? "warning" : "outline-warning"}
-                    onClick={toggleFavorite}
-                  >
-                    {isFavorite ? "В избранном" : "Добавить в избранное"}
-                  </Button>
-                )}
-              </Col>
-            </Row>
+            <h1 className="fw-bold display-5">{post.title}</h1>
           </Card.ImgOverlay>
         </div>
 
         <section className="mb-5">
-          {post.text.split("\n").map((p, i) => (
-            <p key={i} className="fs-5 text-secondary lh-base mb-3">{p}</p>
-          ))}
+          {post.text
+            ?.split("\n")
+            .map((p, i) => <p key={i} className="fs-5 text-secondary lh-base mb-3">{p}</p>)}
         </section>
 
-        <RecommendationsSection recommendations={[
-          { img: "/image/games/rec1.jpg", title: "Almaty Cyber Cup 2025: кто вышел в финал", meta: "Игры - 2 часа назад" },
-          { img: "/image/games/rec2.jpg", title: "Казахстанская Nomad Warriors бьёт рекорды", meta: "Игры - Вчера" },
-        ]} />
+        <RecommendationsSection
+          recommendations={[
+            { img: "/image/games/rec1.jpg", title: "Almaty Cyber Cup 2025", meta: "Игры - 2 часа назад" },
+            { img: "/image/games/rec2.jpg", title: "Nomad Warriors бьют рекорды", meta: "Игры - Вчера" },
+          ]}
+        />
 
         <hr className="my-5" />
         <div id="comments-section">

@@ -3,7 +3,7 @@
 import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.jsx";
 import MusicPosts from "@/components/MusicPosts.jsx";
-import { musicArticles, musicStreams } from "../data/music";
+import { articles} from "../data/articles.js";
 import { Container } from "react-bootstrap";
 
 export default function MusicPage() {

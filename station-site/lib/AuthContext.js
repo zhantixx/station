@@ -57,6 +57,25 @@ export const AuthProvider = ({ children }) => {
         ...currentUser,
         favorites: [...(currentUser.favorites || []), article],
       });
+      const addFavorite = (article) => {
+    if (!currentUser) return;
+    const exists = currentUser.favorites?.some(f => f.id === article.id);
+    if (!exists) {
+      setCurrentUser({
+        ...currentUser,
+        favorites: [...(currentUser.favorites || []), article],
+      });
+    }
+  };
+
+  const removeFavorite = (articleId) => {
+    if (!currentUser) return;
+    setCurrentUser({
+      ...currentUser,
+      favorites: currentUser.favorites.filter(f => f.id !== articleId),
+    });
+  };
+
     }
   };
 

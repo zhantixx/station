@@ -3,7 +3,7 @@
 import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.jsx";
 import SportPosts from "@/components/SportPosts.jsx";
-import { sportArticles, sportStreams } from "../data/sports";
+import { articles } from "../data/articles.js";
 import { Container } from "react-bootstrap";
 
 export default function SportsPage() {

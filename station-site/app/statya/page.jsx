@@ -7,7 +7,7 @@ import Footer from "../../components/Footer";
 import ArticleCard from "../../components/ArticleCard";
 import SmallArticleCard from "../../components/SmallArticleCard";
 import Pagination from "../../components/Pagination";
-import { articles, popularWeek, popularMonth } from "../data/articles";
+import { articles } from "../data/articles";
 import { Container, Row, Col } from "react-bootstrap";
 
 export default function StatyaPage() {

@@ -65,7 +65,7 @@ export default function RegisterPage() {
                 </Form>
 
                 <p className="mt-3 text-muted">
-                  Уже есть аккаунт? <a href="/" className="text-secondary fw-bold">Войти</a>
+                  Уже есть аккаунт? <a href="/auth" className="text-secondary fw-bold">Войти</a>
                 </p>
               </Card.Body>
             </Card>

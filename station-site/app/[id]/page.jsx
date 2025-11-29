@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import { posts } from "../data/posts";
+import { articles } from "../data/articles";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Comments from "../../components/Comments";
@@ -17,12 +17,17 @@ export default function ArticlePage() {
   const [post, setPost] = useState(null);
   const { currentUser, mounted, addFavorite, removeFavorite } = useAuth();
 
-  useEffect(() => {
-    if (!params?.id) return;
-    const postId = Number(params.id);
-    const found = posts.find((p) => p.id === postId);
-    setPost(found || null);
-  }, [params]);
+ useEffect(() => {
+  if (!params?.id) return;
+  const postId = Number(params.id);
+
+  const found = articles
+    .filter(a => a.id >= 5000)
+    .find(a => a.id === postId);
+
+  setPost(found || null);
+}, [params]);
+
 
   if (!post) {
     return (

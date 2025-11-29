@@ -3,7 +3,7 @@
 import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.jsx";
 import TechPosts from "@/components/TechPosts.jsx";
-import { techArticles, techStreams } from "../data/technologies";
+import { articles } from "../data/articles.js";
 import { Container } from "react-bootstrap";
 
 export default function TechnologiesPage() {
@@ -24,6 +24,7 @@ export default function TechnologiesPage() {
             <TechPosts posts={techArticles} isStream={false} hoverEffect />
           </section>
 
+          {/* Трансляции */}
           <section className="mb-5">
             <h2 className="h4 fw-bold mb-4 text-secondary border-start border-4 border-success ps-3">
               Трансляции

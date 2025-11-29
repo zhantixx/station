@@ -7,7 +7,7 @@ import Header from "../../../components/Header.jsx";
 import Footer from "../../../components/Footer.jsx";
 import RecommendationsSection from "../../../components/RecommendSection.jsx";
 import Comments from "../../../components/Comments.jsx";
-import { techArticles, techStreams } from "../../data/technologies.js";
+import { articles } from "../../data/articles.js";
 import { useAuth } from "../../../lib/AuthContext";
 
 export default function TechPostPage() {
