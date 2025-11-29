@@ -68,7 +68,7 @@ export default function SportPostPage() {
           {/* HERO OVERLAY */}
           <Card.ImgOverlay className="d-flex flex-column justify-content-end p-4 text-white">
             <div className="mb-2">
-              {post.category && <Badge bg="primary" className="me-2 px-3 py-2">{post.category}</Badge>}
+              <Badge bg="danger" className="me-2 px-3 py-2">Спорт</Badge>
               <small className="opacity-75">{post.date}</small>
             </div>
 

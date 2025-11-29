@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { Container, Card, Button, Badge } from "react-bootstrap";
+import { Container, Card, Button, Row, Col, Image, Badge } from "react-bootstrap";
 import Header from "../../../components/Header.jsx";
 import Footer from "../../../components/Footer.jsx";
 import RecommendationsSection from "../../../components/RecommendSection.jsx";
@@ -13,87 +13,133 @@ import { useAuth } from "../../../lib/AuthContext";
 export default function GamePostPage() {
   const params = useParams();
   const [post, setPost] = useState(null);
-  const { currentUser, addFavorite, removeFavorite } = useAuth();
+  const { currentUser, mounted, addFavorite, removeFavorite } = useAuth();
 
   useEffect(() => {
     const id = Number(params.id);
-    const allPosts = [...gameArticles, ...gameStreams];
-    const found = allPosts.find(p => p.id === id);
+    const found = gameArticles.find(p => p.id === id) || gameStreams.find(p => p.id === id);
     setPost(found || null);
   }, [params.id]);
 
-  if (!post) {
-    return (
-      <>
-        <Header />
-        <Container className="py-5 text-center">
-          <h1 className="display-4 text-danger">Игра или стрим не найден</h1>
-          <a href="/games" className="btn btn-outline-primary mt-3">← Вернуться в Игры</a>
-        </Container>
-        <Footer />
-      </>
-    );
-  }
+  if (!post) return (
+    <>
+      <Header />
+      <Container className="d-flex justify-content-center align-items-center" style={{ height: '300px' }}>
+        <h1 className="text-muted">Пост не найден</h1>
+      </Container>
+      <Footer />
+    </>
+  );
+
+  if (!mounted) return null;
 
   const isFavorite = currentUser?.favorites?.some(f => f.id === post.id);
 
   const toggleFavorite = () => {
     if (!currentUser) return;
-    isFavorite
-      ? removeFavorite(post.id)
-      : addFavorite({ id: post.id, title: post.title, date: post.date, category: "Игры" });
+    if (isFavorite) {
+      removeFavorite(post.id);
+    } else {
+      addFavorite(post);
+    }
   };
 
   return (
     <>
       <Header />
       <Container className="my-5">
-        <div className="position-relative rounded-4 overflow-hidden shadow-lg mb-5">
-          <Card.Img
-            src={post.img}
-            alt={post.title}
-            style={{ height: "460px", objectFit: "cover", filter: "brightness(55%)" }}
-          />
+
+        {/* HERO */}
+        <div className="position-relative mb-5 rounded-4 overflow-hidden shadow-sm">
+          {post.img && <Card.Img src={post.img} alt={post.title} style={{ height: '400px', objectFit: 'cover', filter: 'brightness(65%)' }} />}
+
+          {/* КНОПКА НАЗАД */}
           <Button
             href="/games"
             variant="light"
-            className="position-absolute top-0 start-0 m-4 rounded-circle shadow"
-            style={{ width: 50, height: 50, zIndex: 10 }}
+            className="position-absolute top-0 start-0 m-3 rounded-circle shadow-lg d-flex justify-content-center align-items-center"
+            style={{ width: 50, height: 50, padding: 0, zIndex: 20 }}
           >
-            ←
+            <img src="/image/back.png" alt="Назад" width={25} />
           </Button>
-          <Card.ImgOverlay className="d-flex flex-column justify-content-end p-5 text-white">
-            <Badge bg="purple" className="mb-3 px-4 py-2 fs-5">Игры</Badge>
-            <h1 className="display-5 fw-bold mb-3">{post.title}</h1>
-            <p className="opacity-90 fs-5">{post.date}</p>
-            <div className="mt-4 d-flex gap-3">
-              <Button variant="outline-light" onClick={() => {
-                navigator.clipboard.writeText(window.location.href);
-                alert("Ссылка скопирована!");
-              }}>
-                Поделиться
-              </Button>
-              {currentUser && (
-                <Button
-                  variant={isFavorite ? "warning" : "outline-warning"}
-                  onClick={toggleFavorite}
-                >
-                  {isFavorite ? "В избранном" : "В избранное"}
-                </Button>
-              )}
+
+          {/* HERO OVERLAY */}
+          <Card.ImgOverlay className="d-flex flex-column justify-content-end p-4 text-white">
+            <div className="mb-2">
+              <Badge bg="warning" className="me-2 px-3 py-2">Игры</Badge>
+              <small className="opacity-75">{post.date}</small>
             </div>
+
+            <h1 className="fw-bold display-5">{post.title}</h1>
+
+            <Row className="align-items-center mt-3 g-2">
+              <Col xs="auto" className="d-flex align-items-center">
+                {post.authorAvatar && <Image src={post.authorAvatar} roundedCircle width={40} height={40} className="me-2 border border-light" />}
+                <span className="fw-semibold">{post.author || "Редакция"}</span>
+              </Col>
+
+              <Col className="d-flex gap-2 mt-2 mt-md-0">
+                {/* КОММЕНТАРИИ */}
+                <Button
+                  variant="outline-light"
+                  size="sm"
+                  className="d-flex align-items-center gap-1 px-3 shadow-sm"
+                  onClick={() => document.getElementById("comments-section")?.scrollIntoView({ behavior: "smooth" })}
+                >
+                  <img src="/image/comment.png" width={18} alt="Коммент" /> {post.comments?.length || "0"}
+                </Button>
+
+                {/* ПОДЕЛИТЬСЯ */}
+                <Button
+                  variant="outline-light"
+                  size="sm"
+                  className="d-flex align-items-center gap-1 px-3 shadow-sm"
+                  onClick={async () => {
+                    const shareData = { title: post.title, text: 'Крутая новость из мира игр!', url: window.location.href };
+                    if (navigator.share) {
+                      try { await navigator.share(shareData); } catch (err) { console.error(err); }
+                    } else {
+                      try { await navigator.clipboard.writeText(window.location.href); alert('Ссылка скопирована!'); }
+                      catch (err) { console.error(err); }
+                    }
+                  }}
+                >
+                  <img src="/image/share.png" width={18} alt="Поделиться" /> Поделиться
+                </Button>
+
+                {/* ИЗБРАННОЕ */}
+                {currentUser && (
+                  <Button
+                    variant={isFavorite ? "warning" : "outline-warning"}
+                    onClick={toggleFavorite}
+                  >
+                    {isFavorite ? "В избранном" : "Добавить в избранное"}
+                  </Button>
+                )}
+              </Col>
+            </Row>
           </Card.ImgOverlay>
         </div>
 
-        <article className="mb-5">
+        {/* ТЕКСТ СТАТЬИ */}
+        <section className="mb-5">
           {post.text.split("\n").map((p, i) => (
-            <p key={i} className="fs-5 text-secondary lh-base mb-4">{p}</p>
+            <p key={i} className="fs-5 text-secondary lh-base mb-3">{p}</p>
           ))}
-        </article>
+        </section>
 
-        <RecommendationsSection recommendations={[]} />
+        {/* РЕКОМЕНДАЦИИ */}
+        <RecommendationsSection recommendations={[
+          { img: "/image/games/rec1.jpg", title: "Almaty Cyber Cup 2025: кто вышел в финал", meta: "Игры - 2 часа назад" },
+          { img: "/image/games/rec2.jpg", title: "Казахстанская Nomad Warriors бьёт рекорды", meta: "Игры - Вчера" },
+        ]} />
+
+        {/* КОММЕНТАРИИ */}
         <hr className="my-5" />
-        <Comments initialComments={[]} />
+        <div id="comments-section">
+          <Comments initialComments={post.comments || []} />
+        </div>
+
       </Container>
       <Footer />
     </>

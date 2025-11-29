@@ -14,7 +14,6 @@ export default function PoliticsPostPage() {
   const params = useParams();
   const [post, setPost] = useState(null);
   const { currentUser, mounted, addFavorite, removeFavorite } = useAuth();
-  
 
   useEffect(() => {
     const id = Number(params.id);
@@ -41,13 +40,7 @@ export default function PoliticsPostPage() {
     if (isFavorite) {
       removeFavorite(post.id);
     } else {
-      const favoriteData = {
-        id: post.id,
-        title: post.title,
-        date: post.date,
-        category: "Политика"
-      };
-      addFavorite(favoriteData);
+      addFavorite(post);
     }
   };
 
@@ -56,9 +49,11 @@ export default function PoliticsPostPage() {
       <Header />
       <Container className="my-5">
 
+        {/* HERO */}
         <div className="position-relative mb-5 rounded-4 overflow-hidden shadow-sm">
           {post.img && <Card.Img src={post.img} alt={post.title} style={{ height: '400px', objectFit: 'cover', filter: 'brightness(65%)' }} />}
 
+          {/* BACK BUTTON */}
           <Button
             href="/politics"
             variant="light"
@@ -68,6 +63,7 @@ export default function PoliticsPostPage() {
             <img src="/image/back.png" alt="Назад" width={25} />
           </Button>
 
+          {/* HERO OVERLAY */}
           <Card.ImgOverlay className="d-flex flex-column justify-content-end p-4 text-white">
             <div className="mb-2">
               <Badge bg="danger" className="me-2 px-3 py-2">Политика</Badge>
@@ -78,37 +74,46 @@ export default function PoliticsPostPage() {
 
             <Row className="align-items-center mt-3 g-2">
               <Col xs="auto" className="d-flex align-items-center">
-                <span className="fw-semibold">{post.author}</span>
+                {post.authorAvatar && <Image src={post.authorAvatar} roundedCircle width={40} height={40} className="me-2 border border-light" />}
+                <span className="fw-semibold">{post.author || "Редакция"}</span>
               </Col>
 
               <Col className="d-flex gap-2 mt-2 mt-md-0">
+                {/* КОММЕНТАРИИ */}
                 <Button
                   variant="outline-light"
                   size="sm"
                   className="d-flex align-items-center gap-1 px-3 shadow-sm"
                   onClick={() => document.getElementById("comments-section")?.scrollIntoView({ behavior: "smooth" })}
                 >
-                  Комментарии
+                  <img src="/image/comment.png" width={18} alt="Коммент" /> {post.comments?.length || "0"}
                 </Button>
 
+                {/* ПОДЕЛИТЬСЯ */}
                 <Button
                   variant="outline-light"
                   size="sm"
                   className="d-flex align-items-center gap-1 px-3 shadow-sm"
                   onClick={async () => {
-                    try { await navigator.clipboard.writeText(window.location.href); alert('Ссылка скопирована!'); }
-                    catch (err) { console.error(err); }
+                    const shareData = { title: post.title, text: 'Смотрите интересную статью!', url: window.location.href };
+                    if (navigator.share) {
+                      try { await navigator.share(shareData); } catch (err) { console.error(err); }
+                    } else {
+                      try { await navigator.clipboard.writeText(window.location.href); alert('Ссылка скопирована!'); }
+                      catch (err) { console.error(err); }
+                    }
                   }}
                 >
-                  Поделиться
+                  <img src="/image/share.png" width={18} alt="Поделиться" /> Поделиться
                 </Button>
 
+                {/* ИЗБРАННОЕ */}
                 {currentUser && (
                   <Button
                     variant={isFavorite ? "warning" : "outline-warning"}
                     onClick={toggleFavorite}
                   >
-                    {isFavorite ? "В избранном" : "В избранное"}
+                    {isFavorite ? "В избранном" : "Добавить в избранное"}
                   </Button>
                 )}
               </Col>
@@ -116,18 +121,25 @@ export default function PoliticsPostPage() {
           </Card.ImgOverlay>
         </div>
 
+        {/* ТЕКСТ СТАТЬИ */}
         <section className="mb-5">
           {post.text.split("\n").map((p, i) => (
             <p key={i} className="fs-5 text-secondary lh-base mb-3">{p}</p>
           ))}
         </section>
 
-        <RecommendationsSection recommendations={[]} />
+        {/* РЕКОМЕНДАЦИИ */}
+        <RecommendationsSection recommendations={[
+          { img: "/image/kazchi.jpg", title: "Токаев провёл переговоры с Си Цзиньпином", meta: "Политика - 2 часа назад" },
+          { img: "/image/majilis.jpg", title: "Мажилис принял закон о возврате активов", meta: "Политика - Вчера" },
+        ]} />
 
+        {/* КОММЕНТАРИИ */}
         <hr className="my-5" />
         <div id="comments-section">
           <Comments initialComments={post.comments || []} />
         </div>
+
       </Container>
       <Footer />
     </>
