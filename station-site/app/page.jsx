@@ -14,29 +14,23 @@ export default function NewsPage() {
     <div>
       <Header />
 
-      {/* Hero Section */}
-      <div className="container my-5">
-        <div className="row justify-content-center">
-          <div className="container-fluid p-0">
-            <HeroSection
-              metaInfo="Обновлено • 2 часа назад"
-              mainTitle="Снег и морозы до –15°C ожидаются"
-              backgroundImage="/image/фото1.jpg"
-              thumbnails={[
-                {
-                  img: "https://exclusive.kz/wp-content/uploads/2025/08/img_6879.webp",
-                  title: "В Казахстане ожидается резкое похолодание",
-                  main: true,
-                },
-                {
-                  img: "https://adm-english-prime-site.seok.com.ua/uploads/image/1-5-pogoda-na-anglijskom-1.jpg",
-                  title: "Гололед и туман — предупреждение Казгидромета",
-                },
-              ]}
-            />
-          </div>
-        </div>
-      </div>
+ <HeroSection
+  metaInfo="Обновлено • 2 часа назад"
+  mainTitle="Снег и морозы до –15°C ожидаются"
+  backgroundImage="/image/фото1.jpg"
+  thumbnails={[
+    {
+      img: "https://exclusive.kz/wp-content/uploads/2025/08/img_6879.webp",
+      title: "В Казахстане ожидается резкое похолодание",
+    },
+    {
+      img: "https://adm-english-prime-site.seok.com.ua/uploads/image/1-5-pogoda-na-anglijskom-1.jpg",
+      title: "Гололед и туман — предупреждение Казгидромета",
+    },
+  ]}
+/>
+
+
 
       {/* Posts Section */}
       <div className="container my-5">
@@ -45,7 +39,7 @@ export default function NewsPage() {
           <PostsSection
             posts={[
               { id: 1, img: "пост1.JPG", title: "Курс тенге стабилизировался после снижения цен на нефть", meta: "Андрей Валентинов - 1 день назад" },
-              { id: 2, img: "пост2.jpg", title: "Astana Hub объявил о запуске новой программы для IT-стартапов", meta: "Astana Hub - 3 часа назад" },
+              { id: 2, img: "пост2.jpg", title: "Astana Hub объявил о запуске новой программы для IT-стартапов", meta: "Диас Каримов - 3 часа назад" },
               { id: 3, img: "пост3.jpg", title: "ООН оценила вклад Казахстана в поддержку устойчивого развития", meta: "Карашаш Жандос - 5 часов назад" },
               { id: 4, img: "пост4.JPG", title: "Футбольный клуб «Астана» вышел в финал Кубка Казахстана", meta: "Алдияр Касенов - 6 часов назад" },
               { id: 5, img: "пост5.JPG", title: "В Алматы открыли международный фестиваль современного искусства", meta: "Гульназ Ахметова - 1 день назад" },
