@@ -9,6 +9,8 @@ import Comments from "../../components/Comments";
 import RecommendationsSection from "../../components/RecommendSection";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useAuth } from "../../lib/AuthContext";
+import { Button } from "react-bootstrap";
+
 
 export default function ArticlePage() {
   const params = useParams();
