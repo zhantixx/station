@@ -14,29 +14,23 @@ export default function NewsPage() {
     <div>
       <Header />
 
-      {/* Hero Section */}
-      <div className="container my-5">
-        <div className="row justify-content-center">
-          <div className="container-fluid p-0">
-            <HeroSection
-              metaInfo="Обновлено • 2 часа назад"
-              mainTitle="Снег и морозы до –15°C ожидаются"
-              backgroundImage="/image/фото1.jpg"
-              thumbnails={[
-                {
-                  img: "https://exclusive.kz/wp-content/uploads/2025/08/img_6879.webp",
-                  title: "В Казахстане ожидается резкое похолодание",
-                  main: true,
-                },
-                {
-                  img: "https://adm-english-prime-site.seok.com.ua/uploads/image/1-5-pogoda-na-anglijskom-1.jpg",
-                  title: "Гололед и туман — предупреждение Казгидромета",
-                },
-              ]}
-            />
-          </div>
-        </div>
-      </div>
+ <HeroSection
+  metaInfo="Обновлено • 2 часа назад"
+  mainTitle="Снег и морозы до –15°C ожидаются"
+  backgroundImage="/image/фото1.jpg"
+  thumbnails={[
+    {
+      img: "https://exclusive.kz/wp-content/uploads/2025/08/img_6879.webp",
+      title: "В Казахстане ожидается резкое похолодание",
+    },
+    {
+      img: "https://adm-english-prime-site.seok.com.ua/uploads/image/1-5-pogoda-na-anglijskom-1.jpg",
+      title: "Гололед и туман — предупреждение Казгидромета",
+    },
+  ]}
+/>
+
+
 
       {/* Posts Section */}
       <div className="container my-5">
