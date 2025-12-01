@@ -1,207 +1,143 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { useAuth } from "../../lib/AuthContext";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import { Container, Row, Col, Nav, Card, Button, ListGroup, Alert, Badge, Image, ProgressBar } from "react-bootstrap";
-
-import { articles } from "../data/articles";
+import { Container, Row, Col, Card, Button, ListGroup } from "react-bootstrap";
+import Link from "next/link";
 
 export default function ProfilePage() {
-  const { currentUser, isAuthenticated, logout, removeFavorite } = useAuth();
-  const router = useRouter();
-  const [activeTab, setActiveTab] = useState('info');
+    const { currentUser, isAuthenticated, logout } = useAuth();
+    const router = useRouter();
 
-  useEffect(() => {
-    if (!isAuthenticated) router.push("/");
-  }, [isAuthenticated, router]);
+    useEffect(() => {
+        if (!isAuthenticated) router.push("/");
+    }, [isAuthenticated, router]);
 
-  if (!isAuthenticated) return null;
+    if (!isAuthenticated || !currentUser) return null;
+    
+    // Добавим заглушки для статистики, так как их нет в currentUser
+    const stats = {
+        articlesRead: 47,
+        comments: 18,
+        registrationDate: "01.01.2025"
+    };
 
-  const allPosts = [
-    ...articles,
-    ...popularWeek,
-    ...popularMonth,
-    ...financeArticles,
-    ...financeStreams,
-    ...gameArticles,
-    ...gameStreams,
-    ...musicArticles,
-    ...musicStreams,
-    ...politicsArticles,
-    ...politicsStreams,
-    ...sportArticles,
-    ...sportStreams,
-    ...techArticles,
-    ...techStreams,
-  ];
+    return (
+        <>
+            <Header />
 
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'info':
-        return (
-          <Card className="p-4 shadow-sm mb-4 border-0 rounded-4">
-            <Card.Title className="mb-3">Основные данные</Card.Title>
-            <ListGroup variant="flush">
-              <ListGroup.Item className="d-flex justify-content-between align-items-center">
-                <span>Имя пользователя:</span>
-                <Badge bg="secondary">{currentUser.username}</Badge>
-              </ListGroup.Item>
-              <ListGroup.Item className="d-flex justify-content-between align-items-center">
-                <span>Email:</span>
-                <Badge bg="secondary">{currentUser.email}</Badge>
-              </ListGroup.Item>
-              <ListGroup.Item className="d-flex justify-content-between align-items-center">
-                <span>Дата регистрации:</span>
-                <Badge bg="secondary">01.01.2024</Badge>
-              </ListGroup.Item>
-              <ListGroup.Item className="d-flex justify-content-between align-items-center">
-                <span>Статус:</span>
-                <Badge bg="success">Активный</Badge>
-              </ListGroup.Item>
-            </ListGroup>
+            <div className="min-vh-100 bg-light py-5">
+                <Container className="pt-4">
+                    <h1 className="display-5 fw-bold mb-5 text-center text-dark">
+                        Личный Кабинет
+                    </h1>
+                    
+                    <Row className="g-4">
+                        {/* 1. Левая колонка: Информация и Навигация */}
+                        <Col lg={4}>
+                            <Card className="border-0 shadow-lg" style={{ borderRadius: "20px" }}>
+                                <Card.Body className="p-4 text-center">
+                                    <img
+                                        src={currentUser.avatar || "/image/default-avatar.png"}
+                                        alt="Аватар"
+                                        width={120}
+                                        height={120}
+                                        className="rounded-circle shadow-sm border border-4 border-primary mb-3"
+                                    />
+                                    <h2 className="fw-bold mb-1 text-dark">
+                                        {currentUser.username}
+                                    </h2>
+                                    <p className="text-muted mb-4">{currentUser.email}</p>
 
-            <Card className="mt-4 p-3 border-0 bg-light rounded-3">
-              <Card.Subtitle className="mb-2">Статистика активности</Card.Subtitle>
-              <div className="mb-2">
-                <span>Прочитано статей: 35</span>
-                <ProgressBar now={70} label="70%" />
-              </div>
-              <div className="mb-2">
-                <span>Комментарии оставлено: 12</span>
-                <ProgressBar now={50} label="50%" variant="info" />
-              </div>
-            </Card>
+                                    <div className="d-grid gap-3">
+                                        <Link
+                                            href="/profile/favorites"
+                                            className="btn btn-outline-primary rounded-pill py-2 fw-semibold"
+                                        >
+                                            ⭐ Избранное ({currentUser.favorites?.length || 0})
+                                        </Link>
+                                        <Link
+                                            href="/profile/settings"
+                                            className="btn btn-outline-secondary rounded-pill py-2"
+                                        >
+                                            ⚙️ Настройки
+                                        </Link>
+                                    </div>
+                                    
+                                    <Button
+                                        variant="danger"
+                                        className="rounded-pill px-5 mt-4"
+                                        onClick={logout}
+                                    >
+                                        Выйти
+                                    </Button>
+                                </Card.Body>
+                            </Card>
+                        </Col>
 
-            <Button variant="danger" className="mt-4 w-100" onClick={logout}>Выйти из аккаунта</Button>
-          </Card>
-        );
+                        {/* 2. Правая колонка: Статистика и Основная информация */}
+                        <Col lg={8}>
+                            <Card className="border-0 shadow-lg h-100" style={{ borderRadius: "20px" }}>
+                                <Card.Body className="p-5">
+                                    <h3 className="fw-bold mb-4 border-bottom pb-2 text-primary">
+                                        Обзор Аккаунта
+                                    </h3>
+                                    
+                                    <Row className="mb-5 text-center">
+                                        <Col md={4} className="mb-3">
+                                            <Card className="border-0 shadow-sm bg-primary text-white">
+                                                <Card.Body>
+                                                    <h4 className="display-6 fw-bold">{currentUser.favorites?.length || 0}</h4>
+                                                    <p className="mb-0">В избранном</p>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                        <Col md={4} className="mb-3">
+                                            <Card className="border-0 shadow-sm bg-success text-white">
+                                                <Card.Body>
+                                                    <h4 className="display-6 fw-bold">{stats.articlesRead}</h4>
+                                                    <p className="mb-0">Прочитано статей</p>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                        <Col md={4} className="mb-3">
+                                            <Card className="border-0 shadow-sm bg-info text-white">
+                                                <Card.Body>
+                                                    <h4 className="display-6 fw-bold">{stats.comments}</h4>
+                                                    <p className="mb-0">Комментариев</p>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                    </Row>
 
-      case 'favorites':
-        const favorites = currentUser.favorites || [];
-        return (
-          <Card className="p-4 shadow-sm mb-4 border-0 rounded-4">
-            <Card.Title className="mb-3">Избранные новости <Badge bg="primary">{favorites.length}</Badge></Card.Title>
-            {favorites.length === 0 ? (
-              <Alert variant="secondary">У вас пока нет избранных новостей.</Alert>
-            ) : (
-              <ListGroup variant="flush">
-                {favorites.map(fav => {
-                  const news = allPosts.find(p => p.id === fav.id);
-                  if (!news) return null;
-                  return (
-                    <ListGroup.Item key={news.id} className="d-flex justify-content-between align-items-center py-3">
-                      <div className="flex-grow-1">
-                        <Link href={`/statya/${news.id}`} className="fw-semibold text-decoration-none text-dark">
-                          {news.title}
-                        </Link>
-                        <div className="text-muted" style={{ fontSize: '0.85rem' }}>
-                          {news.category} | {news.time || news.date}
-                        </div>
-                      </div>
-                      <Button
-                        variant="outline-danger"
-                        size="sm"
-                        onClick={() => removeFavorite(news.id)}
-                        className="d-flex align-items-center justify-content-center"
-                      >
-                        Удалить
-                      </Button>
-                    </ListGroup.Item>
-                  );
-                })}
-              </ListGroup>
-            )}
-          </Card>
-        );
+                                    <h4 className="fw-bold mb-3 border-bottom pb-2 text-dark">
+                                        Детали Профиля
+                                    </h4>
+                                    <ListGroup variant="flush">
+                                        <ListGroup.Item className="d-flex justify-content-between align-items-center px-0 py-3">
+                                            <span className="text-muted">Имя пользователя:</span>
+                                            <strong className="text-dark">{currentUser.username}</strong>
+                                        </ListGroup.Item>
+                                        <ListGroup.Item className="d-flex justify-content-between align-items-center px-0 py-3">
+                                            <span className="text-muted">Email:</span>
+                                            <strong className="text-dark">{currentUser.email}</strong>
+                                        </ListGroup.Item>
+                                        <ListGroup.Item className="d-flex justify-content-between align-items-center px-0 py-3">
+                                            <span className="text-muted">Дата регистрации:</span>
+                                            <strong className="text-dark">{stats.registrationDate}</strong>
+                                        </ListGroup.Item>
+                                    </ListGroup>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
 
-      case 'settings':
-        return (
-          <Card className="p-4 shadow-sm mb-4 border-0 rounded-4">
-            <Card.Title className="mb-3">Настройки аккаунта</Card.Title>
-            <p className="text-muted mb-3">
-              Здесь можно изменить пароль, обновить email или настроить уведомления.
-            </p>
-            <Button variant="primary" className="me-2">Изменить пароль</Button>
-            <Button variant="secondary">Обновить email</Button>
-          </Card>
-        );
-
-      default:
-        return null;
-    }
-  };
-
-  return (
-    <>
-      <Header />
-      <Container className="py-5">
-        <Row className="mb-4">
-          <Col>
-            <h2 className="fw-bold">Личный кабинет</h2>
-            <p className="text-muted">
-              Добро пожаловать, <strong>{currentUser.username}</strong>! Управляйте вашим профилем и избранным контентом.
-            </p>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col xs={12} md={3} className="mb-4">
-            <Card className="p-3 shadow-sm rounded-4 text-center mb-4 border-0">
-              {currentUser.avatar ? (
-                <Image src={currentUser.avatar} roundedCircle width={100} height={100} className="mb-3 border border-secondary" />
-              ) : (
-                <div className="bg-secondary rounded-circle mx-auto mb-3" style={{ width: 100, height: 100 }}></div>
-              )}
-              <Card.Title className="mb-1">{currentUser.username}</Card.Title>
-              <Card.Text className="text-muted" style={{ fontSize: '0.85rem' }}>Активный пользователь</Card.Text>
-            </Card>
-
-            <Nav variant="pills" className="flex-column gap-2">
-              <Nav.Item>
-                <Nav.Link
-                  active={activeTab === 'info'}
-                  onClick={() => setActiveTab('info')}
-                  className="d-flex align-items-center gap-2 py-2 rounded-3"
-                >
-                  Информация
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link
-                  active={activeTab === 'favorites'}
-                  onClick={() => setActiveTab('favorites')}
-                  className="d-flex align-items-center gap-2 py-2 rounded-3"
-                >
-                  Избранное
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link
-                  active={activeTab === 'settings'}
-                  onClick={() => setActiveTab('settings')}
-                  className="d-flex align-items-center gap-2 py-2 rounded-3"
-                >
-                  Настройки
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link onClick={logout} className="text-danger d-flex align-items-center gap-2 py-2 rounded-3">
-                  Выйти
-                </Nav.Link>
-              </Nav.Item>
-            </Nav>
-          </Col>
-
-          <Col xs={12} md={9}>
-            {renderContent()}
-          </Col>
-        </Row>
-      </Container>
-      <Footer />
-    </>
-  );
+            <Footer />
+        </>
+    );
 }

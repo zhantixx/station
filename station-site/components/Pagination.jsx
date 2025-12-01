@@ -1,53 +1,115 @@
 "use client";
 
-import React, { useState } from "react";
-import styles from "./Pagination.module.css";
+import React from "react";
+import { Pagination as BSPagination } from "react-bootstrap"; 
 
-export default function Pagination() {
-  const [current, setCurrent] = useState(1);
-  const pages = [1, 2, 3, 4, 5];
+export default function Pagination({ currentPage, totalPages, onPageChange }) {
+  const items = [];
+  const maxPagesToShow = 5; 
 
-  const goPrev = () => {
-    if (current > 1) setCurrent(current - 1);
-  };
+  const halfMaxPages = Math.floor(maxPagesToShow / 2);
+  let startPage = Math.max(1, currentPage - halfMaxPages);
+  let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
 
-  const goNext = () => {
-    if (current < pages.length) setCurrent(current + 1);
-  };
+  if (endPage - startPage + 1 < maxPagesToShow) {
+    startPage = Math.max(1, endPage - maxPagesToShow + 1);
+  }
+
+  for (let number = startPage; number <= endPage; number++) {
+    items.push(
+      <BSPagination.Item 
+        key={number} 
+        active={number === currentPage} 
+        onClick={() => onPageChange(number)}
+        className={number === currentPage ? 'custom-blue-active' : 'custom-blue-item'}
+      >
+        {number}
+      </BSPagination.Item>,
+    );
+  }
 
   return (
-    <div className={styles.pagination}>
-      <button
-        className={styles.pageBtn}
-        aria-label="Previous"
-        onClick={goPrev}
-        disabled={current === 1}
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M15 18l-6-6 6-6" />
-        </svg>
-      </button>
+    <>
+      {/* Кастомные стили для достижения светло-голубого дизайна. 
+        Мы используем чистый, не темный голубой цвет (#60a5fa - light-blue-500 в Tailwind).
+      */}
+      <style jsx global>{`
+        /* Основной цвет для активной страницы и hover акцента */
+        .blue-primary {
+          --pagination-active-color: #60a5fa; /* Чистый, не темный голубой */
+          --pagination-hover-bg: #eff6ff; /* Очень светлый голубой фон при наведении */
+          --pagination-hover-border: #93c5fd; /* Более светлый голубой для рамки */
+        }
+        
+        .pagination {
+          --bs-pagination-color: #4b5563; /* Серый текст для неактивных */
+          --bs-pagination-focus-box-shadow: none;
+        }
 
-      {pages.map((n) => (
-        <button
-          key={n}
-          className={`${styles.pageBtn} ${current === n ? styles.active : ""}`}
-          onClick={() => setCurrent(n)}
-        >
-          {n}
-        </button>
-      ))}
+        /* Общие стили для всех кнопок пагинации */
+        .page-item .page-link {
+          border-radius: 6px !important; /* Мягкие углы */
+          margin: 0 4px;
+          transition: all 0.2s ease-in-out;
+          border-color: #e5e7eb; /* Светлая рамка */
+        }
 
-      <button
-        className={styles.pageBtn}
-        aria-label="Next"
-        onClick={goNext}
-        disabled={current === pages.length}
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M9 18l6-6-6-6" />
-        </svg>
-      </button>
-    </div>
+        /* 1. Активная страница: Светло-голубой фон и белый текст */
+        .custom-blue-active .page-link {
+          background-color: var(--pagination-active-color);
+          border-color: var(--pagination-active-color);
+          color: white;
+          font-weight: 600;
+        }
+        
+        /* 2. Наведение на неактивную страницу */
+        .custom-blue-item .page-link:hover,
+        .page-item:not(.disabled) .page-link:hover {
+          color: var(--pagination-active-color); /* Голубой текст */
+          background-color: var(--pagination-hover-bg); /* Очень светлый голубой фон */
+          border-color: var(--pagination-hover-border);
+        }
+
+        /* 3. Кнопки Prev/Next */
+        .page-item:first-child .page-link,
+        .page-item:last-child .page-link {
+            border-radius: 6px !important;
+        }
+
+        /* Цвет иконок Prev/Next при наведении */
+        .page-item:not(.disabled) .page-link:hover {
+             color: var(--pagination-active-color); 
+        }
+        
+      `}</style>
+      
+      {/* Добавляем класс blue-primary для применения кастомных CSS переменных */}
+      <BSPagination className="justify-content-center my-4 blue-primary">
+        
+        <BSPagination.Prev 
+          onClick={() => onPageChange(currentPage - 1)} 
+          disabled={currentPage === 1}
+          style={{ borderRadius: '6px', margin: '0 4px' }}
+        />
+
+        {startPage > 1 && <BSPagination.Ellipsis />}
+
+        {items}
+
+        {endPage < totalPages && <BSPagination.Ellipsis />}
+        {totalPages > 1 && endPage < totalPages && (
+          <BSPagination.Item onClick={() => onPageChange(totalPages)} className="custom-blue-item">
+            {totalPages}
+          </BSPagination.Item>
+        )}
+
+
+        <BSPagination.Next 
+          onClick={() => onPageChange(currentPage + 1)} 
+          disabled={currentPage === totalPages}
+          style={{ borderRadius: '6px', margin: '0 4px' }}
+        />
+      </BSPagination>
+    </>
   );
 }

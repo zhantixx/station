@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Container, Button } from "react-bootstrap";
+import Link from "next/link"; // Добавляем Link для лучшей практики Next.js
 import { useAuth } from "../lib/AuthContext";
 
 export default function Header() {
@@ -17,11 +18,20 @@ export default function Header() {
     "Путешествия","Культура","Кино","Здоровье","Наука","Образование"
   ];
 
+  // 🛠️ ИСПРАВЛЕНИЕ: Добавлен префикс /category/ и унифицированы SLUGS (sport, technologies)
   const categoryRoutes = {
-    "Политика": "/politics","Спорт": "/sports","Технологии": "/technologies",
-    "Игры": "/games","Музыка": "/music","Финансы": "/finance",
-    "Путешествия": "/travel","Культура": "/culture","Кино": "/movies",
-    "Здоровье": "/health","Наука": "/science","Образование": "/education",
+    "Политика": "/category/politics", 
+    "Спорт": "/category/sport", // Используем 'sport' (если articlesData[sport]!)
+    "Технологии": "/category/technologies", // Используем 'technologies' (если articlesData[technologies]!)
+    "Игры": "/category/games",
+    "Музыка": "/category/music",
+    "Финансы": "/category/finance",
+    "Путешествия": "/category/travel",
+    "Культура": "/category/culture",
+    "Кино": "/category/movies",
+    "Здоровье": "/category/health",
+    "Наука": "/category/science",
+    "Образование": "/category/education",
   };
 
   const handleSearch = (e) => {
@@ -44,14 +54,16 @@ export default function Header() {
     <header style={{ backgroundColor: "#1e88e5", width: "100%" }}>
       <Container style={{ maxWidth: "1200px", padding: "0 20px" }}>
         <div className="d-flex align-items-center justify-content-between py-2">
-          <a href="/" className="d-flex align-items-center text-white text-decoration-none" style={{ fontSize: "18px", fontWeight: "bold" }}>
+          {/* ⚠️ ИСПОЛЬЗУЕМ Link для навигации в Next.js */}
+          <Link href="/" className="d-flex align-items-center text-white text-decoration-none" style={{ fontSize: "18px", fontWeight: "bold" }}>
             <img src="/image/logo header.png" alt="Лого" style={{ width: "20px", height: "20px", marginRight: "5px" }} />
             Station
-          </a>
+          </Link>
 
           <nav className="d-flex align-items-center gap-3">
-            <a href="/" className="text-white" style={{ fontSize: "18px" }}>Главная</a>
-            <a href="/statya" className="text-white" style={{ fontSize: "18px" }}>Статьи</a>
+            {/* ⚠️ ИСПОЛЬЗУЕМ Link */}
+            <Link href="/" className="text-white" style={{ fontSize: "18px" }}>Главная</Link>
+            <Link href="/statya" className="text-white" style={{ fontSize: "18px" }}>Статьи</Link>
 
             <div className="position-relative">
               <span
@@ -82,7 +94,7 @@ export default function Header() {
               )}
             </div>
 
-            <a href="/about" className="text-white" style={{ fontSize: "18px" }}>О нас</a>
+            <Link href="/about" className="text-white" style={{ fontSize: "18px" }}>О нас</Link>
           </nav>
 
           <Button variant="warning" onClick={handleAuthClick} style={{ fontSize: "18px" }}>
