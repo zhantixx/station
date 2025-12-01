@@ -7,7 +7,6 @@ import Link from "next/link";
 
 export default function SettingsPage() {
     
-    // Временно отключено
     const isReady = false;
 
     return (

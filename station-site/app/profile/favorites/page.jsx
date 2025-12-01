@@ -10,7 +10,6 @@ import Link from "next/link";
 export default function FavoritesPage() {
     const { currentUser, removeFavorite } = useAuth();
 
-    // Сбор всех постов (предполагаем, что этот код верен для получения всех статей)
     const allPosts = Object.values(articlesData).flatMap(c => [
         ...(c.articles || []),
         ...(c.streams || [])
@@ -49,7 +48,6 @@ export default function FavoritesPage() {
                 ) : (
                     <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                         {favorites.map(fav => {
-                            // Ищем полные данные поста
                             const post = allPosts.find(p => p.id === fav.id);
                             if (!post) return null;
 
@@ -86,12 +84,12 @@ export default function FavoritesPage() {
                                                 size="sm"
                                                 className="mt-auto rounded-pill fw-semibold"
                                                 onClick={(e) => {
-                                                    e.stopPropagation(); // Предотвращаем срабатывание stretched-link
+                                                    e.stopPropagation();
                                                     removeFavorite(post.id);
                                                 }}
-                                                style={{ zIndex: 10 }} // Для работы кнопки над stretched-link
+                                                style={{ zIndex: 10 }}
                                             >
-                                                💔 Удалить
+                                                Удалить
                                             </Button>
                                         </Card.Body>
                                     </Card>

@@ -9,7 +9,6 @@ import Link from "next/link";
 export default function ProfileInfoPage() {
     const { currentUser, logout } = useAuth();
     
-    // Заглушки
     const stats = {
         registrationDate: "1 января 2025",
         articlesRead: 47,
