@@ -24,40 +24,61 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light py-5">
+    <div className="min-vh-100 d-flex align-items-center justify-content-center" style={{ backgroundColor: "#e3f2fd" }}>
       <Container>
         <Row className="justify-content-center">
-          <Col xs={12} md={6} lg={5}>
-            <Card className="shadow p-4">
-              <Card.Body className="text-center">
-                <Card.Title className="mb-4 text-secondary" style={{ fontSize: '2rem' }}>
-                  Вход в Station
-                </Card.Title>
+          <Col md={6} lg={5}>
+            <Card className="shadow-lg p-4" style={{ borderRadius: "12px" }}>
+              <Card.Body>
+                {/* Логотип и название */}
+                <div className="text-center mb-3">
+                  <img src="/image/logo footer.png" alt="Station Logo" style={{ width: "60px", marginBottom: "10px" }} />
+                  <h2 className="text-primary fw-bold">Station</h2>
+                  <p className="text-muted">Будьте в курсе последних событий</p>
+                </div>
 
+                {/* Ошибка */}
                 {error && <Alert variant="danger">{error}</Alert>}
 
-                <Form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
-                  <Form.Control
-                    type="text"
-                    placeholder="Имя пользователя"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                  />
-                  <Form.Control
-                    type="password"
-                    placeholder="Пароль"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                  <Button type="submit" variant="secondary" className="mt-2 fw-bold">
+                {/* Форма */}
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Имя пользователя</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Введите имя пользователя"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      required
+                    />
+                  </Form.Group>
+
+                  <Form.Group className="mb-3">
+                    <Form.Label>Пароль</Form.Label>
+                    <Form.Control
+                      type="password"
+                      placeholder="Введите пароль"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                  </Form.Group>
+
+                  <Button type="submit" className="w-100" style={{ backgroundColor: "#ff9800", borderColor: "#ff9800" }}>
                     Войти
                   </Button>
                 </Form>
 
-                <p className="mt-3 text-muted">
-                  Нет аккаунта? <a href="/register" className="text-secondary fw-bold">Зарегистрироваться</a>
+                {/* Ссылка на регистрацию */}
+                <p className="mt-3 text-center text-muted">
+                  Нет аккаунта?{" "}
+                  <span
+                    className="text-warning fw-bold"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => router.push("/register")}
+                  >
+                    Зарегистрироваться
+                  </span>
                 </p>
               </Card.Body>
             </Card>
