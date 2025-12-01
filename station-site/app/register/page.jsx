@@ -31,17 +31,14 @@ export default function RegisterPage() {
           <Col md={6} lg={5}>
             <Card className="shadow-lg p-4" style={{ borderRadius: "12px" }}>
               <Card.Body>
-                {/* Логотип и название */}
                 <div className="text-center mb-3">
                   <img src="/image/logo footer.png" alt="Station Logo" style={{ width: "60px", marginBottom: "10px" }} />
                   <h2 className="text-primary fw-bold">Station</h2>
                   <p className="text-muted">Присоединяйтесь и получайте свежие новости</p>
                 </div>
 
-                {/* Ошибка */}
                 {error && <Alert variant="danger">{error}</Alert>}
 
-                {/* Форма */}
                 <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-3">
                     <Form.Label>Имя пользователя</Form.Label>
@@ -81,7 +78,6 @@ export default function RegisterPage() {
                   </Button>
                 </Form>
 
-                {/* Ссылка на вход */}
                 <p className="mt-3 text-center text-muted">
                   Уже есть аккаунт?{" "}
                   <span
