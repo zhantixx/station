@@ -11,7 +11,6 @@ import Comments from "../../../components/Comments";
 import { Container, Row, Col, Card, Button, Badge } from "react-bootstrap";
 import { useAuth } from "../../../lib/AuthContext";
 
-// Хелпер для получения всех постов из структуры articlesData
 const getAllPosts = (data) => {
   return Object.values(data).flatMap(category => [
     ...(category.articles || []),
@@ -25,17 +24,15 @@ export default function ArticlePage() {
   const [post, setPost] = useState(null);
   const { currentUser, mounted, addFavorite, removeFavorite } = useAuth();
 
-  // Объединяем все посты и стримы в один массив для поиска
   const allPosts = useMemo(() => getAllPosts(articlesData), []);
 
   useEffect(() => {
-    // ID из параметров Next.js всегда строка, нужно преобразовать в число
     const articleId = Number(params.id); 
     
-    // Ищем пост среди всех статей
     const found = allPosts.find(a => a.id === articleId);
     setPost(found || null);
-  }, [params.id, allPosts]); // allPosts добавлен в зависимости
+  }, [params.id, allPosts]); 
+
 
   if (!post) {
     return (
@@ -58,18 +55,12 @@ export default function ArticlePage() {
     if (isFavorite) removeFavorite(post.id);
     else addFavorite(post);
   };
-
-  // ----------------------------------------------------------------
-  // ПРИМЕЧАНИЕ: Здесь используется post.category для Badge. 
-  // Если у вас в объектах post нет поля category, его нужно добавить в articles.js
-  // ----------------------------------------------------------------
   
   return (
     <>
       <Header />
       <Container className="my-5">
         
-        {/* Кнопка Назад */}
         <Row className="justify-content-center mb-4">
           <Col lg={11} xl={10}>
             <button
@@ -95,7 +86,6 @@ export default function ArticlePage() {
           </Col>
         </Row>
 
-        {/* Заголовок и метаданные */}
         <Row className="mb-5 justify-content-center">
           <Col lg={11} xl={10}>
             <div className="d-flex align-items-center mb-3">
@@ -107,7 +97,6 @@ export default function ArticlePage() {
             
             <h1 className="fw-bolder display-5 mb-4 text-dark">{post.title}</h1>
             
-            {/* Кнопки действий */}
             <div className="d-flex gap-3 pt-2 pb-4 border-bottom border-top">
               <Button
                 variant="outline-primary"
@@ -152,7 +141,6 @@ export default function ArticlePage() {
         </Row>
 
 
-        {/* Основное изображение */}
         <Row className="justify-content-center mb-5">
           <Col lg={11} xl={10}>
             <div className="rounded-4 overflow-hidden shadow-lg">
@@ -166,7 +154,6 @@ export default function ArticlePage() {
           </Col>
         </Row>
         
-        {/* Основной контент */}
         <Row className="justify-content-center">
           <Col lg={11} xl={10}>
             {post.content.map((p, i) => (
@@ -175,7 +162,6 @@ export default function ArticlePage() {
           </Col>
         </Row>
         
-        {/* Inline контент */}
         <Row className="mb-5 justify-content-center">
           <Col lg={11} xl={10}>
             {post.inlineImage && (
@@ -186,11 +172,7 @@ export default function ArticlePage() {
                 style={{ maxHeight: '450px', width: '100%', objectFit: 'cover' }}
               />
             )}
-            {/* ИСПРАВЛЕНО: Предполагаю, что вы хотели использовать inlineText, inlineText2 и т.д.
-                Ваши предыдущие названия переменных были post.inlineTexts, post.inlineTexts2 и т.д. 
-                Я вернул оригинальные названия, которые были в первом варианте кода. 
-                Убедитесь, что имена полей в вашем articles.js совпадают с используемыми здесь. */}
-            {post.inlineText && <p className="fs-5 text-dark lh-lg mb-3">{post.inlineText}</p>}
+           Ы {post.inlineText && <p className="fs-5 text-dark lh-lg mb-3">{post.inlineText}</p>}
             {post.inlineText2 && <p className="fs-5 text-dark lh-lg mb-3">{post.inlineText2}</p>}
             {post.inlineText3 && <p className="fs-5 text-dark lh-lg mb-3">{post.inlineText3}</p>}
             {post.inlineText4 && <p className="fs-5 text-dark lh-lg mb-3">{post.inlineText4}</p>}
