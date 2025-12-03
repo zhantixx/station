@@ -123,6 +123,10 @@ export default function Header() {
     const handleAuthClick = () => {
         router.push(isAuthenticated ? "/profile" : "/auth");
     };
+    
+    const handleAddPostClick = () => {
+        router.push("/add-post"); 
+    };
 
     const linkProps = (href) => ({
         href,
@@ -177,8 +181,24 @@ export default function Header() {
 
                         <Link {...linkProps("/about")}>О нас</Link>
                     </nav>
-
                     <div className="d-flex align-items-center gap-3">
+                        
+                        {isAuthenticated && (
+                            <Button 
+                                variant="light" 
+                                onClick={handleAddPostClick} 
+                                className="d-flex align-items-center rounded-pill fw-semibold border-0 text-success" 
+                                style={{ 
+                                    fontSize: "15px", 
+                                    padding: "8px 18px", 
+                                    boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+                                    backgroundColor: '#e8f5e9' 
+                                }}
+                            >
+                                <span style={{ marginRight: '6px' }}>🖊️</span>
+                                Создать пост
+                            </Button>
+                        )}
                         
                         {isAuthenticated && (
                             <Link href="/profile/favorites" className="text-decoration-none">
@@ -188,7 +208,7 @@ export default function Header() {
                                     style={{ fontSize: "15px", padding: "8px 18px", boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}
                                 >
                                     <span style={{ marginRight: '6px' }}>⭐</span>
-                                    Избранное 
+                                    Избранное
                                     {currentUser?.favorites?.length > 0 && (
                                         <span className="badge bg-danger ms-2 rounded-pill">
                                             {currentUser.favorites.length}

@@ -2,18 +2,46 @@
 
 import React, { createContext, useState, useContext, useEffect } from "react";
 
+const USER_ROLES = {
+    READER: "reader",
+    EDITOR: "editor",
+};
+
+const APPLICATION_STATUS_KEY = "editorApplicationStatus";
+
 const initialUsers = [
-    { username: "test", email: "test@example.com", password: "test", favorites: [] },
+    { 
+        username: "test", 
+        email: "test@example.com", 
+        password: "test", 
+        favorites: [], 
+        role: USER_ROLES.EDITOR 
+    },
+    { 
+        username: "reader1", 
+        email: "reader@example.com", 
+        password: "pass", 
+        favorites: [], 
+        role: USER_ROLES.READER
+    },
 ];
 
 const AuthContext = createContext();
+
+const getRoleFromStorage = (user) => {
+    const appStatus = localStorage.getItem(`${APPLICATION_STATUS_KEY}_${user.username}`);
+    if (appStatus === 'approved') {
+        return USER_ROLES.EDITOR;
+    }
+    return user.role || USER_ROLES.READER;
+};
+
 
 export const AuthProvider = ({ children }) => {
     const [users, setUsers] = useState(initialUsers);
     const [currentUser, setCurrentUser] = useState(null);
     const [mounted, setMounted] = useState(false);
 
-    // Эффект для загрузки данных при монтировании
     useEffect(() => {
         setMounted(true);
         
@@ -21,15 +49,30 @@ export const AuthProvider = ({ children }) => {
         if (storedData) {
             try {
                 const { users: loadedUsers, currentUser: loadedCurrentUser } = JSON.parse(storedData);
-                setUsers(loadedUsers || initialUsers);
-                setCurrentUser(loadedCurrentUser || null);
+                
+                const normalizedUsers = loadedUsers ? loadedUsers.map(u => ({ 
+                    ...u, 
+                    role: u.role || USER_ROLES.READER 
+                })) : initialUsers;
+
+                setUsers(normalizedUsers);
+                
+                if (loadedCurrentUser) {
+                    const finalRole = getRoleFromStorage(loadedCurrentUser);
+                    setCurrentUser({ 
+                        ...loadedCurrentUser,
+                        role: finalRole 
+                    });
+                } else {
+                    setCurrentUser(null);
+                }
+
             } catch (e) {
                 console.error("Failed to parse auth data from localStorage", e);
             }
         }
     }, []);
 
-    // Эффект для сохранения данных при изменении users или currentUser
     useEffect(() => {
         if (!mounted) return;
 
@@ -44,7 +87,15 @@ export const AuthProvider = ({ children }) => {
     const login = (username, password) => {
         const user = users.find(u => u.username === username && u.password === password);
         if (user) {
-            setCurrentUser({ ...user });
+            
+            const finalRole = getRoleFromStorage(user);
+
+            const userWithUpdatedRole = { 
+                ...user,
+                role: finalRole 
+            };
+            
+            setCurrentUser(userWithUpdatedRole);
             return true;
         }
         return false;
@@ -53,7 +104,13 @@ export const AuthProvider = ({ children }) => {
     const register = (username, email, password) => {
         if (users.some(u => u.username === username || u.email === email)) return false;
         
-        const newUser = { username, email, password, favorites: [] };
+        const newUser = { 
+            username, 
+            email, 
+            password, 
+            favorites: [], 
+            role: USER_ROLES.READER 
+        };
         
         setUsers(prevUsers => [...prevUsers, newUser]);
         setCurrentUser(newUser);
@@ -61,6 +118,10 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = () => setCurrentUser(null);
+
+    const isEditor = () => {
+        return !!currentUser && currentUser.role === USER_ROLES.EDITOR;
+    };
 
     const addFavorite = (article) => {
         if (!currentUser) return;
@@ -76,7 +137,7 @@ export const AuthProvider = ({ children }) => {
 
             setUsers(prevUsers => prevUsers.map(u => 
                 u.username === currentUser.username 
-                    ? { ...u, favorites: newFavorites } 
+                    ? { ...u, favorites: newFavorites, role: u.role } 
                     : u
             ));
         }
@@ -94,10 +155,11 @@ export const AuthProvider = ({ children }) => {
         
         setUsers(prevUsers => prevUsers.map(u => 
             u.username === currentUser.username 
-                ? { ...u, favorites: newFavorites } 
+                ? { ...u, favorites: newFavorites, role: u.role } 
                 : u
         ));
     };
+
 
     return (
         <AuthContext.Provider
@@ -108,6 +170,7 @@ export const AuthProvider = ({ children }) => {
                 register,
                 logout,
                 isAuthenticated: !!currentUser,
+                isEditor, 
                 addFavorite,
                 removeFavorite,
             }}
