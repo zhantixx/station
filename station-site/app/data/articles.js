@@ -28,7 +28,7 @@ export const articlesData = {
       {
         id: 5009,
         title: "Рост туризма в Казахстане: новые направления и увеличение посещаемости",
-        category: "Туризм",
+        category: "Путешествия",
         categoryLink: "/travel",
         time: "3 часа назад",
         author: {

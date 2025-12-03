@@ -95,7 +95,25 @@ export default function ArticlePage() {
         <Row className="mb-5 justify-content-center">
           <Col lg={11} xl={10}>
             <div className="d-flex align-items-center mb-3">
-              <Badge bg="primary" className="me-3 px-3 py-2 fw-semibold rounded-pill">{post.category}</Badge>
+              <Badge bg="primary" className="me-3 px-3 py-2 fw-semibold rounded-pill"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                const slugMap = {
+                  "Политика": "politics",
+                  "Музыка": "music",
+                  "Игры": "games",
+                  "Финансы": "finance",
+                  "Спорт": "sport",
+                  "Путешествия": "travel",
+                  "Технологии": "technologies",
+                  "Культура": "culture",
+                  "Наука": "science",
+                };
+                const slug = slugMap[post.category];
+                if (slug) router.push(`/category/${slug}`);
+                }}>
+                  {post.category}
+                  </Badge>
                <small className="text-muted fw-light">
                 <span
                 onClick={() => router.push(`/users/${post.author.id}`)}
