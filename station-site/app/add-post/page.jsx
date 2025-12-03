@@ -32,7 +32,9 @@ const AccessDeniedMessage = () => (
                 <p className="text-dark fw-semibold">
                     Если вы хотите публиковать статьи, <br/> подайте заявку на редактора в вашем профиле:
                 </p>
-                <Link href="/profile" passHref legacyBehavior>
+                <Link href="/profile">
+                    {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */
+                    }
                     <Button variant="primary" size="lg" className="mt-3 fw-bold" style={{ borderRadius: '50px' }}>
                         Перейти в Профиль
                     </Button>
