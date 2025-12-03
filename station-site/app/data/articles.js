@@ -353,6 +353,7 @@ export const articlesData = {
         categoryLink: "/technologies",
         time: "2 дня назад",
         author: {
+          id: 101,
           name: "Айдос Нурмаганбетов",
           avatar: "",
         },

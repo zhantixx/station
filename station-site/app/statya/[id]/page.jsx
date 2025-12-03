@@ -96,8 +96,20 @@ export default function ArticlePage() {
             <div className="d-flex align-items-center mb-3">
               <Badge bg="primary" className="me-3 px-3 py-2 fw-semibold rounded-pill">{post.category}</Badge>
               <small className="text-muted fw-light">
-                {post.author.name} &bull; {post.time}
-              </small>
+                <span
+                onClick={() => router.push(`/users/${post.author.id}`)}
+                style={{
+                  cursor: "pointer",
+                  display: "inline-block",
+                  transition: "transform 0.2s ease",
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
+                onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}>
+                  {post.author.name}
+                  </span>
+                  &nbsp;• {post.time}
+                  </small>
+
             </div>
             
             <h1 className="fw-bolder display-5 mb-4 text-dark">{post.title}</h1>
