@@ -174,20 +174,29 @@ export default function ArticlePage() {
             </div>
           </Col>
         </Row>
-
-
+        
         <Row className="justify-content-center mb-5">
           <Col lg={11} xl={10}>
-            <div className="rounded-4 overflow-hidden shadow-lg">
-              <Card.Img
-                src={post.heroImage || post.img}
-                alt={post.title}
-                style={{ height: "450px", objectFit: "cover" }}
-                className="w-100"
+          <div className="rounded-4 overflow-hidden shadow-lg mb-4" style={{ height: "450px" }}>
+            {post.youtube ? (
+              <iframe
+               src={`https://www.youtube.com/embed/${post.youtube}`}
+               title={post.title}
+               style={{ width: "100%", height: "100%", border: "none" }}
+               allow="autoplay; encrypted-media"
+               allowFullScreen
+               />
+              ) : (
+              <img
+              src={post.heroImage || post.img}
+              alt={post.title}
+              className="w-100 h-100"
+              style={{ objectFit: "cover" }}
               />
-            </div>
-          </Col>
-        </Row>
+              )}
+              </div>
+              </Col>
+          </Row>
         
         <Row className="justify-content-center">
           <Col lg={11} xl={10}>

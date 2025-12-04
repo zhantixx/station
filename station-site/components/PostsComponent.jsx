@@ -53,14 +53,30 @@ export default function SportPosts({ posts, isStream }) {
               >
                 <div style={{ position: 'relative', width: '100%', height: '300px', overflow: 'hidden' }}>
                   {/* 🛠️ ИСПРАВЛЕНИЕ: Проверяем heroImage или img */}
-                  {(post.heroImage || post.img) && (
+                  {isStream && post.youtube ? (
+                    <iframe
+                    src={post.img}
+                    alt={post.title}
+                    style={{
+                    width: "100%",
+                    height: "100%",
+                    border: "none",
+                    objectFit: "cover",
+                  }}
+                  />
+                  ) : ( 
+                    (post.heroImage || post.img) && (
                     <Card.Img
-                      src={post.heroImage || post.img}
-                      alt={post.title || "Изображение"}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                    />
+                    src={post.heroImage || post.img}
+                    alt={post.title || "Изображение"}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      display: "block",
+                    }}/>
+                  )
                   )}
-
                   {isStream && (
                     <div
                       style={{

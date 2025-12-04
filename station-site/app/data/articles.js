@@ -199,8 +199,8 @@ export const articlesData = {
       {
         id: 6004,
         title: "Прямая трансляция: «Кайрат» — «Тобол» | Финал Кубка Казахстана",
-        img: "/image/stream1.jpg",
-        heroImage: "/image/stream1.jpg",
+        youtube: "u76iW2jAMPo",
+        img: "/image/video1.jpg",
         author: { name: "QazSport TV", avatar: "" },
         category: "Спорт",
         categoryLink: "/sports",
@@ -220,8 +220,8 @@ export const articlesData = {
       {
         id: 6005,
         title: "LIVE: Елена Рыбакина — Онс Жабер | WTA Дубай, 1/4 финала",
-        img: "/image/stream2.jpg",
-        heroImage: "/image/stream2.jpg",
+        youtube: "IBL2jPkZuow",
+        img: "/image/video2.jpg",
         author: { name: "Tennis Channel KZ", avatar: "" },
         category: "Спорт",
         categoryLink: "/sports",
@@ -241,8 +241,8 @@ export const articlesData = {
       {
         id: 6006,
         title: "Хоккей: «Барыс» — «Салават Юлаев» | КХЛ, регулярный чемпионат",
-        img: "/image/stream3.jpg",
-        heroImage: "/image/stream3.jpg",
+        youtube: "YHujN_T-ptY",
+        img: "/image/video3.jpg",
         author: { name: "Hockey KZ", avatar: "" },
         category: "Спорт",
         categoryLink: "/sports",
