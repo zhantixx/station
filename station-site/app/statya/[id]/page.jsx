@@ -10,6 +10,20 @@ import Comments from "../../../components/Comments";
 import { Container, Row, Col, Card, Button, Badge } from "react-bootstrap";
 import { useAuth } from "../../../lib/AuthContext";
 
+const CATEGORY_STYLES = {
+    "Политика": "danger",
+    "Музыка": "info", 
+    "Игры": "primary",
+    "Финансы": "warning",
+    "Спорт": "success", 
+    "Путешествия": "info",
+    "Технологии": "secondary", 
+    "Культура": "secondary", 
+    "Наука": "dark", 
+    "default": "primary" 
+};
+
+
 const getAllArticles = (data) => {
   const all = [];
   for (const categoryKey in data) {
@@ -53,12 +67,35 @@ export default function ArticlePage() {
 
   const recommendations = allArticles.filter(a => a.id !== post.id).slice(0, 4);
   const isFavorite = currentUser?.favorites?.some(f => f.id === post.id);
+  
+  const categoryBgClass = CATEGORY_STYLES[post.category] || CATEGORY_STYLES.default;
+
 
   const toggleFavorite = () => {
     if (!currentUser) return;
     if (isFavorite) removeFavorite(post.id);
     else addFavorite(post);
   };
+
+  const handleShare = async () => {
+      const shareData = { title: post.title, text: 'Читайте интересную статью!', url: window.location.href };
+      if (navigator.share) {
+          try {
+              await navigator.share(shareData);
+          } catch (error) {
+              console.error('Ошибка при расшаривании:', error);
+          }
+      } else {
+          try {
+              await navigator.clipboard.writeText(window.location.href);
+              console.log('Ссылка скопирована!'); 
+             
+          } catch (error) {
+              console.error('Ошибка при копировании:', error);
+          }
+      }
+  };
+
 
   return (
     <>
@@ -94,25 +131,28 @@ export default function ArticlePage() {
         <Row className="mb-5 justify-content-center">
           <Col lg={11} xl={10}>
             <div className="d-flex align-items-center mb-3">
-              <Badge bg="primary" className="me-3 px-3 py-2 fw-semibold rounded-pill"
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                const slugMap = {
-                  "Политика": "politics",
-                  "Музыка": "music",
-                  "Игры": "games",
-                  "Финансы": "finance",
-                  "Спорт": "sport",
-                  "Путешествия": "travel",
-                  "Технологии": "technologies",
-                  "Культура": "culture",
-                  "Наука": "science",
-                };
-                const slug = slugMap[post.category];
-                if (slug) router.push(`/category/${slug}`);
-                }}>
-                  {post.category}
-                  </Badge>
+              {/* 🛠️ ИСПОЛЬЗУЕМ ДИНАМИЧЕСКИЙ categoryBgClass */}
+              <Badge 
+                bg={categoryBgClass} 
+                className="me-3 px-3 py-2 fw-semibold rounded-pill"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  const slugMap = {
+                    "Политика": "politics",
+                    "Музыка": "music",
+                    "Игры": "games",
+                    "Финансы": "finance",
+                    "Спорт": "sport",
+                    "Путешествия": "travel",
+                    "Технологии": "technologies",
+                    "Культура": "culture",
+                    "Наука": "science",
+                  };
+                  const slug = slugMap[post.category];
+                  if (slug) router.push(`/category/${slug}`);
+                  }}>
+                    {post.category}
+                    </Badge>
               <small className="text-muted fw-light">
                 <span
                 onClick={() => router.push(`/users/${post.author.id}`)}
@@ -149,11 +189,7 @@ export default function ArticlePage() {
                 variant="outline-secondary"
                 size="sm"
                 className="d-flex align-items-center gap-2 px-3 fw-semibold"
-                onClick={async () => {
-                  const shareData = { title: post.title, text: 'Читайте интересную статью!', url: window.location.href };
-                  if (navigator.share) await navigator.share(shareData);
-                  else { await navigator.clipboard.writeText(window.location.href); alert('Ссылка скопирована!'); }
-                }}
+                onClick={handleShare}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                     <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .932 4.852l-5.32 2.66a2.5 2.5 0 1 1 0-5.787l5.32 2.66c.19-.38.41-.75.66-1.096a2.5 2.5 0 0 1 2.585-2.072zM5.5 8a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/>
@@ -186,7 +222,7 @@ export default function ArticlePage() {
                allow="autoplay; encrypted-media"
                allowFullScreen
                />
-              ) : (
+             ) : (
               <img
               src={post.heroImage || post.img}
               alt={post.title}
