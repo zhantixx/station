@@ -24,7 +24,6 @@ export const articlesData = {
         inlineText: "",
         comments: []
       },
-      // СТАТЬЯ 5009
       {
         id: 5009,
         title: "Рост туризма в Казахстане: новые направления и увеличение посещаемости",
@@ -56,7 +55,6 @@ export const articlesData = {
     streams: [],
   },
 
-  // --- ⚽ СПОРТ (Slug: sports) ---
   sport: {
     articles: [
       {
@@ -105,7 +103,6 @@ export const articlesData = {
         inlineText: null,
         comments: []
       },
-      // СТАТЬЯ 5004
       {
         id: 5004,
         title: "Футбольный клуб «Астана» вышел в финал Кубка Казахстана",
@@ -130,7 +127,6 @@ export const articlesData = {
         inlineImage: null,
         inlineText: null,
       },
-      // НОВАЯ СТАТЬЯ 6001
       {
         id: 6001,
         title: "«Кайрат» вышел в финал Кубка Казахстана после победы над «Астаной»",
@@ -154,7 +150,6 @@ export const articlesData = {
         inlineTexts: [],
         comments: []
       },
-      // НОВАЯ СТАТЬЯ 6002
       {
         id: 6002,
         title: "Елена Рыбакина вышла в четвертьфинал турнира в Дубае",
@@ -174,7 +169,6 @@ export const articlesData = {
         inlineTexts: [],
         comments: []
       },
-      // НОВАЯ СТАТЬЯ 6003
       {
         id: 6003,
         title: "Сборная Казахстана по футболу начала подготовку к матчам с Арменией и Люксембургом",
@@ -196,7 +190,6 @@ export const articlesData = {
       },
     ],
     streams: [
-      // НОВЫЙ СТРИМ 6004
       {
         id: 6004,
         title: "Прямая трансляция: «Кайрат» — «Тобол» | Финал Кубка Казахстана",
@@ -217,7 +210,6 @@ export const articlesData = {
         inlineTexts: [],
         comments: []
       },
-      // НОВЫЙ СТРИМ 6005
       {
         id: 6005,
         title: "LIVE: Елена Рыбакина — Онс Жабер | WTA Дубай, 1/4 финала",
@@ -238,7 +230,6 @@ export const articlesData = {
         inlineTexts: [],
         comments: []
       },
-      // НОВЫЙ СТРИМ 6006
       {
         id: 6006,
         title: "Хоккей: «Барыс» — «Салават Юлаев» | КХЛ, регулярный чемпионат",
@@ -262,7 +253,6 @@ export const articlesData = {
     ],
   },
 
-  // --- 💻 ТЕХНОЛОГИИ (Slug: technologies) ---
   technologies: {
     articles: [
       {
@@ -333,7 +323,6 @@ export const articlesData = {
         inlineText2: ['С момента начала подписания контракта и до запуска первого казахстанского спутника связи прошло два с половиной года. 18 июня 2006 года с космодрома Байконур был осуществлен запуск ракеты-носителя «Протон», который вывел на орбиту «Кazsat-1». За этим историческим событием наблюдали Главы государств России и Казахстана.'],
         comments: []
       },
-      // СТАТЬЯ 5002
       {
         id: 5002,
         title: "Цифровое будущее промышленности: Astana Hub запускает Industrial AI Acceleration 2025",
@@ -361,7 +350,6 @@ export const articlesData = {
           { id: 3, userId: 106, name: "Динара Байжановa", date: "1 день назад", avatar: "/image/avawoman2.png", text: "Интересно, что программы охватывают столько отраслей: от энергетики до телекоммуникаций. Это действительно поддержка цифровизации экономики." },
         ],
       },
-      // СТАТЬЯ 5006
       {
         id: 5006,
         title: "Kcell и Huawei протестировали первую 5G-сеть в Казахстане",
@@ -389,7 +377,6 @@ export const articlesData = {
         inlineText3: null,
         inlineText4: null,
       },
-      // СТАТЬЯ 5007
       {
         id: 5007,
         title: "Как AI меняет Казахстан: стартапы, образование и госуслуги",

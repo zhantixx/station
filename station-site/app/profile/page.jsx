@@ -17,11 +17,11 @@ export default function ProfilePage() {
 
     const [showModal, setShowModal] = useState(false);
     const [applicationStatus, setApplicationStatus] = useState(null);
-    
+
     useEffect(() => {
         if (!isAuthenticated) router.push("/");
     }, [isAuthenticated, router]);
-    
+
     useEffect(() => {
         if (currentUser) {
             const storedStatus = localStorage.getItem(`${APPLICATION_STATUS_KEY}_${currentUser.username}`);
@@ -32,7 +32,7 @@ export default function ProfilePage() {
     }, [currentUser]);
 
     if (!isAuthenticated || !currentUser) return null;
-    
+
     const stats = {
         articlesRead: 47,
         comments: 18,
@@ -41,7 +41,7 @@ export default function ProfilePage() {
 
     const handleApplicationSubmit = (formData) => {
         console.log("Заявка на редактора отправлена:", formData);
-        
+
         setApplicationStatus('pending');
         localStorage.setItem(`${APPLICATION_STATUS_KEY}_${currentUser.username}`, 'pending');
         setShowModal(false);
@@ -49,17 +49,17 @@ export default function ProfilePage() {
         setTimeout(() => {
             setApplicationStatus('approved');
             localStorage.setItem(`${APPLICATION_STATUS_KEY}_${currentUser.username}`, 'approved');
-            
+
             alert("Поздравляем! Ваша заявка одобрена. Пожалуйста, перезайдите, чтобы получить доступ редактора.");
-            logout(); 
+            logout();
         }, 5000);
     };
-    
+
     const renderEditorButton = () => {
         if (isEditor()) {
             return (
                 <Button variant="success" className="rounded-pill py-2 fw-bold w-100" disabled>
-                    ✅ Вы — Редактор
+                    Вы — Редактор
                 </Button>
             );
         }
@@ -67,7 +67,7 @@ export default function ProfilePage() {
         if (applicationStatus === 'pending') {
             return (
                 <Button variant="warning" className="rounded-pill py-2 fw-bold w-100" disabled>
-                    ⏳ Заявка на Редактора на рассмотрении...
+                    Заявка на Редактора на рассмотрении...
                 </Button>
             );
         }
@@ -75,7 +75,7 @@ export default function ProfilePage() {
         if (applicationStatus === 'approved') {
             return (
                 <Button variant="info" className="rounded-pill py-2 fw-bold w-100" onClick={logout}>
-                    🎉 Заявка одобрена! Нажмите для перелогина
+                    Заявка одобрена! Нажмите для перелогина
                 </Button>
             );
         }
@@ -86,7 +86,7 @@ export default function ProfilePage() {
                 className="rounded-pill py-2 fw-bold w-100"
                 onClick={() => setShowModal(true)}
             >
-                ✍️ Стать Редактором
+                Стать Редактором
             </Button>
         );
     };
@@ -95,18 +95,15 @@ export default function ProfilePage() {
         <>
             <Header />
 
-            <div className="min-vh-100" style={{ backgroundColor: '#f0f2f5', padding: '60px 0' }}>
-                <Container>
-                    <h1 className="display-4 fw-bolder mb-5 text-center text-dark">
-                        <span className="text-primary me-2">👤</span> Мой Профиль
-                    </h1>
-                    
-                    <Row className="g-5">
+            <div className="d-flex justify-content-center align-items-start" style={{ backgroundColor: '#f0f2f5', padding: '60px 0', minHeight: 'calc(100vh - 120px)' }}>
+                <Container className="my-5">
+                    <Row className="justify-content-center g-5">
                         <Col lg={4}>
                             <Card className="border-0 shadow-lg" style={{ borderRadius: "25px" }}>
-                                <Card.Body className="p-5 text-center">
+                                
+                                <Card.Body className="p-5 text-center d-flex flex-column align-items-center">
                                     <img
-                                        src={currentUser.avatar || "/image/default-avatar.png"}
+                                        src={currentUser.avatar || "/image/ava.png"}
                                         alt="Аватар"
                                         width={130}
                                         height={130}
@@ -117,25 +114,25 @@ export default function ProfilePage() {
                                     </h2>
                                     <p className="text-secondary mb-4">{currentUser.email}</p>
 
-                                    <div className="d-grid gap-3 mb-4">
+                                    <div className="d-grid gap-3 mb-4 w-100" style={{ maxWidth: '280px' }}>
                                         {renderEditorButton()}
                                     </div>
-                                    
-                                    <div className="d-grid gap-3">
+
+                                    <div className="d-grid gap-3 w-100" style={{ maxWidth: '280px' }}>
                                         <Link
                                             href="/profile/favorites"
                                             className="btn btn-outline-dark rounded-pill py-2 fw-semibold"
                                         >
-                                            ⭐ Избранное ({currentUser.favorites?.length || 0})
+                                            Избранное ({currentUser.favorites?.length || 0})
                                         </Link>
                                         <Link
                                             href="/profile/settings"
                                             className="btn btn-outline-secondary rounded-pill py-2"
                                         >
-                                            ⚙️ Настройки
+                                            Настройки
                                         </Link>
                                     </div>
-                                    
+
                                     <Button
                                         variant="danger"
                                         className="rounded-pill px-5 mt-4"
@@ -151,9 +148,9 @@ export default function ProfilePage() {
                             <Card className="border-0 shadow-lg h-100" style={{ borderRadius: "25px" }}>
                                 <Card.Body className="p-5">
                                     <h3 className="fw-bolder mb-4 border-bottom pb-3 text-primary">
-                                        📊 Статистика
+                                        Статистика
                                     </h3>
-                                    
+
                                     <Row className="mb-5 text-center g-4">
                                         <Col md={4}>
                                             <Card className="border-0 shadow-sm" style={{ backgroundColor: '#e3f2fd' }}>
@@ -182,7 +179,7 @@ export default function ProfilePage() {
                                     </Row>
 
                                     <h3 className="fw-bolder mb-3 border-bottom pb-3 text-dark">
-                                        ⚙️ Детали Аккаунта
+                                        Детали Аккаунта
                                     </h3>
                                     <ListGroup variant="flush">
                                         <ListGroup.Item className="d-flex justify-content-between align-items-center px-0 py-3 border-bottom">
@@ -211,8 +208,8 @@ export default function ProfilePage() {
 
             <Footer />
 
-            <EditorApplicationModal 
-                show={showModal} 
+            <EditorApplicationModal
+                show={showModal}
                 handleClose={() => setShowModal(false)}
                 handleSubmit={handleApplicationSubmit}
                 username={currentUser.username}

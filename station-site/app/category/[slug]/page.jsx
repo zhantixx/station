@@ -13,7 +13,7 @@ const categoriesConfig = {
   music:        { name: "Музыка",        color: "#e83e8c" },
   games:        { name: "Игры",          color: "#0d6efd" },
   finance:      { name: "Финансы",       color: "#ffc107" },
-  sport:       { name: "Спорт",         color: "#20c997" },     // ← sports, а не sport!
+  sport:       { name: "Спорт",         color: "#20c997" },     
   travel:       { name: "Путешествия",   color: "#17a2b8" },
   technologies: { name: "Технологии",    color: "#6f42c1" },
   culture:      { name: "Культура",      color: "#6c757d" },
@@ -21,10 +21,8 @@ const categoriesConfig = {
 };
 
 export default function CategoryPage({ params }) {
-  // ← Это единственное, что нужно для Next.js 15
   const { slug } = use(params);
 
-  // Если slug по какой-то причине пустой
   if (!slug) {
     return (
       <>
