@@ -765,6 +765,7 @@ export const articlesData = {
         categoryLink: "/finance",
         time: "1 день назад",
         author: {
+          id: 128,
           name: "Андрей Валентинов",
           avatar: "",
         },

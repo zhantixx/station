@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from "react"; // Добавлен useMemo
 import { useParams, useRouter } from "next/navigation";
 // ИСПРАВЛЕНО: Изменен импорт для соответствия файловой структуре
-import { articlesData } from "@/data/articles.js"; 
+import { articlesData } from "../../data/articles.js"; 
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 import RecommendationsSection from "../../../components/RecommendSection";

@@ -137,10 +137,10 @@ export const users = [
     avatar: "/image/avawoman3.png",
     bio: "Пользователь",
     activityStats: [
-        { count: 12, label: 'Прочитано статей', icon: 'bi-book-fill', color: 'text-primary' },
-        { count: 4, label: 'Оставлено комментариев', icon: 'bi-chat-dots-fill', color: 'text-info' },
-        { count: 7, label: 'Понравившихся статей', icon: 'bi-heart-fill', color: 'text-danger' },
-        { count: 44, label: 'Дней на платформе', icon: 'text-success' },
+        { count: 40, label: 'Прочитано статей', icon: 'bi-book-fill', color: 'text-primary' },
+        { count: 5, label: 'Оставлено комментариев', icon: 'bi-chat-dots-fill', color: 'text-info' },
+        { count: 20, label: 'Понравившихся статей', icon: 'bi-heart-fill', color: 'text-danger' },
+        { count: 105, label: 'Дней на платформе', icon: 'bi-clock-fill', color: 'text-success' },
     ],
 },
 {
@@ -150,10 +150,10 @@ export const users = [
     avatar: "/image/avaman3.png",
     bio: "Пользователь",
     activityStats: [
-        { count: 58, label: 'Прочитано статей', icon: 'bi-book-fill', color: 'text-primary' },
-        { count: 21, label: 'Оставлено комментариев', icon: 'bi-chat-dots-fill', color: 'text-info' },
-        { count: 44, label: 'Понравившихся статей', icon: 'bi-heart-fill', color: 'text-danger' },
-        { count: 301, label: 'Дней на платформе', icon: 'text-success' },
+        { count: 60, label: 'Прочитано статей', icon: 'bi-book-fill', color: 'text-primary' },
+        { count: 3, label: 'Оставлено комментариев', icon: 'bi-chat-dots-fill', color: 'text-info' },
+        { count: 7, label: 'Понравившихся статей', icon: 'bi-heart-fill', color: 'text-danger' },
+        { count: 30, label: 'Дней на платформе', icon: 'bi-clock-fill', color: 'text-success' },
     ],
 },
 {
@@ -176,10 +176,10 @@ export const users = [
     avatar: "/image/avawoman2.png",
     bio: "Пользователь",
     activityStats: [
-        { count: 74, label: 'Прочитано статей', icon: 'bi-book-fill', color: 'text-primary' },
-        { count: 17, label: 'Оставлено комментариев', icon: 'bi-chat-dots-fill', color: 'text-info' },
-        { count: 50, label: 'Понравившихся статей', icon: 'bi-heart-fill', color: 'text-danger' },
-        { count: 430, label: 'Дней на платформе', icon: 'text-success' },
+        { count: 20, label: 'Прочитано статей', icon: 'bi-book-fill', color: 'text-primary' },
+        { count: 5, label: 'Оставлено комментариев', icon: 'bi-chat-dots-fill', color: 'text-info' },
+        { count: 15, label: 'Понравившихся статей', icon: 'bi-heart-fill', color: 'text-danger' },
+        { count: 97, label: 'Дней на платформе', icon: 'bi-clock-fill', color: 'text-success' },
     ],
 },
 {
@@ -363,6 +363,30 @@ export const users = [
         { count: 48, label: 'Понравившихся статей', icon: 'bi-heart-fill', color: 'text-danger' },
         { count: 500, label: 'Дней на платформе', icon: 'text-success' },
     ],
-}
-
+},
+  {
+    id: 128,
+    name: "Андрей Валентинов",
+    role: "author", 
+    avatar: "/image/avaman2.png",
+    profileImage: "/image/author2.png",
+    bio: "Люблю читать экономические новости и делиться мнением.", 
+    subtitle: "Аналитик по макроэкономике и цифровой инфраструктуре, Астана",
+    fullBio: [ 
+      "Профессиональный аналитик с более чем 10-летним опытом работы в сфере макроэкономики, телекоммуникаций и цифровизации. Специализируюсь на исследованиях цифровой трансформации Казахстана, внедрении 5G-технологий и их влиянии на экономику страны.",
+      "За последние годы активно изучаю развитие инфраструктуры связи в Центральной Азии, включая модернизацию базовых станций, расширение оптоволоконных сетей и влияние высокоскоростного интернета на производительность бизнеса.",
+      "Публикую обзоры по макроэкономическим тенденциям, рынкам сырья, региональным инвестициям, а также аналитические материалы о цифровых сервисах, финтехе и e-government.",
+      "Интересуюсь стратегией цифрового Казахстана, развитием искусственного интеллекта и влиянием технологий на рынок труда. В свободное время увлекаюсь горным туризмом и чтением научно-популярной литературы.",
+    ],
+    contacts: {
+        email: "andrey.n@example.com",
+        linkedin: "https://linkedin.com/in/aidos-n",
+        twitter: "https://twitter.com/andrey_kz",
+        phone: "+7 778 255 9055"
+    },
+    posts: [
+      { id: 5001 },
+      
+    ],
+  },
 ];

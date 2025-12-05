@@ -183,10 +183,10 @@ export default function UserPage() {
             <h3 className="fw-bold mb-4 fs-4 text-primary">Контакты и Соцсети</h3>
 
             <div className="row g-3">
-              {renderContactCard(user.contacts.email, 'Email', `mailto:${user.contacts.email}`,'📩', <i className="bi bi-envelope-fill"></i>)}
-              {renderContactCard(user.contacts.phone, user.contacts.phone, `tel:${user.contacts.phone.replace(/\s/g, '')}`, '📱' ,<i className="bi bi-telephone-fill"></i>, true)}
-              {renderContactCard(user.contacts.linkedin, 'LinkedIn', user.contacts.linkedin, '🔗', <i className="bi bi-linkedin"></i>)}
-              {renderContactCard(user.contacts.twitter, 'Twitter', user.contacts.twitter, '🐦', <i className="bi bi-twitter-x"></i>)}
+              {renderContactCard(user.contacts.email,'Email', `mailto:${user.contacts.email}`, <i className="bi bi-envelope-fill"></i>)}
+              {renderContactCard(user.contacts.phone, user.contacts.phone, `tel:${user.contacts.phone.replace(/\s/g, '')}` ,<i className="bi bi-telephone-fill"></i>, true)}
+              {renderContactCard(user.contacts.linkedin, 'LinkedIn', user.contacts.linkedin, <i className="bi bi-linkedin"></i>)}
+              {renderContactCard(user.contacts.twitter, 'Twitter', user.contacts.twitter, <i className="bi bi-twitter-x"></i>)}
             </div>
           </div>
         )}
