@@ -201,7 +201,7 @@ export default function UserPage() {
                     <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
                         {userArticles.map(article => (
                             <div className="col" key={article.id}>
-                                <Link href={`/article/${article.id}`} className="text-decoration-none">
+                                <Link href={`/${article.id}`} className="text-decoration-none">
                                     <div className="card h-100 border-0 shadow-sm transition-shadow">
                                         <img
                                             src={article.heroImage || article.image}
