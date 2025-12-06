@@ -191,14 +191,14 @@ export default function ArticlePage() {
 
         <hr className="my-5 border-3" />
         
-        <h2 className="mb-4 fw-bold text-center">⭐ Читайте также</h2>
+        <h2 className="mb-4 fw-bold text-center">Читайте также</h2>
         <RecommendationsSection recommendations={allPosts.slice(0, 4)} />
 
         <hr className="my-5 border-3" />
         
         <Row className="justify-content-center">
           <Col lg={11} xl={10}>
-            <h2 className="mb-4 fw-bold">💬 Обсуждение</h2>
+            <h2 className="mb-4 fw-bold">Обсуждение</h2>
             <div id="comments-section">
               <Comments initialComments={post.comments || []} />
             </div>
