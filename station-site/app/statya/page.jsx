@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import Link from "next/link";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import ArticleCard from "../../components/ArticleCard";
+import PostsSection from "../../components/PostsSection";
 import SmallArticleCard from "../../components/SmallArticleCard";
 import Pagination from "../../components/Pagination";
 import { articlesData } from "../data/articles";
@@ -19,7 +18,7 @@ const getAllArticles = (data) => {
       all.push(...data[categoryKey].articles);
     }
   }
-  return all.sort((a, b) => b.id - a.id); 
+  return all.sort((a, b) => b.id - a.id);
 };
 
 export default function StatyaPage() {
@@ -27,7 +26,6 @@ export default function StatyaPage() {
   const allArticles = useMemo(() => getAllArticles(articlesData), []);
 
   const totalPages = Math.ceil(allArticles.length / ARTICLES_PER_PAGE);
-
   const startIndex = (currentPage - 1) * ARTICLES_PER_PAGE;
   const endIndex = startIndex + ARTICLES_PER_PAGE;
   const articlesToShow = allArticles.slice(startIndex, endIndex);
@@ -46,7 +44,6 @@ export default function StatyaPage() {
 
       <Container className="my-5">
         <Row className="g-4">
-          
           <Col lg={8}>
             <div className="mb-4 pb-2 border-bottom">
               <h1 className="fw-bold">Статьи</h1>
@@ -55,25 +52,10 @@ export default function StatyaPage() {
               </p>
             </div>
 
-            <Row className="g-4">
-              {articlesToShow.map((article) => (
-                <Col key={article.id} xs={12}>
-                  <Link href={`/statya/${article.id}`} className="text-decoration-none">
-                    <ArticleCard
-                      img={article.heroImage || article.img}
-                      title={article.title}
-                      excerpt={article.excerpt || (article.content && Array.isArray(article.content) ? article.content[0]?.slice(0, 150) + "..." : "")}
-                      author={article.author?.name || article.author || "Редакция"}
-                      date={article.time || article.date || "Дата не указана"}
-                    />
-                  </Link>
-                </Col>
-              ))}
-            </Row>
-
+            <PostsSection posts={articlesToShow} size="small" variant="default" />
             
             <div className="mt-5 d-flex justify-content-center">
-              <Pagination 
+              <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
@@ -81,21 +63,18 @@ export default function StatyaPage() {
             </div>
           </Col>
 
-          
           <Col lg={4}>
-            
             <div className="mb-5">
               <h3 className="fw-bold h5 mb-3 border-start border-3 border-primary ps-2">
                 Популярное за неделю
               </h3>
-
               <div className="d-flex flex-column gap-3">
                 {popularWeek.map((item) => (
                   <SmallArticleCard
                     key={item.id}
-                    img={item.img}
+                    img={item.heroImage || item.img}
                     category={item.category}
-                    time={item.time || item.date}
+                    time={item.time}
                     title={item.title}
                     href={`/statya/${item.id}`}
                   />
@@ -103,19 +82,17 @@ export default function StatyaPage() {
               </div>
             </div>
 
-            
             <div className="mb-4">
               <h3 className="fw-bold h5 mb-3 border-start border-3 border-warning ps-2">
                 Популярное за месяц
               </h3>
-
               <div className="d-flex flex-column gap-3">
                 {popularMonth.map((item) => (
                   <SmallArticleCard
                     key={item.id}
-                    img={item.img}
+                    img={item.heroImage || item.img}
                     category={item.category}
-                    time={item.time || item.date}
+                    time={item.time}
                     title={item.title}
                     href={`/statya/${item.id}`}
                   />

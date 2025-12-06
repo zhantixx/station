@@ -2,9 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
-import { Card, Badge } from "react-bootstrap"; // Добавили Badge
+import { Card, Badge } from "react-bootstrap"; 
 
-// Маппинг категорий на классы Bootstrap для цвета (bg-*)
 const CATEGORY_STYLES = {
     "Политика": "danger",
     "Музыка": "info", 
@@ -15,13 +14,11 @@ const CATEGORY_STYLES = {
     "Технологии": "secondary", 
     "Культура": "secondary", 
     "Наука": "dark", 
-    // Дефолтный цвет, если категория не найдена
     "default": "primary" 
 };
 
 export default function SmallArticleCard({ img, category, time, title, href }) {
     
-    // Определяем цвет категории
     const categoryBgClass = CATEGORY_STYLES[category] || CATEGORY_STYLES.default;
 
     return (
@@ -65,9 +62,9 @@ export default function SmallArticleCard({ img, category, time, title, href }) {
                     />
                 </div>
 
-                <Card.Body className="ms-3 flex-grow-1 p-0"> {/* Убрал padding из Card.Body, чтобы он не конфликтовал с внешним p-2 */}
+                <Card.Body className="ms-3 flex-grow-1 p-0"> 
                     <div className="d-flex justify-content-between mb-1 align-items-center">
-                        {/* 🛠️ ИСПОЛЬЗУЕМ ДИНАМИЧЕСКИЙ Badge */}
+                       
                         {category && (
                             <Badge bg={categoryBgClass} className="text-uppercase fw-bold" style={{ fontSize: "0.7rem" }}>
                                 {category}

@@ -4,11 +4,12 @@ import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 import { useAuth } from "../../../lib/AuthContext";
 import { articlesData } from "../../data/articles";
-import { Container, Card, Button } from "react-bootstrap";
+import { Container, Card } from "react-bootstrap";
 import Link from "next/link";
+import PostsSection from "../../../components/PostsSection"; 
 
 export default function FavoritesPage() {
-    const { currentUser, removeFavorite } = useAuth();
+    const { currentUser } = useAuth();
 
     const allPosts = Object.values(articlesData).flatMap(c => [
         ...(c.articles || []),
@@ -16,6 +17,10 @@ export default function FavoritesPage() {
     ]);
 
     const favorites = currentUser?.favorites || [];
+
+    const favoritePosts = favorites
+        .map(fav => allPosts.find(p => p.id === fav.id))
+        .filter(Boolean); 
 
     return (
         <>
@@ -27,10 +32,10 @@ export default function FavoritesPage() {
                 </Link>
 
                 <h2 className="display-6 fw-bold mb-5 text-center text-dark">
-                    Мое Избранное <span className="text-primary">({favorites.length})</span>
+                    Мое Избранное <span className="text-primary">({favoritePosts.length})</span>
                 </h2>
 
-                {favorites.length === 0 ? (
+                {favoritePosts.length === 0 ? (
                     <Card className="text-center p-5 border-dashed shadow-sm" style={{ borderRadius: "20px", borderStyle: "dashed" }}>
                         <Card.Body>
                             <div className="mb-4 text-primary opacity-75">
@@ -46,57 +51,10 @@ export default function FavoritesPage() {
                         </Card.Body>
                     </Card>
                 ) : (
-                    <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                        {favorites.map(fav => {
-                            const post = allPosts.find(p => p.id === fav.id);
-                            if (!post) return null;
-
-                            return (
-                                <div key={post.id} className="col">
-                                    <Card 
-                                        className="h-100 border-0 shadow-sm transition-all hover-scale-up" 
-                                        style={{ borderRadius: "16px", overflow: "hidden" }}
-                                    >
-                                        {post.image && (
-                                            <div className="position-relative">
-                                                <Card.Img
-                                                    variant="top"
-                                                    src={post.image}
-                                                    alt={post.title}
-                                                    style={{ height: "180px", objectFit: "cover" }}
-                                                />
-                                                <span className="badge bg-secondary position-absolute top-0 end-0 m-2 rounded-pill">
-                                                    {post.type === 'stream' ? 'Трансляция' : 'Статья'}
-                                                </span>
-                                            </div>
-                                        )}
-                                        <Card.Body className="d-flex flex-column p-4">
-                                            <Card.Title className="fw-bold fs-6 mb-2">
-                                                <Link href={`/statya/${post.id}`} className="text-decoration-none text-dark stretched-link hover-primary">
-                                                    {post.title}
-                                                </Link>
-                                            </Card.Title>
-                                            <small className="text-muted mb-3">
-                                                {post.category} · {post.time || "Недавно"}
-                                            </small>
-                                            <Button
-                                                variant="outline-danger"
-                                                size="sm"
-                                                className="mt-auto rounded-pill fw-semibold"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    removeFavorite(post.id);
-                                                }}
-                                                style={{ zIndex: 10 }}
-                                            >
-                                                Удалить
-                                            </Button>
-                                        </Card.Body>
-                                    </Card>
-                                </div>
-                            );
-                        })}
-                    </div>
+                    <PostsSection 
+                        posts={favoritePosts} 
+                        size="large" 
+                    />
                 )}
             </Container>
 
