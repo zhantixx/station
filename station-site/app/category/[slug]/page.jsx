@@ -18,6 +18,7 @@ const categoriesConfig = {
   technologies: { name: "Технологии",    color: "#6f42c1" },
   culture:      { name: "Культура",      color: "#6c757d" },
   science:      { name: "Наука",         color: "#495057" },
+  education: {name:}
 };
 
 export default function CategoryPage({ params }) {
