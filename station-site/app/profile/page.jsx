@@ -1,182 +1,220 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../lib/AuthContext";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import { Container, Row, Col, Nav, Card, Button, ListGroup, Alert, Badge, Image, ProgressBar } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, ListGroup } from "react-bootstrap";
+import Link from "next/link";
+import EditorApplicationModal from "../../components/EditorApplicationModal";
+
+const APPLICATION_STATUS_KEY = "editorApplicationStatus";
 
 export default function ProfilePage() {
-  const { currentUser, isAuthenticated, logout, removeFavorite } = useAuth();
-  const router = useRouter();
-  const [activeTab, setActiveTab] = useState('info');
+    const { currentUser, isAuthenticated, logout, isEditor } = useAuth();
+    const router = useRouter();
 
-  useEffect(() => {
-    if (!isAuthenticated) router.push("/");
-  }, [isAuthenticated, router]);
+    const [showModal, setShowModal] = useState(false);
+    const [applicationStatus, setApplicationStatus] = useState(null);
 
-  if (!isAuthenticated) return null;
+    useEffect(() => {
+        if (!isAuthenticated) router.push("/");
+    }, [isAuthenticated, router]);
 
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'info':
+    useEffect(() => {
+        if (currentUser) {
+            const storedStatus = localStorage.getItem(`${APPLICATION_STATUS_KEY}_${currentUser.username}`);
+            if (storedStatus) {
+                setApplicationStatus(storedStatus);
+            }
+        }
+    }, [currentUser]);
+
+    if (!isAuthenticated || !currentUser) return null;
+
+    const stats = {
+        articlesRead: 47,
+        comments: 18,
+        registrationDate: "01.01.2025"
+    };
+
+    const handleApplicationSubmit = (formData) => {
+        console.log("Заявка на редактора отправлена:", formData);
+
+        setApplicationStatus('pending');
+        localStorage.setItem(`${APPLICATION_STATUS_KEY}_${currentUser.username}`, 'pending');
+        setShowModal(false);
+
+        setTimeout(() => {
+            setApplicationStatus('approved');
+            localStorage.setItem(`${APPLICATION_STATUS_KEY}_${currentUser.username}`, 'approved');
+
+            alert("Поздравляем! Ваша заявка одобрена. Пожалуйста, перезайдите, чтобы получить доступ редактора.");
+            logout();
+        }, 5000);
+    };
+
+    const renderEditorButton = () => {
+        if (isEditor()) {
+            return (
+                <Button variant="success" className="rounded-pill py-2 fw-bold w-100" disabled>
+                    Вы — Редактор
+                </Button>
+            );
+        }
+
+        if (applicationStatus === 'pending') {
+            return (
+                <Button variant="warning" className="rounded-pill py-2 fw-bold w-100" disabled>
+                    Заявка на Редактора на рассмотрении...
+                </Button>
+            );
+        }
+
+        if (applicationStatus === 'approved') {
+            return (
+                <Button variant="info" className="rounded-pill py-2 fw-bold w-100" onClick={logout}>
+                    Заявка одобрена! Нажмите для перелогина
+                </Button>
+            );
+        }
+
         return (
-          <Card className="p-4 shadow-sm mb-4 border-0 rounded-4">
-            <Card.Title className="mb-3">Основные данные</Card.Title>
-            <ListGroup variant="flush">
-              <ListGroup.Item className="d-flex justify-content-between align-items-center">
-                <span>Имя пользователя:</span>
-                <Badge bg="secondary">{currentUser.username}</Badge>
-              </ListGroup.Item>
-              <ListGroup.Item className="d-flex justify-content-between align-items-center">
-                <span>Email:</span>
-                <Badge bg="secondary">{currentUser.email}</Badge>
-              </ListGroup.Item>
-              <ListGroup.Item className="d-flex justify-content-between align-items-center">
-                <span>Дата регистрации:</span>
-                <Badge bg="secondary">01.01.2024</Badge>
-              </ListGroup.Item>
-              <ListGroup.Item className="d-flex justify-content-between align-items-center">
-                <span>Статус:</span>
-                <Badge bg="success">Активный</Badge>
-              </ListGroup.Item>
-            </ListGroup>
-
-            <Card className="mt-4 p-3 border-0 bg-light rounded-3">
-              <Card.Subtitle className="mb-2">Статистика активности</Card.Subtitle>
-              <div className="mb-2">
-                <span>Прочитано статей: 35</span>
-                <ProgressBar now={70} label="70%" />
-              </div>
-              <div className="mb-2">
-                <span>Комментарии оставлено: 12</span>
-                <ProgressBar now={50} label="50%" variant="info" />
-              </div>
-            </Card>
-
-            <Button variant="danger" className="mt-4 w-100" onClick={logout}>Выйти из аккаунта</Button>
-          </Card>
+            <Button
+                variant="primary"
+                className="rounded-pill py-2 fw-bold w-100"
+                onClick={() => setShowModal(true)}
+            >
+                Стать Редактором
+            </Button>
         );
+    };
 
-      case 'favorites':
-        const favorites = currentUser.favorites || [];
-        return (
-          <Card className="p-4 shadow-sm mb-4 border-0 rounded-4">
-            <Card.Title className="mb-3">Избранные новости <Badge bg="primary">{favorites.length}</Badge></Card.Title>
-            {favorites.length === 0 ? (
-              <Alert variant="secondary">У вас пока нет избранных новостей.</Alert>
-            ) : (
-              <ListGroup variant="flush">
-                {favorites.map(news => (
-                  <ListGroup.Item key={news.id} className="d-flex justify-content-between align-items-center py-3">
-                    <div>
-                      <a href={`/statya/${news.id}`} className="fw-semibold text-decoration-none text-dark">{news.title}</a>
-                      <div className="text-muted" style={{ fontSize: '0.85rem' }}>
-                        {news.category} | {news.date}
-                      </div>
-                    </div>
-                    <Button
-                      variant="outline-danger"
-                      size="sm"
-                      onClick={() => removeFavorite(news.id)}
-                      className="d-flex align-items-center justify-content-center"
-                    >
-                      Удалить
-                    </Button>
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
-            )}
-          </Card>
-        );
+    return (
+        <>
+            <Header />
 
-      case 'settings':
-        return (
-          <Card className="p-4 shadow-sm mb-4 border-0 rounded-4">
-            <Card.Title className="mb-3">Настройки аккаунта</Card.Title>
-            <p className="text-muted mb-3">
-              Здесь можно изменить пароль, обновить email или настроить уведомления.
-            </p>
-            <Button variant="primary" className="me-2">Изменить пароль</Button>
-            <Button variant="secondary">Обновить email</Button>
-          </Card>
-        );
+            <div className="d-flex justify-content-center align-items-start" style={{ backgroundColor: '#f0f2f5', padding: '60px 0', minHeight: 'calc(100vh - 120px)' }}>
+                <Container className="my-5">
+                    <Row className="justify-content-center g-5">
+                        <Col lg={4}>
+                            <Card className="border-0 shadow-lg" style={{ borderRadius: "25px" }}>
+                                
+                                <Card.Body className="p-5 text-center d-flex flex-column align-items-center">
+                                    <img
+                                        src={currentUser.avatar || "/image/ava.png"}
+                                        alt="Аватар"
+                                        width={130}
+                                        height={130}
+                                        className="rounded-circle shadow-sm border border-5 border-primary mb-4"
+                                    />
+                                    <h2 className="fw-bolder mb-1 text-dark" style={{ fontSize: '1.8rem' }}>
+                                        {currentUser.username}
+                                    </h2>
+                                    <p className="text-secondary mb-4">{currentUser.email}</p>
 
-      default:
-        return null;
-    }
-  };
+                                    <div className="d-grid gap-3 mb-4 w-100" style={{ maxWidth: '280px' }}>
+                                        {renderEditorButton()}
+                                    </div>
 
-  return (
-    <>
-      <Header />
-      <Container className="py-5">
-        <Row className="mb-4">
-          <Col>
-            <h2 className="fw-bold">Личный кабинет</h2>
-            <p className="text-muted">
-              Добро пожаловать, <strong>{currentUser.username}</strong>! Управляйте вашим профилем и избранным контентом.
-            </p>
-          </Col>
-        </Row>
+                                    <div className="d-grid gap-3 w-100" style={{ maxWidth: '280px' }}>
+                                        <Link
+                                            href="/profile/favorites"
+                                            className="btn btn-outline-dark rounded-pill py-2 fw-semibold"
+                                        >
+                                            Избранное ({currentUser.favorites?.length || 0})
+                                        </Link>
+                                        <Link
+                                            href="/profile/settings"
+                                            className="btn btn-outline-secondary rounded-pill py-2"
+                                        >
+                                            Настройки
+                                        </Link>
+                                    </div>
 
-        <Row>
-          {/* Sidebar */}
-          <Col xs={12} md={3} className="mb-4">
-            <Card className="p-3 shadow-sm rounded-4 text-center mb-4 border-0">
-              {currentUser.avatar ? (
-                <Image src={currentUser.avatar} roundedCircle width={100} height={100} className="mb-3 border border-secondary" />
-              ) : (
-                <div className="bg-secondary rounded-circle mx-auto mb-3" style={{ width: 100, height: 100 }}></div>
-              )}
-              <Card.Title className="mb-1">{currentUser.username}</Card.Title>
-              <Card.Text className="text-muted" style={{ fontSize: '0.85rem' }}>Активный пользователь</Card.Text>
-            </Card>
+                                    <Button
+                                        variant="danger"
+                                        className="rounded-pill px-5 mt-4"
+                                        onClick={logout}
+                                    >
+                                        Выйти
+                                    </Button>
+                                </Card.Body>
+                            </Card>
+                        </Col>
 
-            <Nav variant="pills" className="flex-column gap-2">
-              <Nav.Item>
-                <Nav.Link
-                  active={activeTab === 'info'}
-                  onClick={() => setActiveTab('info')}
-                  className="d-flex align-items-center gap-2 py-2 rounded-3"
-                >
-                  Информация
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link
-                  active={activeTab === 'favorites'}
-                  onClick={() => setActiveTab('favorites')}
-                  className="d-flex align-items-center gap-2 py-2 rounded-3"
-                >
-                  Избранное
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link
-                  active={activeTab === 'settings'}
-                  onClick={() => setActiveTab('settings')}
-                  className="d-flex align-items-center gap-2 py-2 rounded-3"
-                >
-                  Настройки
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link onClick={logout} className="text-danger d-flex align-items-center gap-2 py-2 rounded-3">
-                  Выйти
-                </Nav.Link>
-              </Nav.Item>
-            </Nav>
-          </Col>
+                        <Col lg={8}>
+                            <Card className="border-0 shadow-lg h-100" style={{ borderRadius: "25px" }}>
+                                <Card.Body className="p-5">
+                                    <h3 className="fw-bolder mb-4 border-bottom pb-3 text-primary">
+                                        Статистика
+                                    </h3>
 
-          {/* Main Content */}
-          <Col xs={12} md={9}>
-            {renderContent()}
-          </Col>
-        </Row>
-      </Container>
-      <Footer />
-    </>
-  );
+                                    <Row className="mb-5 text-center g-4">
+                                        <Col md={4}>
+                                            <Card className="border-0 shadow-sm" style={{ backgroundColor: '#e3f2fd' }}>
+                                                <Card.Body>
+                                                    <h4 className="display-5 fw-bolder text-primary">{currentUser.favorites?.length || 0}</h4>
+                                                    <p className="mb-0 text-muted">В избранном</p>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                        <Col md={4}>
+                                            <Card className="border-0 shadow-sm" style={{ backgroundColor: '#e8f5e9' }}>
+                                                <Card.Body>
+                                                    <h4 className="display-5 fw-bolder text-success">{stats.articlesRead}</h4>
+                                                    <p className="mb-0 text-muted">Прочитано статей</p>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                        <Col md={4}>
+                                            <Card className="border-0 shadow-sm" style={{ backgroundColor: '#fff3e0' }}>
+                                                <Card.Body>
+                                                    <h4 className="display-5 fw-bolder text-warning">{stats.comments}</h4>
+                                                    <p className="mb-0 text-muted">Комментариев</p>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+
+                                    <h3 className="fw-bolder mb-3 border-bottom pb-3 text-dark">
+                                        Детали Аккаунта
+                                    </h3>
+                                    <ListGroup variant="flush">
+                                        <ListGroup.Item className="d-flex justify-content-between align-items-center px-0 py-3 border-bottom">
+                                            <span className="text-secondary fw-semibold">Имя пользователя:</span>
+                                            <strong className="text-dark">{currentUser.username}</strong>
+                                        </ListGroup.Item>
+                                        <ListGroup.Item className="d-flex justify-content-between align-items-center px-0 py-3 border-bottom">
+                                            <span className="text-secondary fw-semibold">Email:</span>
+                                            <strong className="text-dark">{currentUser.email}</strong>
+                                        </ListGroup.Item>
+                                        <ListGroup.Item className="d-flex justify-content-between align-items-center px-0 py-3 border-bottom">
+                                            <span className="text-secondary fw-semibold">Роль:</span>
+                                            <strong className={`text-capitalize fw-bold ${isEditor() ? 'text-primary' : 'text-success'}`}>{currentUser.role || 'reader'}</strong>
+                                        </ListGroup.Item>
+                                        <ListGroup.Item className="d-flex justify-content-between align-items-center px-0 py-3">
+                                            <span className="text-secondary fw-semibold">Дата регистрации:</span>
+                                            <strong className="text-dark">{stats.registrationDate}</strong>
+                                        </ListGroup.Item>
+                                    </ListGroup>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
+
+            <Footer />
+
+            <EditorApplicationModal
+                show={showModal}
+                handleClose={() => setShowModal(false)}
+                handleSubmit={handleApplicationSubmit}
+                username={currentUser.username}
+                email={currentUser.email}
+            />
+        </>
+    );
 }

@@ -10,7 +10,6 @@ const About = () => {
     <>
       <Header />
 
-      {/* Миссия */}
       <section className="py-5 bg-light">
         <Container>
           <Row className="align-items-center gy-4">
@@ -48,7 +47,6 @@ const About = () => {
         </Container>
       </section>
 
-      {/* Команда */}
       <section className="py-5">
         <Container>
           <Row className="align-items-center gy-4">
@@ -85,7 +83,6 @@ const About = () => {
         </Container>
       </section>
 
-      {/* Преимущества / карточки */}
       <section className="py-5 bg-light">
         <Container>
           <Row className="g-4 text-center">
