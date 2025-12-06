@@ -18,8 +18,9 @@ const categoriesConfig = {
   technologies: { name: "Технологии",    color: "#6f42c1" },
   culture:      { name: "Культура",      color: "#6c757d" },
   science:      { name: "Наука",         color: "#495057" },
- education: { name: "Образование", color: "#2563EB" },  
-movies:   { name: "Кино",       color: "#DC2626" }
+  education: { name: "Образование", color: "#2563EB" },  
+  movies:       { name: "Кино",          color: "#DC2626" }, 
+  health:       { name: "Здоровье",      color: "#10B981" }
 
 };
 
