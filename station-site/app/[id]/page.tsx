@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
-import ArticleClient from './ArticleClient.tsx'; 
+import ArticleClient from './ArticleClient.jsx'; 
 import { Prisma } from '@prisma/client'; 
 import type { Article } from '@prisma/client'; 
 

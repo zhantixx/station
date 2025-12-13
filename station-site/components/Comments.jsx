@@ -109,7 +109,7 @@ export default function Comments({ initialComments, articleId }) {
                 <div className="flex-grow-1 d-flex flex-column">
                     {!isAuthenticated && (
                         <p className="text-muted">
-                            <Link href="/login" className="text-primary fw-bold">Войдите</Link>, чтобы оставить комментарий.
+                            <Link href="/auth" className="text-primary fw-bold">Войдите</Link>, чтобы оставить комментарий.
                         </p>
                     )}
                     <textarea
