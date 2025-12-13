@@ -5,6 +5,13 @@ const nextConfig: NextConfig = {
     root: __dirname, 
   },
   reactStrictMode: true,
+  images: {
+    domains: [
+      "i.ytimg.com",
+      "exclusive.kz",
+      "adm-english-prime-site.seok.com.ua",
+    ],
+  },
 };
 
 export default nextConfig;
