@@ -3,14 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import { users } from "../app/data/users"; // ❌ ЭТО УДАЛЯЕМ, будем использовать данные из БД/контекста
-import { useAuth } from '@/lib/AuthContext'; // 💡 Используем контекст для получения данных пользователя
+import { useAuth } from '@/lib/AuthContext'; 
 
 export default function Comments({ initialComments, articleId }) {
-    // 💡 Используем данные из useAuth
     const { isAuthenticated, user } = useAuth(); 
     
-    // Комментарии будут включать в себя данные о пользователе (name, avatar, id)
     const [comments, setComments] = useState(initialComments || []);
     const [text, setText] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,7 +30,6 @@ export default function Comments({ initialComments, articleId }) {
         const newCommentData = {
             articleId: articleId,
             text: text,
-            // userId не отправляем, его сервер возьмет из куки.
         };
 
         try {
@@ -52,10 +48,8 @@ export default function Comments({ initialComments, articleId }) {
                 return;
             }
 
-            // Сервер должен вернуть созданный комментарий, включая ID, дату, и информацию о пользователе.
             const createdComment = result.comment;
 
-            // 💡 Обновляем локальное состояние, добавляя новый комментарий
             setComments([createdComment, ...comments]);
             setText("");
 
@@ -67,8 +61,6 @@ export default function Comments({ initialComments, articleId }) {
         }
     };
 
-    // 💡 Функция для отображения информации о пользователе.
-    // Если комментарий пришел с сервера, он уже должен содержать имя и аватар автора.
     const renderCommentAuthor = (comment) => {
         const authorName = comment.author?.name || comment.name || 'Аноним';
         const authorAvatar = comment.author?.avatar || comment.avatar || '/image/default-avatar.png';
@@ -85,7 +77,6 @@ export default function Comments({ initialComments, articleId }) {
                     ) : (
                         <strong>{authorName}</strong>
                     )}
-                    {/* Date должен быть ISO-строкой с сервера и форматироваться здесь */}
                     <small className="text-muted ms-2">{comment.date || new Date(comment.createdAt).toLocaleDateString('ru-RU')}</small>
                 </div>
             </div>
@@ -135,7 +126,6 @@ export default function Comments({ initialComments, articleId }) {
                     <div key={c.id || c.date} className="d-flex gap-3">
                         {renderCommentAuthor(c)}
                         <div className="flex-grow-1">
-                            {/* Мы уже отобразили имя и аватар в renderCommentAuthor */}
                             <p className="mb-0">{c.text}</p>
                         </div>
                     </div>
@@ -144,7 +134,3 @@ export default function Comments({ initialComments, articleId }) {
         </section>
     );
 }
-
-// 💡 ВАЖНО: Вам нужно будет обновить место, где вы используете этот компонент, 
-// чтобы передать ему articleId. Например, на странице статьи:
-// <Comments initialComments={article.comments} articleId={article.id} />
