@@ -176,7 +176,6 @@ export default function Header() {
                     </div>
                 </div>
 
-                {/* Поисковая строка с отступом снизу */}
                 <div className="d-flex justify-content-center pb-5">
                     <div className="position-relative w-100 d-flex align-items-center" style={{ maxWidth: "950px" }}>
                         <div className="d-flex align-items-center shadow-lg" style={{ 
@@ -216,13 +215,12 @@ export default function Header() {
                                 type="button"
                                 onClick={performSearch}
                                 className="btn btn-primary rounded-0"
-                                style={{ height: "44px", width: "60px", borderRadius: "0 50px 50px 0" }}
+                                style={{ height: "50px", width: "60px", borderRadius: "0 50px 50px 0" }}
                             >
                                 <span style={{ fontSize: "18px" }}>➔</span>
                             </button>
                         </div>
 
-                        {/* Фильтр по категориям — открывается ниже строки поиска */}
                         {showFilterDropdown && (
                             <div 
                                 className="position-absolute bg-white shadow-lg p-4 rounded" 
@@ -231,7 +229,7 @@ export default function Header() {
                                     right: 0, 
                                     marginTop: "12px",
                                     width: "380px", 
-                                    zIndex: 3000 // самый высокий z-index
+                                    zIndex: 3000 
                                 }}
                                 onClick={(e) => e.stopPropagation()}
                             >

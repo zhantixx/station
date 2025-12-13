@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../lib/AuthContext";
 import Header from "../../components/Header";
@@ -100,14 +100,16 @@ export default function ProfilePage() {
                     <Row className="justify-content-center g-5">
                         <Col lg={4}>
                             <Card className="border-0 shadow-lg" style={{ borderRadius: "25px" }}>
-                                
                                 <Card.Body className="p-5 text-center d-flex flex-column align-items-center">
                                     <img
-                                        src={currentUser.avatar || "/image/ava.png"}
-                                        alt="Аватар"
+                                        src={currentUser.avatar || "/image/profile.png"}
+                                        alt="Аватар пользователя"
                                         width={130}
                                         height={130}
-                                        className="rounded-circle shadow-sm border border-5 border-primary mb-4"
+                                        className="rounded-circle shadow-sm border border-5 border-primary mb-4 object-fit-cover"
+                                        onError={(e) => {
+                                            e.currentTarget.src = "/image/profile.png"; 
+                                        }}
                                     />
                                     <h2 className="fw-bolder mb-1 text-dark" style={{ fontSize: '1.8rem' }}>
                                         {currentUser.username}
@@ -192,7 +194,9 @@ export default function ProfilePage() {
                                         </ListGroup.Item>
                                         <ListGroup.Item className="d-flex justify-content-between align-items-center px-0 py-3 border-bottom">
                                             <span className="text-secondary fw-semibold">Роль:</span>
-                                            <strong className={`text-capitalize fw-bold ${isEditor() ? 'text-primary' : 'text-success'}`}>{currentUser.role || 'reader'}</strong>
+                                            <strong className={`text-capitalize fw-bold ${isEditor() ? 'text-primary' : 'text-success'}`}>
+                                                {currentUser.role || 'reader'}
+                                            </strong>
                                         </ListGroup.Item>
                                         <ListGroup.Item className="d-flex justify-content-between align-items-center px-0 py-3">
                                             <span className="text-secondary fw-semibold">Дата регистрации:</span>

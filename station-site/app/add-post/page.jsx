@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Container, Form, Button, Alert, Card, InputGroup } from 'react-bootstrap';
 import Header from "../../components/Header"; 
@@ -48,8 +48,7 @@ const AccessDeniedMessage = () => (
 
 export default function AddPostPage() {
     const router = useRouter();
-    
-    const { mounted, isAuthenticated, isEditor } = useAuth(); 
+    const { mounted, isAuthenticated, isEditor, currentUser } = useAuth(); // ← currentUser для ID
     
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState(categories[0]); 
@@ -60,7 +59,6 @@ export default function AddPostPage() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false); 
-    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -74,6 +72,12 @@ export default function AddPostPage() {
             return;
         }
 
+        if (!currentUser?.id) {
+            setError('Вы должны быть авторизованы для создания поста.');
+            setLoading(false);
+            return;
+        }
+
         const categorySlug = slugifyCategory(category);
         
         const postData = {
@@ -83,6 +87,7 @@ export default function AddPostPage() {
             excerpt,
             content,
             heroImage,
+            userId: currentUser.id, // ← Передаём ID текущего пользователя
         };
         
         try {
@@ -98,39 +103,41 @@ export default function AddPostPage() {
 
             if (!response.ok) {
                 setError(result.message || 'Ошибка при публикации статьи.');
+                setLoading(false);
                 return;
             }
 
-            setSuccess(`✅ Пост "${title}" успешно опубликован!`);
-            
+            // Успех!
+            setSuccess(`✅ Статья "${title}" успешно опубликована! Перенаправляем на главную...`);
+
+            // Очищаем форму
             setTitle('');
             setExcerpt('');
             setContent('');
             setHeroImage('');
             setCategory(categories[0]);
 
-            if (result.articleId) {
-                setTimeout(() => {
-                    router.push(`/statya/${result.articleId}`); 
-                }, 1500); 
-            }
+            // Переход на главную через 2 секунды
+            setTimeout(() => {
+                router.push('/');
+            }, 2000);
 
         } catch (err) {
             console.error('Ошибка сети или сервера:', err);
             setError('Не удалось связаться с сервером. Попробуйте позже.');
-        } finally {
             setLoading(false);
         }
     };
 
-    if (!mounted || loading) { 
+    if (!mounted) {
         return (
-            <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9f9' }}>
-                <p>{loading ? 'Публикация статьи...' : 'Загрузка данных...'}</p>
+            <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9f9' }}>
+                <p>Загрузка...</p>
             </div>
         ); 
     }
 
+    // Если не авторизован или не редактор — показываем сообщение
     if (!isAuthenticated || !isEditor) {
         return (
             <>
@@ -195,7 +202,7 @@ export default function AddPostPage() {
                                         <InputGroup.Text style={{ ...inputStyle, borderRight: 'none' }}>🖼️</InputGroup.Text>
                                         <Form.Control 
                                             type="url" 
-                                            placeholder="Ссылка на изображение (https://...)" 
+                                            placeholder="Ссылка на изображение[](https://...)" 
                                             value={heroImage}
                                             onChange={(e) => setHeroImage(e.target.value)}
                                             style={{ ...inputStyle, borderLeft: 'none' }}
