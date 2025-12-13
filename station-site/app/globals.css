@@ -6,6 +6,7 @@
 body, html {
   margin: 0 !important; 
   padding: 0 !important;
+  overflow-x: hidden;
   width: 100%;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
   color: #333;
