@@ -34,8 +34,8 @@ export default function ProfilePage() {
     if (!isAuthenticated || !currentUser) return null;
 
     const stats = {
-        articlesRead: 47,
-        comments: 18,
+        articlesRead: 0,
+        comments: 0,
         registrationDate: "01.01.2025"
     };
 
