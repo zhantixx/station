@@ -10,43 +10,65 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 
-export async function searchArticles(query, categoryFilter = "") {
-  const searchString = query ? query.trim() : '';
+export async function searchArticles(query = "", categoryFilter = "") {
+  const searchString = query ? query.trim() : "";
 
-  if (!categoryFilter && (!searchString || searchString.length <= 1)) {
+  if (!searchString && !categoryFilter) {
     return [];
   }
 
-  const whereClause = {};
+  const whereConditions = {
+    AND: [],
+  };
 
   if (categoryFilter) {
-    whereClause.category = categoryFilter;
+    whereConditions.AND.push({
+      category: {
+        equals: categoryFilter,
+        mode: "insensitive", 
+      },
+    });
   }
 
-  if (searchString && searchString.length > 1) {
-    whereClause.OR = [
-      { title: { contains: searchString, mode: "insensitive" } },
-      { content: { hasSome: [searchString] } },
-    ];
-  }
-
-  if (whereClause.OR && whereClause.OR.length === 0) {
-    delete whereClause.OR;
+  if (searchString) {
+    whereConditions.AND.push({
+      OR: [
+        { title: { contains: searchString, mode: "insensitive" } },
+        
+        { excerpt: { hasSome: [searchString] } },
+        
+        { content: { hasSome: [searchString] } }, 
+      ],
+    });
   }
 
   try {
     const articles = await prisma.article.findMany({
-      where: whereClause,
+      where: whereConditions.AND.length > 0 ? { AND: whereConditions.AND } : undefined,
       select: {
         id: true,
         title: true,
-        category: true,
+        excerpt: true,
+        content: true,
         heroImage: true,
+        img: true,
+        category: true,
+        categorySlug: true,
+        createdAt: true,
       },
-      take: 10,
       orderBy: { createdAt: "desc" },
     });
-    return articles;
+
+    return articles.map((article) => ({
+      id: article.id,
+      title: article.title || "Без заголовка",
+      description: article.excerpt?.join(" ") || article.content?.join(" ") || null,
+      content: article.content?.join("\n") || "",
+      heroImage: article.heroImage || article.img || "/image/default.jpg",
+      img: article.img || "/image/default.jpg",
+      category: article.category || "Без категории",
+      createdAt: article.createdAt,
+    }));
   } catch (error) {
     console.error("DATABASE SEARCH ERROR:", error);
     return [];
