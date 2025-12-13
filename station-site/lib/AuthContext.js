@@ -2,182 +2,180 @@
 
 import React, { createContext, useState, useContext, useEffect } from "react";
 
-const USER_ROLES = {
-    READER: "reader",
-    EDITOR: "editor",
-};
-
-const APPLICATION_STATUS_KEY = "editorApplicationStatus";
-
-const initialUsers = [
-    { 
-        username: "test", 
-        email: "test@example.com", 
-        password: "test", 
-        favorites: [], 
-        role: USER_ROLES.EDITOR 
-    },
-    { 
-        username: "reader1", 
-        email: "reader@example.com", 
-        password: "pass", 
-        favorites: [], 
-        role: USER_ROLES.READER
-    },
-];
-
 const AuthContext = createContext();
 
-const getRoleFromStorage = (user) => {
-    const appStatus = localStorage.getItem(`${APPLICATION_STATUS_KEY}_${user.username}`);
-    if (appStatus === 'approved') {
-        return USER_ROLES.EDITOR;
-    }
-    return user.role || USER_ROLES.READER;
-};
-
-
 export const AuthProvider = ({ children }) => {
-    const [users, setUsers] = useState(initialUsers);
-    const [currentUser, setCurrentUser] = useState(null);
-    const [mounted, setMounted] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [mounted, setMounted] = useState(false);
+  const [loadingAuth, setLoadingAuth] = useState(true);
 
-    useEffect(() => {
-        setMounted(true);
-        
-        const storedData = localStorage.getItem("stationAuthData");
-        if (storedData) {
-            try {
-                const { users: loadedUsers, currentUser: loadedCurrentUser } = JSON.parse(storedData);
-                
-                const normalizedUsers = loadedUsers ? loadedUsers.map(u => ({ 
-                    ...u, 
-                    role: u.role || USER_ROLES.READER 
-                })) : initialUsers;
+  useEffect(() => {
+    setMounted(true);
 
-                setUsers(normalizedUsers);
-                
-                if (loadedCurrentUser) {
-                    const finalRole = getRoleFromStorage(loadedCurrentUser);
-                    setCurrentUser({ 
-                        ...loadedCurrentUser,
-                        role: finalRole 
-                    });
-                } else {
-                    setCurrentUser(null);
-                }
-
-            } catch (e) {
-                console.error("Failed to parse auth data from localStorage", e);
-            }
+    const checkAuthStatus = async () => {
+      try {
+        const response = await fetch("/api/auth/session");
+        if (response.ok) {
+          const data = await response.json();
+          if (data.user) {
+            setCurrentUser(data.user);
+          } else {
+            setCurrentUser(null);
+          }
+        } else {
+          setCurrentUser(null);
         }
-    }, []);
-
-    useEffect(() => {
-        if (!mounted) return;
-
-        const authData = {
-            users,
-            currentUser,
-        };
-        localStorage.setItem("stationAuthData", JSON.stringify(authData));
-
-    }, [users, currentUser, mounted]);
-
-    const login = (username, password) => {
-        const user = users.find(u => u.username === username && u.password === password);
-        if (user) {
-            
-            const finalRole = getRoleFromStorage(user);
-
-            const userWithUpdatedRole = { 
-                ...user,
-                role: finalRole 
-            };
-            
-            setCurrentUser(userWithUpdatedRole);
-            return true;
-        }
-        return false;
+      } catch (error) {
+        console.error("Ошибка при проверке сессии:", error);
+        setCurrentUser(null);
+      } finally {
+        setLoadingAuth(false);
+      }
     };
 
-    const register = (username, email, password) => {
-        if (users.some(u => u.username === username || u.email === email)) return false;
-        
-        const newUser = { 
-            username, 
-            email, 
-            password, 
-            favorites: [], 
-            role: USER_ROLES.READER 
-        };
-        
-        setUsers(prevUsers => [...prevUsers, newUser]);
-        setCurrentUser(newUser);
-        return true;
-    };
+    checkAuthStatus();
+  }, []);
 
-    const logout = () => setCurrentUser(null);
+  const register = async (username, email, password) => {
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password }),
+      });
 
-    const isEditor = () => {
-        return !!currentUser && currentUser.role === USER_ROLES.EDITOR;
-    };
+      const data = await response.json();
 
-    const addFavorite = (article) => {
-        if (!currentUser) return;
-        const exists = currentUser.favorites?.some(f => f.id === article.id);
-        
-        if (!exists) {
-            const newFavorites = [...(currentUser.favorites || []), article];
+      if (!response.ok) {
+        throw new Error(data.message || "Ошибка регистрации");
+      }
 
-            setCurrentUser(prevUser => ({
-                ...prevUser,
-                favorites: newFavorites,
-            }));
+      setCurrentUser(data.user);
+      return { success: true };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  };
 
-            setUsers(prevUsers => prevUsers.map(u => 
-                u.username === currentUser.username 
-                    ? { ...u, favorites: newFavorites, role: u.role } 
-                    : u
-            ));
-        }
-    };
+  const login = async (username, password) => {
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
 
-    const removeFavorite = (articleId) => {
-        if (!currentUser) return;
+      const data = await response.json();
 
-        const newFavorites = currentUser.favorites.filter(f => f.id !== articleId);
+      if (!response.ok) {
+        throw new Error(data.message || "Ошибка входа");
+      }
 
-        setCurrentUser(prevUser => ({
-            ...prevUser,
-            favorites: newFavorites,
+      setCurrentUser(data.user);
+      return { success: true };
+    } catch (error) {
+      return { success: false, message: error.message || "Ошибка сети" };
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } catch (error) {
+      console.error("Ошибка при выходе:", error);
+    } finally {
+      setCurrentUser(null);
+    }
+  };
+
+  const addFavorite = async (articleId) => {
+    if (!currentUser) return false;
+
+    try {
+      const res = await fetch("/api/user/favorites", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ articleId: String(articleId) }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setCurrentUser((prev) => ({
+          ...prev,
+          favoriteIds: data.favorites,
         }));
-        
-        setUsers(prevUsers => prevUsers.map(u => 
-            u.username === currentUser.username 
-                ? { ...u, favorites: newFavorites, role: u.role } 
-                : u
-        ));
-    };
+        return true;
+      } else {
+        console.error("Ошибка от сервера:", data.message);
+        alert("Не удалось добавить в избранное.");
+        return false;
+      }
+    } catch (error) {
+      console.error("Ошибка добавления в избранное:", error);
+      alert("Произошла ошибка сети.");
+      return false;
+    }
+  };
 
+  const removeFavorite = async (articleId) => {
+    if (!currentUser) return false;
 
-    return (
-        <AuthContext.Provider
-            value={{
-                currentUser,
-                mounted,
-                login,
-                register,
-                logout,
-                isAuthenticated: !!currentUser,
-                isEditor, 
-                addFavorite,
-                removeFavorite,
-            }}
-        >
-            {children}
-        </AuthContext.Provider>
-    );
+    try {
+      const res = await fetch("/api/user/favorites", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ articleId: String(articleId) }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setCurrentUser((prev) => ({
+          ...prev,
+          favoriteIds: data.favorites,
+        }));
+        return true;
+      } else {
+        console.error("Ошибка от сервера:", data.message);
+        alert("Не удалось удалить из избранного.");
+        return false;
+      }
+    } catch (error) {
+      console.error("Ошибка удаления из избранного:", error);
+      alert("Произошла ошибка сети.");
+      return false;
+    }
+  };
+
+  const isEditor = () => currentUser?.role === "editor";
+
+  const isAuthenticated = !!currentUser;
+
+  return (
+    <AuthContext.Provider
+      value={{
+        currentUser,
+        mounted,
+        loadingAuth,
+        isAuthenticated,
+        isEditor,              
+        login,
+        register,
+        logout,
+        addFavorite,
+        removeFavorite,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth должен использоваться внутри AuthProvider");
+  }
+  return context;
+};

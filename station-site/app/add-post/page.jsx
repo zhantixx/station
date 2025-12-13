@@ -21,6 +21,10 @@ const inputStyle = {
     transition: 'border-color 0.2s',
 };
 
+const slugifyCategory = (name) => {
+    return name.toLowerCase(); 
+};
+
 const AccessDeniedMessage = () => (
     <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '60vh' }}>
         <Card className="shadow-lg text-center p-5" style={{ maxWidth: '600px', borderRadius: '15px' }}>
@@ -33,8 +37,6 @@ const AccessDeniedMessage = () => (
                     Если вы хотите публиковать статьи, <br/> подайте заявку на редактора в вашем профиле:
                 </p>
                 <Link href="/profile">
-                    {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */
-                    }
                     <Button variant="primary" size="lg" className="mt-3 fw-bold" style={{ borderRadius: '50px' }}>
                         Перейти в Профиль
                     </Button>
@@ -46,7 +48,8 @@ const AccessDeniedMessage = () => (
 
 export default function AddPostPage() {
     const router = useRouter();
-    const { mounted, isAuthenticated, isEditor } = useAuth();
+    
+    const { mounted, isAuthenticated, isEditor } = useAuth(); 
     
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState(categories[0]); 
@@ -56,51 +59,79 @@ export default function AddPostPage() {
     
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const [loading, setLoading] = useState(false); 
+    
 
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
         setSuccess('');
+        setLoading(true);
 
         if (!title || !category || !content) {
             setError('Пожалуйста, заполните поля "Заголовок", "Категория" и "Содержание поста".');
+            setLoading(false);
             return;
         }
+
+        const categorySlug = slugifyCategory(category);
         
-        const newPostId = Date.now().toString();
-        const newPost = {
-            id: newPostId,
+        const postData = {
             title,
             category,
-            categoryLink: `/category/${category.toLowerCase()}`,
-            time: "только что",
-            author: { name: "Текущий Редактор", avatar: "/image/default-avatar.png" },
-            heroImage,
+            categorySlug,
             excerpt,
-            content: content.split('\n\n').filter(p => p.trim() !== ''),
+            content,
+            heroImage,
         };
+        
+        try {
+            const response = await fetch('/api/articles/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(postData),
+            });
 
-        console.log("Новый пост для добавления:", newPost);
-        
-        setSuccess(`✅ Пост "${title}" успешно подготовлен!`);
-        
-        setTitle('');
-        setExcerpt('');
-        setContent('');
-        setHeroImage('');
-        setCategory(categories[0]);
+            const result = await response.json();
+
+            if (!response.ok) {
+                setError(result.message || 'Ошибка при публикации статьи.');
+                return;
+            }
+
+            setSuccess(`✅ Пост "${title}" успешно опубликован!`);
+            
+            setTitle('');
+            setExcerpt('');
+            setContent('');
+            setHeroImage('');
+            setCategory(categories[0]);
+
+            if (result.articleId) {
+                setTimeout(() => {
+                    router.push(`/statya/${result.articleId}`); 
+                }, 1500); 
+            }
+
+        } catch (err) {
+            console.error('Ошибка сети или сервера:', err);
+            setError('Не удалось связаться с сервером. Попробуйте позже.');
+        } finally {
+            setLoading(false);
+        }
     };
 
-    if (!mounted) {
+    if (!mounted || loading) { 
         return (
             <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9f9' }}>
-                <p>Загрузка данных...</p>
+                <p>{loading ? 'Публикация статьи...' : 'Загрузка данных...'}</p>
             </div>
         ); 
     }
 
-    if (!isAuthenticated || !isEditor()) {
+    if (!isAuthenticated || !isEditor) {
         return (
             <>
                 <Header />
@@ -209,17 +240,22 @@ export default function AddPostPage() {
                             <Button 
                                 variant="primary" 
                                 type="submit" 
+                                disabled={loading}
                                 className="w-100 py-3 fw-bolder text-uppercase"
                                 style={{ 
                                     fontSize: '1.1rem', 
                                     borderRadius: '50px', 
-                                    backgroundColor: '#1565c0', 
-                                    borderColor: '#1565c0',
-                                    boxShadow: '0 8px 15px rgba(21, 101, 192, 0.3)', 
+                                    backgroundColor: loading ? '#6c757d' : '#1565c0', 
+                                    borderColor: loading ? '#6c757d' : '#1565c0',
+                                    boxShadow: loading ? 'none' : '0 8px 15px rgba(21, 101, 192, 0.3)', 
                                     transition: 'all 0.3s ease'
                                 }}
                             >
-                                <span role="img" aria-label="publish" className="me-2">🚀</span> Опубликовать Статью
+                                {loading ? 'Публикация...' : (
+                                    <>
+                                        <span role="img" aria-label="publish" className="me-2">🚀</span> Опубликовать Статью
+                                    </>
+                                )}
                             </Button>
                         </Form>
                     </Card.Body>

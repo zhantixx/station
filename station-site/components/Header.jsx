@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Container, Button } from "react-bootstrap";
 import Link from "next/link";
 import { useAuth } from "../lib/AuthContext";
+// 🛑 Удаляем: import { articlesData } from "../app/data/articles"; 
+// 🛑 Удаляем: const allArticles = Object.values(articlesData).flatMap(category => category.articles || []);
 
-import { articlesData } from "../app/data/articles"; 
-
-const allArticles = Object.values(articlesData).flatMap(category => category.articles || []);
+// 🛑 ИМПОРТИРУЕМ Server Action
+import { searchArticles } from "@/app/actions"; 
 
 const baseLinkStyle = { 
     fontSize: "18px", 
@@ -31,8 +32,9 @@ export default function Header() {
     const [searchResults, setSearchResults] = useState([]);
     
     const [showFilterDropdown, setShowFilterDropdown] = useState(false);
-    const [selectedCategoryFilter, setSelectedCategoryFilter] = useState('');
-
+    // 💡 Важно: Для фильтра по категории используем строковое значение
+    const [selectedCategoryFilter, setSelectedCategoryFilter] = useState(''); 
+    const [isSearching, setIsSearching] = useState(false); // Для индикации загрузки
 
     const categories = [
         "Политика","Спорт","Технологии","Игры","Музыка","Финансы",
@@ -53,56 +55,62 @@ export default function Header() {
         "Наука": "/category/science",
         "Образование": "/category/education",
     };
+    
+    // 🛑 ИСПРАВЛЕННАЯ ЛОГИКА ПОИСКА: Используем useCallback для мемоизации
+    const handleLiveSearch = useCallback(async (value, categoryFilter = selectedCategoryFilter) => {
+        const query = value.trim();
 
+        if (query.length > 1 || categoryFilter) {
+            setIsSearching(true);
+            try {
+                // 🛑 Вызов Server Action (Server Action)
+                const results = await searchArticles(query, categoryFilter);
+                setSearchResults(results);
+            } catch (error) {
+                console.error("Search failed:", error);
+                setSearchResults([]);
+            } finally {
+                setIsSearching(false);
+            }
+        } else {
+            setSearchResults([]); 
+        }
+    }, [selectedCategoryFilter]);
+
+    // Обработчик изменения инпута
+    const handleInputChange = (e) => {
+        const newValue = e.target.value;
+        setSearchValue(newValue);
+        handleLiveSearch(newValue);
+    };
+
+    // Обработчик применения фильтра
     const handleApplyFilter = (newValue) => {
+        // Устанавливаем новый фильтр или сбрасываем его
         const newCategory = newValue === selectedCategoryFilter ? '' : newValue;
 
         setSelectedCategoryFilter(newCategory);
         
+        // Вызываем поиск с текущим значением инпута и новым фильтром
+        // 💡 Важно: Передаем новый фильтр явно, т.к. стейт обновится асинхронно
         handleLiveSearch(searchValue, newCategory);
         setShowFilterDropdown(false); 
     };
 
-    const handleLiveSearch = (value, categoryFilter = selectedCategoryFilter) => {
-        setSearchValue(value);
-        const query = value.trim().toLowerCase();
-
-        if (query.length > 1 || categoryFilter) {
-            let filteredResults = allArticles;
-
-            if (query.length > 1) {
-                filteredResults = filteredResults.filter(article =>
-                    article.title.toLowerCase().includes(query) ||
-                    article.excerpt?.toLowerCase().includes(query) ||
-                    article.category?.toLowerCase().includes(query)
-                );
-            }
-
-            if (categoryFilter) {
-                filteredResults = filteredResults.filter(article =>
-                    article.category.toLowerCase() === categoryFilter.toLowerCase()
-                );
-            }
-
-            setSearchResults(filteredResults.slice(0, 5)); 
-        } else {
-            setSearchResults([]); 
-        }
-    };
-
+    // Обработчик Enter
     const handleEnterSearch = (e) => {
         if (e.key === "Enter" && searchValue.trim() !== "") {
-            
+             // 💡 В реальном приложении: лучше перенаправлять на страницу /search?query=...
+             // но для демонстрации используем текущую логику перенаправления
             if (searchResults.length > 0) {
                 const firstArticleId = searchResults[0].id;
                 router.push(`/statya/${firstArticleId}`);
-                setSearchResults([]); 
-                setShowFilterDropdown(false);
             } else {
                 router.push(`/search?query=${searchValue}`);
-                setSearchResults([]); 
-                setShowFilterDropdown(false);
             }
+            setSearchResults([]); 
+            setShowFilterDropdown(false);
+            setSearchValue("");
         }
     };
     
@@ -244,7 +252,7 @@ export default function Header() {
                                 type="text"
                                 placeholder="Поиск по теме..."
                                 value={searchValue}
-                                onChange={(e) => handleLiveSearch(e.target.value)} 
+                                onChange={handleInputChange} // 🛑 Используем новый обработчик
                                 onKeyDown={handleEnterSearch}
                                 style={{ 
                                     width: "100%", 
@@ -277,6 +285,15 @@ export default function Header() {
                                 />
                             </button>
                         </div>
+
+                        {/* 🛑 ИНДИКАЦИЯ ЗАГРУЗКИ (опционально) */}
+                        {isSearching && (
+                            <div className="position-absolute" style={{ top: "12px", right: "60px", zIndex: 65 }}>
+                                <div className="spinner-border spinner-border-sm text-primary" role="status">
+                                    <span className="visually-hidden">Загрузка...</span>
+                                </div>
+                            </div>
+                        )}
 
                         {searchResults.length > 0 && (
                             <div
@@ -313,7 +330,7 @@ export default function Header() {
                                 ))}
                             </div>
                         )}
-                         {searchValue.length > 1 && searchResults.length === 0 && (
+                         {searchValue.length > 1 && !isSearching && searchResults.length === 0 && (
                             <div
                                 className="position-absolute bg-white shadow-lg rounded mt-1 p-3 text-center text-muted"
                                 style={{ width: "100%", zIndex: 60, top: "54px", left: 0, borderRadius: '12px' }}
