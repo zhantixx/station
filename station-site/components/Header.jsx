@@ -47,16 +47,16 @@ export default function Header() {
         "Образование": "/category/education",
     };
 
-const performSearch = () => {
-  const query = searchValue.trim();
-  if (query || selectedCategoryFilter) {
-    const params = new URLSearchParams();
-    if (query) params.append('q', query);
-    if (selectedCategoryFilter) params.append('category', selectedCategoryFilter);
+    const performSearch = () => {
+        const query = searchValue.trim();
+        if (query || selectedCategoryFilter) {
+            const params = new URLSearchParams();
+            if (query) params.append('q', query);
+            if (selectedCategoryFilter) params.append('category', selectedCategoryFilter);
 
-    window.location.href = `/search?${params.toString()}`;
-  }
-};
+            window.location.href = `/search?${params.toString()}`;
+        }
+    };
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
@@ -90,7 +90,13 @@ const performSearch = () => {
     });
 
     return (
-        <header style={{ backgroundColor: "#1565c0", width: "100%", boxShadow: "0 2px 4px rgba(0,0,0,0.15)" }}>
+        <header style={{ 
+            backgroundColor: "#1565c0", 
+            width: "100%", 
+            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+            zIndex: 1000, // хедер всегда сверху
+            position: "relative"
+        }}>
             <Container style={{ maxWidth: "1200px", padding: "0 20px" }}>
                 <div className="d-flex align-items-center justify-content-between py-3">
                     
@@ -113,12 +119,23 @@ const performSearch = () => {
                                 Категории ▾
                             </span>
                             {showCategories && (
-                                <div className="position-absolute bg-white shadow-lg p-2 rounded" style={{ top: "35px", left: 0, width: "200px", zIndex: 50 }}>
+                                <div 
+                                    className="position-absolute bg-white shadow-lg p-3 rounded" 
+                                    style={{ 
+                                        top: "100%", 
+                                        left: "50%", 
+                                        transform: "translateX(-50%)",
+                                        width: "220px", 
+                                        zIndex: 2000, // выше всего
+                                        marginTop: "8px"
+                                    }}
+                                    onClick={(e) => e.stopPropagation()}
+                                >
                                     {categories.map((cat) => (
                                         <div
                                             key={cat}
-                                            className="py-2 px-3 text-dark"
-                                            style={{ cursor: "pointer", transition: "background-color 0.15s", borderRadius: "4px" }}
+                                            className="py-2 px-3 text-dark rounded"
+                                            style={{ cursor: "pointer", transition: "background-color 0.15s" }}
                                             onClick={() => handleCategoryClick(cat)}
                                             onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#e0f2f1"}
                                             onMouseOut={(e) => e.currentTarget.style.backgroundColor = "white"}
@@ -159,10 +176,15 @@ const performSearch = () => {
                     </div>
                 </div>
 
-                {/* Поисковая строка */}
-                <div className="d-flex justify-content-center pb-4">
+                {/* Поисковая строка с отступом снизу */}
+                <div className="d-flex justify-content-center pb-5">
                     <div className="position-relative w-100 d-flex align-items-center" style={{ maxWidth: "950px" }}>
-                        <div className="d-flex align-items-center" style={{ flexGrow: 1, backgroundColor: 'white', borderRadius: '50px', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
+                        <div className="d-flex align-items-center shadow-lg" style={{ 
+                            flexGrow: 1, 
+                            backgroundColor: 'white', 
+                            borderRadius: '50px', 
+                            overflow: "hidden"
+                        }}>
                             <img src="/image/search.png" alt="search" style={{ marginLeft: "20px", width: "20px", height: "20px", opacity: 0.5 }} />
                             
                             <input
@@ -181,7 +203,6 @@ const performSearch = () => {
                                 }}
                             />
 
-                            {/* Кнопка фильтра */}
                             <button
                                 type="button"
                                 onClick={() => setShowFilterDropdown(!showFilterDropdown)}
@@ -191,20 +212,29 @@ const performSearch = () => {
                                 <img src="/image/filtr.png" alt="Фильтр" style={{ width: "24px", height: "24px", opacity: showFilterDropdown ? 1 : 0.6 }} />
                             </button>
 
-                            {/* Кнопка поиска */}
                             <button
                                 type="button"
                                 onClick={performSearch}
-                                className="btn btn-primary rounded-end-pill me-1"
-                                style={{ height: "44px", width: "50px", display: "flex", alignItems: "center", justifyContent: "center" }}
+                                className="btn btn-primary rounded-0"
+                                style={{ height: "44px", width: "60px", borderRadius: "0 50px 50px 0" }}
                             >
                                 <span style={{ fontSize: "18px" }}>➔</span>
                             </button>
                         </div>
 
-                        {/* Выпадающий фильтр */}
+                        {/* Фильтр по категориям — открывается ниже строки поиска */}
                         {showFilterDropdown && (
-                            <div className="position-absolute bg-white shadow-lg p-4 rounded" style={{ top: "54px", right: 0, width: "350px", zIndex: 70, borderRadius: '12px' }}>
+                            <div 
+                                className="position-absolute bg-white shadow-lg p-4 rounded" 
+                                style={{ 
+                                    top: "100%", 
+                                    right: 0, 
+                                    marginTop: "12px",
+                                    width: "380px", 
+                                    zIndex: 3000 // самый высокий z-index
+                                }}
+                                onClick={(e) => e.stopPropagation()}
+                            >
                                 <h6 className="mb-3 fw-bold text-secondary">Фильтр по категориям</h6>
                                 <div className="d-flex flex-wrap gap-2">
                                     {categories.map((cat) => (
@@ -219,7 +249,7 @@ const performSearch = () => {
                                     ))}
                                     {selectedCategoryFilter && (
                                         <button className="btn btn-sm btn-outline-secondary ms-2" onClick={() => setSelectedCategoryFilter('')}>
-                                            Сбросить фильтр
+                                            Сбросить
                                         </button>
                                     )}
                                 </div>
