@@ -1,224 +1,146 @@
+// app/user/[id]/UserClientPage.jsx
+
 "use client";
 
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 import { useRouter } from "next/navigation";
-import Link from 'next/link';
-import React from 'react';
+import Link from "next/link";
+import { Container, Row, Col, Card, Button, ListGroup } from "react-bootstrap";
 
-export default function UserClientPage({ user, publishedArticles, favoriteArticles }) {
-  const router = useRouter();
-  
-  const articlesToShow = user.role === 'author' ? publishedArticles : favoriteArticles;
-  
-  const isAuthor = user.role === 'author';
-  const roleDisplay = isAuthor ? 'Редактор' : 'Пользователь';
-  const subtitleText = user.subtitle;
-  const statusClassName = 'text-primary fw-semibold';
-  const activityData = user.activityStats || [];
+export default function UserClientPage({ user, articlesCount, isAuthor }) {
+  const router = useRouter();
+  const roleDisplay = isAuthor ? "Редактор" : "Пользователь";
 
+  return (
+    <>
+      <Header />
 
+      <div
+        className="d-flex justify-content-center align-items-start"
+        style={{
+          backgroundColor: "#f0f2f5",
+          padding: "60px 0",
+          minHeight: "calc(100vh - 120px)",
+        }}
+      >
+        <Container className="my-5">
+          <Row className="justify-content-center g-5">
 
-  const renderActivityCard = (data, index) => (
-    <div className="col-6 col-md-3" key={index}>
-      <div className="card text-center h-100 p-3 shadow-sm border-0 transition-shadow">
-        <div className="card-body p-0 d-flex flex-column justify-content-center">
-          <i className={`bi ${data.icon} display-6 mb-2 ${data.color}`}></i>
-          <h4 className="card-title fw-bolder mb-0 fs-3">{data.count}</h4>
-          <p className="card-text text-muted small">{data.label}</p>
-        </div>
-        </div>
-    </div>
-  );
+            {/* Левая колонка */}
+            <Col lg={4}>
+              <Card className="border-0 shadow-lg" style={{ borderRadius: "25px" }}>
+                <Card.Body className="p-5 text-center d-flex flex-column align-items-center">
+                  <img
+                    src={user.avatar || "/image/ava.png"}
+                    alt="Аватар"
+                    width={130}
+                    height={130}
+                    className="rounded-circle shadow-sm border border-5 border-primary mb-4"
+                    style={{ objectFit: "cover" }}
+                  />
 
-  const renderContactCard = (value, display, href, iconComponent, isSpan = false) => {
-    if (!value) return null;
+                  <h2 className="fw-bolder mb-1 text-dark" style={{ fontSize: "1.8rem" }}>
+                    {user.name}
+                  </h2>
 
-    const content = isSpan ? (
-      <span className="text-dark small fw-medium">{display}</span>
-    ) : (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-decoration-none text-dark small fw-medium"
-      >
-        {display}
-      </a>
-    );
+                  <p className="text-secondary mb-4">
+                    {user.email || "Email не указан"}
+                  </p>
 
-    return (
-      <div className="col-lg-6 col-xl-3" key={display}>
-        <div className="d-flex align-items-center p-3 rounded-3 bg-light contact-card transition-shadow">
-          <span className="me-3 fs-5 text-primary">{iconComponent}</span>
-          {content}
-        </div>
-      </div>
-    );
-  };
+                  {/* Роль */}
+                  <Button
+                    variant="primary"
+                    className="rounded-pill py-3 fw-bold w-100 mb-3"
+                    disabled
+                    style={{ maxWidth: "280px" }}
+                  >
+                    {roleDisplay}
+                  </Button>
 
+                  {/* Опубликованные статьи */}
+                  
 
+                  {/* Назад */}
+                  <Button
+                    variant="outline-secondary"
+                    className="rounded-pill px-5"
+                    onClick={() => router.back()}
+                  >
+                    Назад
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
 
-  return (
-    <>
-      <Header />
+            {/* Правая колонка */}
+            <Col lg={8}>
+              <Card className="border-0 shadow-lg h-100" style={{ borderRadius: "25px" }}>
+                <Card.Body className="p-5">
+          
 
-      <main className="container py-5">
-        <div className="mb-5">
-          <button
-            className="btn btn-outline-secondary d-flex align-items-center gap-2"
-            onClick={() => router.back()}
-            style={{
-              borderRadius: "50px",
-              padding: "6px 16px",
-            }}
-          >
-            <i className="bi bi-arrow-left"></i>
-            <span className="fw-medium">Назад</span>
-          </button>
-        </div>
+                  <h3 className="fw-bolder mb-3 border-bottom pb-3 text-dark">
+                    Детали Аккаунта
+                  </h3>
 
+                  <ListGroup variant="flush">
+                    <ListGroup.Item className="d-flex justify-content-between px-0 py-3 border-bottom">
+                      <span className="text-secondary fw-semibold">
+                        Имя пользователя:
+                      </span>
+                      <strong>{user.name}</strong>
+                    </ListGroup.Item>
 
-        <div className="p-4 mb-5 rounded-4 shadow-sm bg-white">
-          <div className="d-flex align-items-center">
-            <img
-              src={user.avatar}
-              alt={user.name}
-              className={`rounded-circle me-4 border border-3 border-primary`}
-              width={100}
-              height={100}
-              style={{ objectFit: 'cover' }}
-            />
-            <div>
-              <h1 className="fs-2 fw-bolder mb-0 text-dark">{user.name}</h1>
+                    {user.email && (
+                      <ListGroup.Item className="d-flex justify-content-between px-0 py-3 border-bottom">
+                        <span className="text-secondary fw-semibold">Email:</span>
+                        <strong>{user.email}</strong>
+                      </ListGroup.Item>
+                    )}
 
-              <p className={`${statusClassName} mb-0`}>
-                {roleDisplay}
-              </p>
+                    <ListGroup.Item className="d-flex justify-content-between px-0 py-3 border-bottom">
+                      <span className="text-secondary fw-semibold">Роль:</span>
+                      <strong className="text-primary fw-bold">
+                        {roleDisplay}
+                      </strong>
+                    </ListGroup.Item>
 
-              {subtitleText && (
-                <p className="text-muted small mb-0 mt-1">
-                  {subtitleText}
-                </p>
-              )}
+                    <ListGroup.Item className="d-flex justify-content-between px-0 py-3">
+                      <span className="text-secondary fw-semibold">
+                        Дата регистрации:
+                      </span>
+                      <strong>{user.registrationDate}</strong>
+                    </ListGroup.Item>
+                  </ListGroup>
 
-            </div>
-          </div>
-        </div>
+                  {(user.bio || user.fullBio?.length > 0) && (
+                    <>
+                      <h3 className="fw-bolder mt-5 mb-4 border-bottom pb-3 text-primary">
+                        Обо Мне
+                      </h3>
 
-        <div className="row mb-5 g-5">
-          <div className="col-md-5">
-            <div className="bg-light rounded-4 shadow-lg p-2">
-              <img
-                src={user.profileImage || user.avatar}
-                alt={`Фото профиля ${user.name}`}
-                className="w-100 h-100 rounded-3"
-                style={{ maxHeight: "550px", objectFit: "cover" }}
-              />
-            </div>
-          </div>
+                      {user.bio && (
+                        <blockquote className="blockquote border-start border-3 border-primary ps-3 mb-4">
+                          <p className="lead mb-0 text-dark">{user.bio}</p>
+                        </blockquote>
+                      )}
 
-          <div className="col-md-7">
-            <h2 className="fw-bold mb-4 border-bottom pb-2">Обо Мне</h2>
+                      {user.fullBio?.map((p, i) => (
+                        <p key={i} className="mb-3 text-secondary">
+                          {p}
+                        </p>
+                      ))}
+                    </>
+                  )}
+                </Card.Body>
+              </Card>
+            </Col>
 
-            <blockquote className="blockquote border-start border-3 border-primary ps-3 mb-4">
-              <p className="lead mb-0 text-dark">
-                **{user.bio}**
-              </p>
-            </blockquote>
+          </Row>
+        </Container>
+      </div>
 
-            {user.fullBio && user.fullBio.length > 0 ? (
-              user.fullBio.map((paragraph, index) => (
-                <p key={index} className="mb-3 text-secondary">
-                  {paragraph}
-                </p>
-              ))
-            ) : (
-              <p className="text-muted">Информация пока не добавлена.</p>
-            )}
-          </div>
-        </div>
-
-        {activityData.length > 0 && (
-          <div className="mt-5 pt-4 border-top">
-            <h3 className="fw-bold mb-4 fs-4 text-primary">Активность на Платформе</h3>
-            <div className="row g-3">
-              {activityData.map((data, index) => renderActivityCard(data, index))}
-            </div>
-          </div>
-        )}
-
-        {isAuthor && user.contacts && (
-          <div className="mt-5 pt-4 border-top">
-            <h3 className="fw-bold mb-4 fs-4 text-primary">Контакты и Соцсети</h3>
-
-            <div className="row g-3">
-              {renderContactCard(user.contacts.email, 'Email', `mailto:${user.contacts.email}`, <i className="bi bi-envelope-fill"></i>)}
-              {renderContactCard(user.contacts.phone, user.contacts.phone, `tel:${String(user.contacts.phone || '').replace(/\s/g, '')}`, <i className="bi bi-telephone-fill"></i>, true)}
-              {renderContactCard(user.contacts.linkedin, 'LinkedIn', user.contacts.linkedin, <i className="bi bi-linkedin"></i>)}
-              {renderContactCard(user.contacts.twitter, 'Twitter', user.contacts.twitter, <i className="bi bi-twitter-x"></i>)}
-            </div>
-          </div>
-        )}
-
-        {(isAuthor || articlesToShow.length > 0) && (
-          <>
-            <h3 className="fw-bold mb-4 mt-5 pt-4 border-top">
-              {isAuthor ? 'Опубликованные статьи' : 'Избранные статьи'}
-            </h3>
-
-            {articlesToShow.length > 0 ? (
-              <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-                {articlesToShow.map(article => (
-                  <div className="col" key={article.id}>
-                    <Link href={`/statya/${article.id}`} className="text-decoration-none">
-                      <div className="card h-100 border-0 shadow-sm transition-shadow">
-                        <img
-                          src={article.heroImage || article.image}
-                          className="card-img-top rounded-top"
-                          alt={article.title}
-                          style={{ height: "180px", objectFit: "cover" }}
-                        />
-                        <div className="card-body px-3 py-3">
-                          <p className="text-primary fw-medium mb-1" style={{ fontSize: "0.85rem" }}>
-                            {article.category}
-                          </p>
-                          <h5 className="card-title fw-bold text-dark" style={{ fontSize: "1.05rem" }}>
-                            {article.title}
-                          </h5>
-                          <p className="text-muted small mt-2">{article.time}</p>
-                        </div>
-                      </div>
-                    </Link>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-muted">
-                {isAuthor ? 'У этого автора пока нет опубликованных статей.' : 'У этого пользователя пока нет избранных статей.'}
-              </p>
-            )}
-          </>
-        )}
-      </main>
-
-      <style jsx global>{`
-        .transition-shadow {
-          transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
-        }
-        .transition-shadow:hover {
-          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
-          transform: translateY(-2px);
-        }
-        .contact-card:hover {
-          background-color: #e9ecef !important;
-        }
-        .blockquote.border-start {
-            border-left: 5px solid var(--bs-primary) !important;
-        }
-      `}</style>
-
-      <Footer />
-    </>
-  );
+      <Footer />
+    </>
+  );
 }
